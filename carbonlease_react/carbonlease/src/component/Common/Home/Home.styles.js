@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 // ===== Hero Section =====
 export const HeroSection = styled.section`
-    padding: 120px 0 60px 0;
+    padding: 150px 0 60px 0;
     background: linear-gradient(135deg, var(--surface-color) 0%, color-mix(in srgb, var(--accent-color), transparent 95%) 100%);
     position: relative;
     overflow: hidden;
