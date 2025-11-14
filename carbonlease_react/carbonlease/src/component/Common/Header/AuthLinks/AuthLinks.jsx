@@ -1,11 +1,12 @@
 import { Topbar } from "../Header.styled";
 import { NavLink } from 'react-router-dom';
 
-const AuthLinks = () => {
+const AuthLinks = ({ onClick }) => {
     return (
         <>
             <NavLink
             to="/login" 
+            onClick={onClick}
             style={{padding: 0, flex: 'none', width: 'auto'}}
             >
                 로그인
@@ -13,6 +14,7 @@ const AuthLinks = () => {
             <span style={{margin: '0 8px', color: 'var(--nav-dropdown-color)'}}>|</span>
             <NavLink 
             to="/member/enrollForm" 
+            onClick={onClick}
             style={{padding: 0, flex: 'none', width: 'auto'}}
             >회원가입</NavLink>
 

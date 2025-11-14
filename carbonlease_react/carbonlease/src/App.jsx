@@ -4,9 +4,13 @@ import './App.css';
 import Layout from "./component/Common/Layout/Layout";
 import Home from "./component/Common/Home/Home";
 import Boards from "./component/Board/Boards/Boards";
+import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
+import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/AcitivityBoardDetail";
 import Notices from './component/Notice/Notices/Notices';
+import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
 import Campaigns from './component/Campaign/Campaigns/Campaigns';
+import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
 import Login from './component/Member/Login/Login';
 import EnrollForm from './component/Member/EnrollForm/EnrollForm';
 
@@ -30,9 +34,13 @@ function App() {
 			<Route element={<Layout />}>
 				<Route path="/" element={<Home />} />
 				<Route path="/boards" element={<Boards />} />
+				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/activityBoards" element={<ActivityBoards />} />
+				<Route path="/activityBoards/:id" element={<ActivityBoardDetail />} />
 				<Route path="/notices" element={<Notices />} />
+				<Route path="/notices/:id" element={<NoticeDetail />} />
 				<Route path="/campaigns" element={<Campaigns />} />
+				<Route path="/campaigns/:id" element={<CampaignDetail />} />
 				<Route path="/login" element={<Login/>} />
 				<Route path="/member/enrollForm" element={<EnrollForm/>} />
 			</Route>

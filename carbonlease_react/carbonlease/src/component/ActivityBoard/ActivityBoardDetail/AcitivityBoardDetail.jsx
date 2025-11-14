@@ -1,14 +1,12 @@
-import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
-import PageContent from '../../Common/PageContent/PageContent';
+const ActivityBoardDetail = () => {
 
-const EnrollForm = () => {
     return(
         <>
             <PageTitle 
-                title="회원가입" 
+                title="인증 게시판 상세" 
                 breadcrumbs={[
                     { label: 'Home', path: '/' },
-                    { label: '회원가입', current: true }
+                    { label: '인증 게시판 상세', current: true }
                 ]} 
             />
             <PageContent>
@@ -18,4 +16,4 @@ const EnrollForm = () => {
     )
 }
 
-export default EnrollForm;
+export default ActivityBoardDetail;

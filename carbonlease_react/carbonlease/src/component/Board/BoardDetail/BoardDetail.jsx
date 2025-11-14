@@ -1,4 +1,5 @@
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
+import PageContent from '../../Common/PageContent/PageContent';
 
 const BoardDetail = () => {
     return(
@@ -11,6 +12,9 @@ const BoardDetail = () => {
                     { label: '상세보기', current: true }
                 ]} 
             />
+            <PageContent>
+                컨텐츠가 들어가는 영역
+            </PageContent>
         </>
     )
 }

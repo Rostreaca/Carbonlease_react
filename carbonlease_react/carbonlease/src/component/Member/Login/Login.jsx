@@ -1,4 +1,5 @@
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
+import PageContent from '../../Common/PageContent/PageContent';
 
 const Login = () => {
     return(
@@ -10,7 +11,9 @@ const Login = () => {
                     { label: '로그인', current: true }
                 ]} 
             />
-           
+            <PageContent>
+                컨텐츠가 들어가는 영역
+            </PageContent>
         </>
     )
 }
