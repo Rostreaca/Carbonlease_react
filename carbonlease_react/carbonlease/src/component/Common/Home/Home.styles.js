@@ -327,6 +327,7 @@ export const AboutSection = styled.section`
     @media (max-width: 768px) {
         padding: 40px 0;
     }
+    
 `;
 
 export const SectionTitle = styled.div`
@@ -388,7 +389,6 @@ export const SectionTitle = styled.div`
 export const AboutContent = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
 
     h3 {
