@@ -49,6 +49,8 @@ export const Topbar = styled.div`
     transition: all 0.5s;
     width: 100%;
     padding-bottom:15px;
+    overflow: hidden;
+    
     .contact-info {
         i {
             font-style: normal;
@@ -87,6 +89,43 @@ export const Topbar = styled.div`
 
         &:hover {
             color: var(--contrast-color);
+        }
+    }
+`;
+
+/* Notice Slider */
+export const NoticeSlider = styled.div`
+    position: relative;
+    height: 20px;
+    overflow: hidden;
+    flex: 1;
+    max-width: 800px;
+
+    .notice-item {
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease-in-out;
+        pointer-events: none;
+
+        &.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        a {
+            color: var(--contrast-color);
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 `;
