@@ -8,7 +8,7 @@ export const HeaderWrap = styled.header`
     --background-color: rgba(255, 255, 255, 0);
     color: var(--default-color);
     background-color: var(--background-color);
-    padding: 0px 0 15px 0;
+    ${'' /* padding: 0px 0 15px 0; */}
     transition: all 0.5s;
     z-index: 997;
     display: flex;
@@ -35,8 +35,7 @@ export const HeaderWrap = styled.header`
         }
     }
 
-    .container {
-        padding-top:15px;
+    .container {padding: 10px 0;
     }
 `;
 
@@ -48,14 +47,14 @@ export const Topbar = styled.div`
     font-size: 14px;
     transition: all 0.5s;
     width: 100%;
-    padding-bottom:15px;
     overflow: hidden;
     
     .contact-info {
+        width:100%;
         i {
             font-style: normal;
             color: var(--contrast-color);
-
+            margin-right: 10px;
             a,
             span {
                 padding-left: 5px;
