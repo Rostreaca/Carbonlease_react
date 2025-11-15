@@ -2,11 +2,15 @@ import styled from 'styled-components';
 
 // ===== Hero Section =====
 export const HeroSection = styled.section`
-    padding: 180px 0 80px 0 ;
-    margin-top: 80px;
-    background: linear-gradient(135deg, var(--surface-color) 0%, color-mix(in srgb, var(--accent-color), transparent 95%) 100%);
+    padding: 130px 0 60px 0;
+    ${'' /* background: linear-gradient(135deg, var(--surface-color) 0%, color-mix(in srgb, var(--accent-color), transparent 95%) 100%); */}
     position: relative;
     overflow: hidden;
+
+    /* AOS 애니메이션 강제 비활성화 */
+    & * {
+        opacity: 1 !important;
+    }
 
     &::before {
         content: "";
@@ -15,30 +19,24 @@ export const HeroSection = styled.section`
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--accent-color), transparent 90%) 0%, transparent 50%);
+        ${'' /* background: radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--accent-color), transparent 90%) 0%, transparent 50%); */}
         pointer-events: none;
     }
 
     .hero-content {
         padding: 20px 0;
     }
+    
+    .container .row {
+        justify-content: center;
+    }
 
-    /* Tablet */
     @media (max-width: 992px) {
-        padding: 100px 0 60px 0;
-        margin-top: 70px;
+        padding: 80px 0;
     }
 
-    /* Mobile */
     @media (max-width: 768px) {
-        padding: 120px 0 50px 0;
-        margin-top: 60px;
-    }
-
-    /* Small Mobile */
-    @media (max-width: 576px) {
-        padding: 100px 0 40px 0;
-        margin-top: 60px;
+        padding: 60px 0;
     }
 `;
 
@@ -231,20 +229,18 @@ export const HeroImage = styled.img`
 `;
 
 export const ImageFallback = styled.div`
-    width: 100%;
-    max-width: 100%;
+    width: 400px;
     height: 100%;
     min-height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ffffff;
-    border: 2px dashed #e6e6e6;
+    ${'' /* border: 2px dashed #e6e6e6; */}
     border-radius: 8px;
     color: #9aa0a6;
     font-size: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    ${'' /* box-shadow: 0 4px 12px rgba(0,0,0,0.04); */}
 
     @media (min-width: 992px) {
         min-height: 300px;
@@ -253,6 +249,13 @@ export const ImageFallback = styled.div`
     @media (max-width: 768px) {
         min-height: 180px;
     }
+`;
+
+export const AboutInner = styled.div`
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap:30px;
 `;
 
 // ===== Featured Services Section =====
@@ -327,7 +330,9 @@ export const AboutSection = styled.section`
     @media (max-width: 768px) {
         padding: 40px 0;
     }
-    
+    ${'' /* .container .row {
+        gap:20px;
+    } */}
 `;
 
 export const SectionTitle = styled.div`
@@ -389,6 +394,7 @@ export const SectionTitle = styled.div`
 export const AboutContent = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 100%;
 
     h3 {
@@ -425,14 +431,13 @@ export const AboutContent = styled.div`
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 24px;
-                height: 24px;
-                background-color: var(--accent-color);
-                color: white;
+                width: 30px;
+                height: 30px;
+                color: var(--accent-color);
                 border-radius: 50%;
                 margin-right: 12px;
                 flex-shrink: 0;
-                font-size: 12px;
+                font-size: 22px;
             }
 
             span {
@@ -470,35 +475,82 @@ export const StatsSection = styled.section`
     padding-bottom:100px;
     background-color: var(--background-color);
 
+    /* AOS 애니메이션 강제 비활성화 */
+    & * {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .stats-item {
+        background: white;
+        border-radius: 50%;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        border: 3px solid #e8e8e8;
+
+        @media (max-width: 992px) {
+            width: 160px;
+            height: 160px;
+        }
+
+        @media (max-width: 768px) {
+            width: 140px;
+            height: 140px;
+        }
+
+        span {
+            font-size: 32px;
+            display: block;
+            color: #1976d2;
+            font-weight: 700;
+            margin-bottom: 6px;
+
+            @media (max-width: 992px) {
+                font-size: 28px;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 24px;
+            }
+        }
+
+        p {
+            color: color-mix(in srgb, var(--default-color), transparent 30%);
+            padding: 0;
+            margin: 0;
+            font-family: var(--heading-font);
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.4;
+
+            @media (max-width: 768px) {
+                font-size: 10px;
+            }
+        }
+    }
+
     @media (max-width: 1199px) {
-        padding: 60px 0;
+        padding-bottom: 60px;
     }
 
     @media (max-width: 768px) {
-        padding: 40px 0;
+        padding-bottom: 40px;
     }
 `;
 
 export const StatsItem = styled.div`
     padding: 30px;
     width: 100%;
-
-    span {
-        font-size: 48px;
-        display: block;
-        color: var(--accent-color);
-        font-weight: 700;
-    }
-
-    p {
-        color: color-mix(in srgb, var(--default-color), transparent 40%);
-        padding: 0;
-        margin: 0;
-        font-family: var(--heading-font);
-        font-size: 15px;
-        font-weight: 600;
-        }
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 // ===== Services Section =====
@@ -520,6 +572,7 @@ export const ServicesSection = styled.section`
 `;
 
 export const ServiceItemGrid = styled.div`
+    ${'' /* background-color: var(--surface-color); */}
     background-color: var(--surface-color);
     text-align: center;
     border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
@@ -559,6 +612,7 @@ export const ServiceItemGrid = styled.div`
         margin: 10px 0 15px 0;
         font-size: 22px;
         transition: 0.3s;
+    }
 `;
 
 // ===== Call To Action Section =====
@@ -566,7 +620,7 @@ export const CallToActionSection = styled.section`
     padding: 80px 0;
     position: relative;
     clip-path: inset(0);
-    background-color: var(--background-color);
+    background-color: #f8f9fa;
 
     @media (max-width: 1199px) {
         padding: 60px 0;
@@ -587,6 +641,20 @@ export const CallToActionSection = styled.section`
         color: var(--default-color);
         font-size: 18px;
         margin-bottom: 30px;
+    }
+
+    .btn-light {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 40px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: color-mix(in srgb, var(--accent-color) 85%, black 15%);
+            transform: translateY(-2px);
+        }
     }
 
     .cta-btn {
@@ -612,7 +680,7 @@ export const CallToActionSection = styled.section`
     }
 `;
 
-
+// ===== Styles for Bootstrap Integration =====
 export const GlobalStyles = styled.div`
     .section {
         position: relative;
@@ -633,6 +701,7 @@ export const GlobalStyles = styled.div`
         }
     }
 
+    /* Small adjustments so Bootstrap buttons inside hero-actions align nicely */
     .hero-actions .btn {
         display: inline-flex;
         align-items: center;
