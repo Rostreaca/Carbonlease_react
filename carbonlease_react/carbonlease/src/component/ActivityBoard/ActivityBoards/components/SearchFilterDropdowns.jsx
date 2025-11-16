@@ -18,7 +18,7 @@ export default function SearchFilterDropdowns({ onSelectFilter}) {
         as={ButtonGroup}
         id="dropdown-search-filter"
         variant="success"
-        title={selectedLabel}
+        title={<span style={{ display:"inline-block", width:"47px", textAlign:"center" }}>{selectedLabel}</span>}
         onSelect={handleSelect}
       >
             <Dropdown.Item eventKey="title">제목</Dropdown.Item>

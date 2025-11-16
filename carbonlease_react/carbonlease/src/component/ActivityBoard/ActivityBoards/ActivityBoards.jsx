@@ -4,10 +4,13 @@ import PageContent from '../../Common/PageContent/PageContent';
 import BoardItem from './components/BoardItem';
 import OutlineWriterButton from '../../Common/UI/Button/OutlineWriterButton';
 import SearchFilterDropdowns from './components/SearchFilterDropdowns';
+import SearchBox from './components/SearchBox';
+import Pagination from '../../Common/Pagination/Pagination';
 
 const ActivityBoards = () => {
 
     const [ filter, setFilter ] = useState('title'); // 검색 필터 상태
+    const [ keyword, setKeyword ] = useState(''); // 검색어 상태
     /* 데이터 연동시 활성화
     const [ boardList, setboardList ] = useState([]);
 
@@ -20,6 +23,11 @@ const ActivityBoards = () => {
     const handleSelectFilter = (value) => {
         setFilter(value);
     };
+
+    const handleSearch = (value) => {
+        setKeyword(value);
+    };
+
     const dummyList = [ // 더미 데이터
         {
             id: 12,
@@ -52,7 +60,7 @@ const ActivityBoards = () => {
             thumbnail: null
         },
         {
-            id: 12,
+            id: 9,
             title: "텀블러 사용 인증합니다",
             content: "오늘 카페에서 일회용 컵 대신 텀블러 사용했어요!",
             regDate: "2025.11.12",
@@ -62,7 +70,7 @@ const ActivityBoards = () => {
             thumbnail: "/upload/sample01.jpg"
         },
         {
-            id: 11,
+            id: 8,
             title: "장바구니 사용 인증!",
             content: "마트 갈 때 비닐 대신 장바구니 사용했어요 :)",
             regDate: "2025.11.11",
@@ -72,7 +80,7 @@ const ActivityBoards = () => {
             thumbnail: "/upload/sample02.jpg"
         },
         {
-            id: 10,
+            id: 7,
             title: "분리수거 확실히 했습니다!",
             content: "플라스틱 라벨 제거하고 깨끗하게 씻어서 배출 완료!",
             regDate: "2025.11.10",
@@ -82,6 +90,10 @@ const ActivityBoards = () => {
             thumbnail: null
         }
         ];
+
+        const filteredList = dummyList.filter(item =>
+            item[filter].toLowerCase().includes(keyword.toLowerCase())
+        );
 
     return (
         <>
@@ -94,13 +106,32 @@ const ActivityBoards = () => {
             />
             <PageContent>
                 <div style={{width: "1200px auto", margin: "0 auto", padding: "40px 0"}}>
-                   { dummyList.map((d, idx) => (
-                        <BoardItem key={ idx } item={ d } />
-                   )) } 
+                   { filteredList.length > 0 ? (
+                        filteredList.map((d, idx) => (
+                            <BoardItem key={ idx } item={ d } />
+                        ))
+                    ) : (
+                        <div style={{ textAlign:"center", color:"#777", padding:"40px 0" }}>
+                            검색 결과가 없습니다.
+                        </div>
+                    )}
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
-                <OutlineWriterButton />
-                <SearchFilterDropdowns onSelectFilter={handleSelectFilter} />
+                    <OutlineWriterButton />
+                    <div style={{ display:"flex", gap:"10px" }}>
+                        <SearchFilterDropdowns onSelectFilter={handleSelectFilter} />
+                        <SearchBox filter={filter} onSearch={handleSearch} />
+                    </div>
+                </div>
+                
+                <br /><br />
+
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                    <Pagination 
+                        currentPage={1} 
+                        totalPages={5} 
+                        onPageChange={(page) => console.log(`Go to page ${page}`)} 
+                    />
                 </div>
                 
 
