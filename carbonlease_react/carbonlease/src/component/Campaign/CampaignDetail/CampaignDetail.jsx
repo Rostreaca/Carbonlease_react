@@ -220,7 +220,7 @@ const CampaignDetail = () => {
                         </ImageWrapper>
                     )}
 
-                    <Content>{campaign.content || campaign.description}</Content>
+                    <Content dangerouslySetInnerHTML={{ __html: campaign.content || campaign.description }} />
 
                     <ActionButtons>
                         <BackButton onClick={handleBack}>
