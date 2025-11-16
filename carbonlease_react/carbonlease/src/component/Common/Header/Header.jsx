@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import Nav from "../Nav/Nav";
+import AuthLinks from './AuthLinks/AuthLinks';
 import { HeaderWrap } from "./Header.styled";
 import TopbarNotice from './TopbarNotice/TopbarNotice';
-import AuthLinks from './AuthLinks/AuthLinks';
-import { NavLink } from 'react-router-dom';
 
 
 const Header = () => {

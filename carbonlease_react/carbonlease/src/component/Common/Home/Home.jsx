@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
     AboutContent,
+    AboutInner,
     AboutSection,
     CallToActionSection,
     GlobalStyles,
@@ -10,12 +11,11 @@ import {
     HeroTitle,
     ImageFallback,
     SectionTitle,
-    ServicesSection,
     StatsSection
 } from './Home.styles';
+import RegionStatsMap from './RegionStatsMap/RegionStatsMap';
 
 const Home = () => {
-    const [heroImgError, setHeroImgError] = useState(false);
     const [aboutImgError, setAboutImgError] = useState(false);
 
     useEffect(() => {
@@ -83,7 +83,7 @@ const Home = () => {
             {/* ===== Hero Section ===== */}
             <HeroSection id="hero">
                 <div className="container">
-                    <div className="row gy-4 justify-content-between">
+                    <div className="row gy-4 ">
                         <div className="col-lg-4 order-2 order-lg-1 d-flex flex-column justify-content-center">
                             <HeroTitle>탄소중립, 함께 만들어가는 지속가능한 미래</HeroTitle>
                             <HeroDescription>
@@ -91,7 +91,7 @@ const Home = () => {
                             </HeroDescription>
                             <HeroActions>
                                 {/* <a href="#about" className="btn btn-success btn-lg">Get Started</a> */}
-                                <a href="https://youtu.be/i43vcO-tH24?si=c7cZdJ4XWhnVD1PJ" className="btn btn-outline-secondary btn-lg d-flex align-items-center gap-2">
+                                <a href="https://youtu.be/i43vcO-tH24?si=c7cZdJ4XWhnVD1PJ" className="btn btn-outline-secondary btn-lg d-flex align-items-center gap-2" target='blank'>
                                     <i className="bi bi-play-circle"></i>
                                     <span>Watch Video</span>
                                 </a>
@@ -114,25 +114,7 @@ const Home = () => {
                         </div>
 
                         <div className="col-lg-6 order-1 order-lg-2 hero-img">
-                            <div className="hero-image-wrapper">
-                                {!heroImgError ? (
-                                    <img
-                                        src="./src/assets/img/hero-img.png"
-                                        className="hero-image"
-                                        alt="Hero Image"
-                                        onError={() => setHeroImgError(true)}
-                                    />
-                                ) : (
-                                    <ImageFallback>
-                                        <div>
-                                            <div style={{fontSize: '24px', marginBottom: 8}}>
-                                                <i className="bi bi-image" />
-                                            </div>
-                                            Image unavailable
-                                        </div>
-                                    </ImageFallback>
-                                )}
-                            </div>
+                            <RegionStatsMap />
                         </div>
                     </div>
                 </div>
@@ -184,37 +166,29 @@ const Home = () => {
             {/* ===== About Section ===== */}
             <AboutSection id="about">
                 <SectionTitle className="container section-title">
-                    <span>소개</span>
+                    {/* <span>소개</span> */}
                     <h2>Carbonlease란?</h2>
-                    <p>탄소중립 실천을 쉽고 재미있게, 함께하는 커뮤니티</p>
+                    {/* <p>탄소중립 실천을 쉽고 재미있게, 함께하는 커뮤니티</p> */}
                 </SectionTitle>
 
                 <div className="container" data-aos="fade-up" data-aos-delay="200">
-                    <div className="row gy-4">
-                        <div className="col-lg-6 position-relative align-self-start" data-aos="fade-right" data-aos-delay="300">
-                            {!aboutImgError ? (
-                                <img
-                                    src="./src/assets/img/about.png"
+                    <AboutInner>
+                        <div data-aos="fade-right" data-aos-delay="300">
+                            
+                            <ImageFallback>
+                                    <img
+                                    src="/src/assets/images/main/carbon_ca.png"
                                     className="img-fluid"
                                     alt="About"
                                     onError={() => setAboutImgError(true)}
                                 />
-                            ) : (
-                                <ImageFallback>
-                                    <div>
-                                        <div style={{fontSize: '24px', marginBottom: 8}}>
-                                            <i className="bi bi-image" />
-                                        </div>
-                                        Image unavailable
-                                    </div>
                                 </ImageFallback>
-                            )}
                         </div>
 
-                        <AboutContent className="col-lg-6 content" data-aos="fade-left" data-aos-delay="300">
+                        <AboutContent className="col-lg-6 content" data-aos="fade-left" data-aos-delay="300" data-aos-once="true">
                             <h3>왜 Carbonlease인가요?</h3>
                             <p>
-                                일상 속 작은 실천을 모아 큰 변화를 만드는, 탄소중립 커뮤니티 플랫폼입니다.
+                                카본리즈는 탄소를 절약해 더 나은 미래를 함께 ‘빌려주는’ 친환경 커뮤니티입니다.
                             </p>
                             <ul>
                                 <li>
@@ -234,7 +208,7 @@ const Home = () => {
                                 함께 실천하고, 함께 성장하며, 지속가능한 미래를 만들어갑니다.
                             </p>
                         </AboutContent>
-                    </div>
+                    </AboutInner>
                 </div>
             </AboutSection>
 
@@ -243,28 +217,28 @@ const Home = () => {
                 <div className="container" data-aos="fade-up" data-aos-delay="100">
                     <div className="row gy-4">
                         <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                            <div className="stats-item text-center w-100 h-100">
+                            <div className="stats-item text-center">
                                 <span className="stat-counter" data-end="2500">0</span>
                                 <p>커뮤니티 회원</p>
                             </div>
                         </div>
 
                         <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                            <div className="stats-item text-center w-100 h-100">
+                            <div className="stats-item text-center">
                                 <span className="stat-counter" data-end="15000">0</span>
                                 <p>인증 활동</p>
                             </div>
                         </div>
 
                         <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                            <div className="stats-item text-center w-100 h-100">
+                            <div className="stats-item text-center">
                                 <span className="stat-counter" data-end="8500">0</span>
                                 <p>절감 CO₂ (kg)</p>
                             </div>
                         </div>
 
                         <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
-                            <div className="stats-item text-center w-100 h-100">
+                            <div className="stats-item text-center">
                                 <span className="stat-counter" data-end="120">0</span>
                                 <p>진행 중 캠페인</p>
                             </div>
@@ -274,14 +248,13 @@ const Home = () => {
             </StatsSection>
 
             {/* ===== Services Section ===== */}
-            <ServicesSection id="services" className="light-background">
+            {/* <ServicesSection id="services" className="light-background">
                 <SectionTitle className="container section-title" >
-                    <span>주요 기능</span>
                     <h2>플랫폼 서비스</h2>
                     <p>탄소중립 실천을 위한 다양한 기능을 제공합니다</p>
                 </SectionTitle>
 
-                {/* <div className="container" data-aos="fade-up" data-aos-delay="200">
+                <div className="container" data-aos="fade-up" data-aos-delay="200">
                     <div className="row gy-4">
                         {[1, 2, 3, 4, 5, 6].map((item) => (
                             <div key={item} className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay={200 + (item * 100)}>
@@ -297,8 +270,8 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
-                </div> */}
-            </ServicesSection>
+                </div>
+            </ServicesSection> */}
 
             {/* ===== Call To Action Section ===== */}
             <CallToActionSection id="call-to-action">

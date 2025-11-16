@@ -11,13 +11,17 @@ export const GlobalCommonStyles = createGlobalStyle`
         list-style: none;
     }
 
+    a{
+        color: #333333;
+    }
+
     /* Container responsive adjustments */
     @media (max-width: 1199px) {
         .container,
         .container-lg,
         .container-md,
         .container-sm {
-            max-width: 100% !important;
+            max-width: 1200px !important;
             padding-left: 20px !important;
             padding-right: 20px !important;
         }
