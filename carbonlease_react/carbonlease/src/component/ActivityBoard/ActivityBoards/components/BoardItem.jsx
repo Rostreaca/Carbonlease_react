@@ -3,7 +3,7 @@ import { BoardInfo, BoardItemWrapper, BoardNo, Thumbnail } from "./BoardItem.sty
 const BoardItem = ({ item }) => {
   return (
     <BoardItemWrapper>
-      <BoardNo>No.{ item.id } </BoardNo>
+      <BoardNo>{ item.id }</BoardNo>
 
       <BoardInfo>
         <div className="title">{ item.title }</div>

@@ -1,8 +1,8 @@
 import Button from 'react-bootstrap/Button';
 
-function OutlineSuccessButton() {
+function OutlineSuccessButton({ children}) {
   return (
-    <Button variant="outline-success">글쓰기</Button>
+    <Button variant="outline-success">{children}</Button>
   );
 }
 

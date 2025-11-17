@@ -1,0 +1,20 @@
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: #f6f9f6;
+  border-radius: 12px;
+  border: 1px solid #d9e8d9;
+}
+
+.grade-icon {
+  font-size: 32px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
