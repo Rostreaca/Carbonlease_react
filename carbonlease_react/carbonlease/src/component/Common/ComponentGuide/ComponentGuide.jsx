@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Alert from '../Alert/Alert';
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 import DataTable from '../DataTable/DataTable';
@@ -24,6 +25,11 @@ import {
 } from './ComponentGuide.styled';
 
 const ComponentGuide = () => {
+
+    // DataTable 행 클릭 핸들러 _ 페이지 이동
+    const navigate = useNavigate();
+
+
     // Tab 상태
     const [activeTab, setActiveTab] = useState('dialogs');
 
@@ -104,19 +110,29 @@ const ComponentGuide = () => {
     });
     const [fileName, setFileName] = useState('');
 
-    // Table 더미 데이터
+    // Table 더미 데이터 (캠페인)
     const tableData = [
-        { id: 1, name: '홍길동', email: 'hong@example.com', role: '관리자' },
-        { id: 2, name: '김철수', email: 'kim@example.com', role: '사용자' },
-        { id: 3, name: '이영희', email: 'lee@example.com', role: '사용자' }
+        { campaignNo: 1, campaignTitle: '친환경 라이프스타일 캠페인', category: '환경', status: '진행중', participantCount: 150 },
+        { campaignNo: 2, campaignTitle: '탄소중립 실천하기', category: '기술', status: '모집중', participantCount: 89 },
+        { campaignNo: 3, campaignTitle: '재생에너지 활용법', category: '에너지', status: '종료', participantCount: 230 }
     ];
 
     const tableColumns = [
-        { header: 'ID', field: 'id' },
-        { header: '이름', field: 'name' },
-        { header: '이메일', field: 'email' },
-        { header: '역할', field: 'role' }
+        { header: '번호', field: 'campaignNo' },
+        { header: '캠페인명', field: 'campaignTitle' },
+        { header: '카테고리', field: 'category' },
+        { header: '상태', field: 'status' },
+        { header: '참가자 수', field: 'participantCount' }
     ];
+
+    // DataTable 행 클릭 핸들러 _ 페이지 이동
+    const handleRowClick = (rowData) => {
+        console.log('클릭된 캠페인 : ', rowData);
+
+        setTimeout(() => {
+            navigate(`/campaigns/detail/${rowData.campaignNo}`); // 이동 할 상세 페이지 경로
+        }, 1000);
+    };
 
     const showToastMessage = (message, variant = 'success') => {
         setToast({ message, isVisible: true, variant });
@@ -397,7 +413,7 @@ const [showAlert, setShowAlert] = useState(false);
                         <DemoContainer>
                             <VariantButtons>
                                 <DemoButton
-                                    variant="info"
+                                    $variant="info"
                                     onClick={() => {
                                         setConfirmVariant('info');
                                         setShowConfirm(true);
@@ -406,7 +422,7 @@ const [showAlert, setShowAlert] = useState(false);
                                     Info Confirm
                                 </DemoButton>
                                 <DemoButton
-                                    variant="warning"
+                                    $variant="warning"
                                     onClick={() => {
                                         setConfirmVariant('warning');
                                         setShowConfirm(true);
@@ -415,7 +431,7 @@ const [showAlert, setShowAlert] = useState(false);
                                     Warning Confirm
                                 </DemoButton>
                                 <DemoButton
-                                    variant="error"
+                                    $variant="error"
                                     onClick={() => {
                                         setConfirmVariant('danger');
                                         setShowConfirm(true);
@@ -522,7 +538,7 @@ const handleDelete = () => {
                         <SubTitle>사용 예시</SubTitle>
                         <DemoContainer>
                             <DemoButton
-                                variant="info"
+                                $variant="info"
                                 onClick={handleShowLoading}
                                 disabled={showLoading}
                             >
@@ -968,12 +984,18 @@ const handleFileChange = (e) => {
 
                             <SubTitle>사용 예시</SubTitle>
                             <DemoContainer>
+                                
                                 <DataTable
-                                    title="사용자 목록"
+                                    title="캠페인 목록"
                                     columns={tableColumns}
                                     data={tableData}
-                                    icon="fas fa-users"
+                                    icon="fas fa-leaf"
+                                    onRowClick={handleRowClick} // DataTable 행 클릭 핸들러 _ 페이지 이동
                                 />
+
+                                <p style={{ marginTop: '16px', color: '#666', fontSize: '14px' }}>
+                                    💡 캠페인 행을 클릭해보세요! 캠페인 상세 페이지로 이동합니다.
+                                </p>
                             </DemoContainer>
 
                             <SubTitle>Props</SubTitle>
@@ -1011,18 +1033,27 @@ const handleFileChange = (e) => {
                                         <td>-</td>
                                         <td>제목 옆 아이콘 클래스</td>
                                     </tr>
+                                    <tr>
+                                        <td>onRowClick</td>
+                                        <td>function</td>
+                                        <td>null</td>
+                                        <td>행 클릭 이벤트 핸들러 (rowData, rowIndex)</td>
+                                    </tr>
                                 </tbody>
                             </PropsTable>
 
                             <SubTitle>코드 예시</SubTitle>
                             <CodeBlock>
 {`import DataTable from '../Common/DataTable/DataTable';
+import { useNavigate } from 'react-router-dom';
 import { 
     EditButton, 
     DeleteButton,
     CategoryBadge,
     StatusBadge
 } from '../Common/DataTable/DataTable.styled';
+
+const navigate = useNavigate();
 
 const columns = [
     {
@@ -1079,12 +1110,18 @@ const data = [
     }
 ];
 
+// 행 클릭 시 상세 페이지로 이동
+const handleRowClick = (rowData) => {
+    navigate('/campaigns/detail/' + rowData.campaignNo);
+};
+
 // JSX
 <DataTable
     title="캠페인 목록"
     columns={columns}
     data={data}
     icon="fas fa-leaf"
+    onRowClick={handleRowClick}
 />`}
                             </CodeBlock>
                         </ComponentSection>

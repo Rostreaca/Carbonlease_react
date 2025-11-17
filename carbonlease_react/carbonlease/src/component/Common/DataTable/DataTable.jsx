@@ -6,19 +6,23 @@ const DataTable = ({
     columns = [], 
     data = [],
     showIcon = true,
-    icon = 'fas fa-table'
+    icon = 'fas fa-table',
+    onRowClick = null  // 행 클릭 핸들러 옵션
 }) => {
+
     const tableRef = useRef(null);
 
     useEffect(() => {
-        if (tableRef.current && window.simpleDatatables && data.length > 0) {
+        const tableElement = tableRef.current;
+        
+        if (tableElement && window.simpleDatatables && data.length > 0) {
             // 기존 DataTable 인스턴스 제거
-            if (tableRef.current.dataTable) {
-                tableRef.current.dataTable.destroy();
+            if (tableElement.dataTable) {
+                tableElement.dataTable.destroy();
             }
 
             // 새로운 DataTable 생성
-            const dataTable = new window.simpleDatatables.DataTable(tableRef.current, {
+            const dataTable = new window.simpleDatatables.DataTable(tableElement, {
                 searchable: true,
                 fixedHeight: false,
                 perPageSelect: false,
@@ -33,15 +37,37 @@ const DataTable = ({
                 }
             });
 
-            tableRef.current.dataTable = dataTable;
+            // 행 클릭 이벤트 추가 (Simple DataTables가 DOM을 재구성한 후)
+            if (onRowClick) {
+                const tbody = tableElement.querySelector('tbody');
+                if (tbody) {
+                    tbody.addEventListener('click', (e) => {
+                        const clickedRow = e.target.closest('tr');
+                        if (clickedRow) {
+                            const rowIndex = Array.from(tbody.children).indexOf(clickedRow);
+                            if (rowIndex >= 0 && data[rowIndex]) {
+                                onRowClick(data[rowIndex], rowIndex);
+                            }
+                        }
+                    });
+
+                    // 행에 클릭 가능 클래스 추가
+                    const rows = tbody.querySelectorAll('tr');
+                    rows.forEach(row => {
+                        row.classList.add('clickable');
+                    });
+                }
+            }
+
+            tableElement.dataTable = dataTable;
 
             return () => {
-                if (tableRef.current?.dataTable) {
-                    tableRef.current.dataTable.destroy();
+                if (tableElement?.dataTable) {
+                    tableElement.dataTable.destroy();
                 }
             };
         }
-    }, [data]);
+    }, [data, onRowClick]);
 
     return (
         <DataTableContainer>
@@ -61,7 +87,11 @@ const DataTable = ({
                         </thead>
                         <tbody>
                             {data.map((row, rowIndex) => (
-                                <tr key={rowIndex}>
+                                <tr 
+                                    key={rowIndex}
+                                    onClick={() => onRowClick && onRowClick(row, rowIndex)}
+                                    style={{ cursor: onRowClick ? 'pointer' : 'default' }}
+                                >
                                     {columns.map((column, colIndex) => (
                                         <td key={colIndex}>
                                             {column.render
