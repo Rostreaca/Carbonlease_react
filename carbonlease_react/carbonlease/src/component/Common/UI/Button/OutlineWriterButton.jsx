@@ -1,9 +1,11 @@
 import Button from 'react-bootstrap/Button';
 
-function OutlineSuccessButton({ children}) {
+function OutlineWriterButton({ children, onClick }) {
   return (
-    <Button variant="outline-success">{children}</Button>
+    <Button variant="outline-success" onClick={onClick}>
+      {children}
+    </Button>
   );
 }
 
-export default OutlineSuccessButton;
+export default OutlineWriterButton;

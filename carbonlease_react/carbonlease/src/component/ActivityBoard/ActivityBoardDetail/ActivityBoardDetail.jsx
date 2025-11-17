@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
@@ -21,6 +22,7 @@ import {
 } from "./ActivityBoardDetail.styles.js";
 
 const ActivityBoardDetail = () => {
+  const navigate = useNavigate();
   const [post, setPost] = useState({
     id: 1,
     title: "대중교통 이용하기",
@@ -55,6 +57,11 @@ const ActivityBoardDetail = () => {
       likes: prev.isLiked ? prev.likes - 1 : prev.likes + 1
     }));
   };
+
+  const handleUpdate = () => {
+    navigate(`/activityBoards/updateForm/${post.id}`);
+  };
+
 
   return (
     <>
@@ -116,7 +123,7 @@ const ActivityBoardDetail = () => {
           <ButtonArea>
             <OutlineSuccessButton>목록으로</OutlineSuccessButton>
             <ButtonGroup>
-              <OutlineSuccessButton>수정</OutlineSuccessButton>
+              <OutlineSuccessButton onClick={handleUpdate}>수정</OutlineSuccessButton>
               <OutlineDangerButton>삭제</OutlineDangerButton>
             </ButtonGroup>
           </ButtonArea>

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
@@ -8,6 +9,13 @@ import SearchBox from './components/SearchBox';
 import Pagination from '../../Common/Pagination/Pagination';
 
 const ActivityBoards = () => {
+
+    const navigate = useNavigate();
+
+    const goWritePage = () => {
+        console.log("글쓰기 이동!");
+        navigate("/activityBoards/insertForm");
+    };
 
     const [ filter, setFilter ] = useState('title'); // 검색 필터 상태
     const [ keyword, setKeyword ] = useState(''); // 검색어 상태
@@ -117,7 +125,9 @@ const ActivityBoards = () => {
                     )}
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
-                    <OutlineWriterButton>글쓰기</OutlineWriterButton>
+                    <OutlineWriterButton onClick={goWritePage}>
+                        글쓰기
+                    </OutlineWriterButton>
                     <div style={{ display:"flex", gap:"10px" }}>
                         <SearchFilterDropdowns onSelectFilter={handleSelectFilter} />
                         <SearchBox filter={filter} onSearch={handleSearch} />
