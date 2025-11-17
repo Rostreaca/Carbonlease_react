@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/AcitivityBoardDetail";
+import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityBoardInsertForm from "./component/ActivityBoard/ActivityBoardInsertForm/ActivityBoardInsertForm";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";

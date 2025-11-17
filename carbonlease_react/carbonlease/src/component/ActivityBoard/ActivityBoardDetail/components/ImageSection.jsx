@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
+import { ImgGrid, ImgThumb, ImgLarge } from "../ActivityBoardDetail.styles.js";
 
-export default function ImageSection({ images }) {
-    const [ preview, setPreview ] = useState(null);
+export default function ImageSection({ images = [] }) {
+  const [preview, setPreview] = useState(null);
 
-    return (
-        <>
-            <div className="img-grid">
-                {/*images.map((src, i) => (
-                    <img key={i} src={src} onClick={() => setPreview(src)} />
-                ))*/}
-            </div>
-              
-            <Modal show={!!preview} onHide={() => setPreview(null)} centered>
-                    <img src={preview} style={{width: "100%"}} />
-            </Modal>
+  const isSingle = images.length === 1;
 
-        </>
-    );
+  return (
+    <>
+      {isSingle ? (
+        <ImgLarge src={images[0]} onClick={() => setPreview(images[0])} />
+      ) : (
+        <ImgGrid>
+          {images.map((src, i) => (
+            <ImgThumb key={i} src={src} onClick={() => setPreview(src)} />
+          ))}
+        </ImgGrid>
+      )}
+
+      <Modal show={!!preview} onHide={() => setPreview(null)} centered>
+        <img src={preview} style={{ width: "100%" }} />
+      </Modal>
+    </>
+  );
 }

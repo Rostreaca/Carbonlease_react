@@ -1,9 +1,9 @@
-import Button from 'react-bootstrap/Button';
+import { ReplyButton } from "../ActivityBoardDetail.styles.js";
 
-function InputButton() {
+export default function InputButton() {
   return (
-    <Button variant="outline-success">댓글 등록</Button>
+    <ReplyButton variant="outline-success">
+      댓글 등록
+    </ReplyButton>
   );
 }
-
-export default InputButton;

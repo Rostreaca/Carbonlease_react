@@ -1,4 +1,4 @@
-import "./ProfileCard.css";
+import { ProfileCardBox, ProfileGradeIcon, ProfileNickname } from "../ActivityBoardDetail.styles.js";
 
 export default function ProfileCard({ nickname, count, carbon, grade }) {
   const gradeIcon = {
@@ -9,14 +9,14 @@ export default function ProfileCard({ nickname, count, carbon, grade }) {
   }[grade] ?? "🌱";
 
   return (
-    <div className="profile-card" style={{display: "flex", justifyContent: "space-between", alignItems: "center", width: "260px", marginBottom: "20px"}}>
-      <div className="grade-icon">{gradeIcon}</div>
+    <ProfileCardBox>
+      <ProfileGradeIcon>{gradeIcon}</ProfileGradeIcon>
 
-      <div className="profile-info">
-        <div><strong>아이언맨{nickname}</strong></div>
-        <div>인증 횟수: 999{count}회</div>
-        <div>탄소 절약: 34.2{carbon} kg CO₂</div>
+      <div>
+        <ProfileNickname>{nickname}</ProfileNickname>
+        <div>인증 횟수: {count}회</div>
+        <div>탄소 절약: {carbon} kg CO₂</div>
       </div>
-    </div>
+    </ProfileCardBox>
   );
 }
