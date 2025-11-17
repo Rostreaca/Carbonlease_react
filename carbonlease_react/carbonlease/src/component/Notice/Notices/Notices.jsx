@@ -6,8 +6,6 @@ import NoticeCalendar from './NoticeCalendar';
 const Notices = () => {
     return(
         <>
-            
-
             <PageTitle 
                 title="공지사항" 
                 breadcrumbs={[
@@ -17,7 +15,7 @@ const Notices = () => {
             />
 
             <NoticeCalendar />
-            
+
             <PageContent>
                <NoticesList></NoticesList>
             </PageContent>
