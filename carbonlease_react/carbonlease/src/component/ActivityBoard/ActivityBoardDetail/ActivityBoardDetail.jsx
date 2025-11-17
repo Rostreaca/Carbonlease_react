@@ -61,6 +61,9 @@ const ActivityBoardDetail = () => {
   const handleUpdate = () => {
     navigate(`/activityBoards/updateForm/${post.id}`);
   };
+  const goList = () => {
+    navigate("/activityBoards");
+  };
 
 
   return (
@@ -121,7 +124,7 @@ const ActivityBoardDetail = () => {
 
           {/* 버튼 */}
           <ButtonArea>
-            <OutlineSuccessButton>목록으로</OutlineSuccessButton>
+            <OutlineSuccessButton onClick={goList}>목록으로</OutlineSuccessButton>
             <ButtonGroup>
               <OutlineSuccessButton onClick={handleUpdate}>수정</OutlineSuccessButton>
               <OutlineDangerButton>삭제</OutlineDangerButton>
