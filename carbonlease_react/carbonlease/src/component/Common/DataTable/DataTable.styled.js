@@ -15,6 +15,11 @@ export const PageHeader = styled.div`
     }
 `;
 
+export const ButtonGroup = styled.div`
+    display: flex;  
+    gap: 0.5rem;
+`;   
+
 export const CreateButton = styled.button`
     padding: 0.5rem 1.5rem;
     font-size: 1rem;

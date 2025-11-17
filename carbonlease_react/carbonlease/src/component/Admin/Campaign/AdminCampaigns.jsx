@@ -8,7 +8,8 @@ import {
     DeleteButton,
     EditButton,
     PageHeader,
-    StatusBadge
+    StatusBadge,
+    ButtonGroup
 } from '../../Common/DataTable/DataTable.styled';
 import Pagination from '../../Common/Pagination/Pagination';
 import Toast from '../../Common/Toast/Toast';
@@ -177,14 +178,14 @@ const AdminCampaigns = () => {
             header: '관리',
             field: 'id',
             render: (value) => (
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <ButtonGroup>
                     <EditButton onClick={() => handleEdit(value)}>
                         수정
                     </EditButton>
                     <DeleteButton onClick={() => handleDelete(value)}>
                         삭제
                     </DeleteButton>
-                </div>
+                </ButtonGroup>
             )
         }
     ];
@@ -198,12 +199,13 @@ const AdminCampaigns = () => {
                     등록하기
                 </CreateButton>
             </PageHeader>
+
             <DataTable 
                 title="캠페인 목록"
                 columns={columns}
                 data={campaigns}
-                icon="fas fa-leaf"
             />
+
             <Pagination 
                 currentPage={currentPage}
                 totalPages={totalPages}

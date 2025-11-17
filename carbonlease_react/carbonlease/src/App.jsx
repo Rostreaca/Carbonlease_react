@@ -29,12 +29,14 @@ import AdminLogin from './component/Admin/Login/AdminLogin';
 import AdminNotices from './component/Admin/Notice/AdminNotices';
 import AdminUsers from './component/Admin/User/AdminUsers';
 import SamplePage from "./component/Sample/SamplePage";
+import { AuthProvider } from './component/Context/AuthContext';
 
 
 
 function App() {
 	return (
 		<>
+		<AuthProvider>
 		<GlobalCommonStyles />
 		<Routes>
 			{/* User Routes - with Layout */}
@@ -71,6 +73,7 @@ function App() {
 				<Route path="activityBoards" element={<AdminActivityBoards />} />
 			</Route>
 		</Routes>
+		</AuthProvider>
 		</>
 	)
 }

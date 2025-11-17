@@ -397,7 +397,7 @@ const [showAlert, setShowAlert] = useState(false);
                         <DemoContainer>
                             <VariantButtons>
                                 <DemoButton
-                                    $variant="info"
+                                    variant="info"
                                     onClick={() => {
                                         setConfirmVariant('info');
                                         setShowConfirm(true);
@@ -406,7 +406,7 @@ const [showAlert, setShowAlert] = useState(false);
                                     Info Confirm
                                 </DemoButton>
                                 <DemoButton
-                                    $variant="warning"
+                                    variant="warning"
                                     onClick={() => {
                                         setConfirmVariant('warning');
                                         setShowConfirm(true);
@@ -415,7 +415,7 @@ const [showAlert, setShowAlert] = useState(false);
                                     Warning Confirm
                                 </DemoButton>
                                 <DemoButton
-                                    $variant="error"
+                                    variant="error"
                                     onClick={() => {
                                         setConfirmVariant('danger');
                                         setShowConfirm(true);
@@ -522,7 +522,7 @@ const handleDelete = () => {
                         <SubTitle>사용 예시</SubTitle>
                         <DemoContainer>
                             <DemoButton
-                                $variant="info"
+                                variant="info"
                                 onClick={handleShowLoading}
                                 disabled={showLoading}
                             >
