@@ -24,10 +24,10 @@ export const AuthProvider = ({ children }) => {
         const refreshToken = localStorage.getItem("refreshToken");
         const role = localStorage.getItem("role");
 
-        console.log(refreshToken);
+        //console.log(refreshToken);
 
         {
-            accessToken !== "" ? 
+            accessToken !== null ? 
 
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
@@ -37,10 +37,21 @@ export const AuthProvider = ({ children }) => {
             }
         }
         ).then(result => {
-
-
+            setAuth({
+                memberId,
+                nickName,
+                accessToken,
+                refreshToken,
+                role,
+                isAuthenticated : true
+            });
         }).catch(error => {
-
+            console.log("자동 로그인 실패");
+            localStorage.removeItem("memberId");
+            localStorage.removeItem("nickName");
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            localStorage.removeItem("role");
         })
         :
         <></>
