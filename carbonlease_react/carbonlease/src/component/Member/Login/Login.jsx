@@ -18,6 +18,7 @@ const Login = () => {
     const [alertVariant, setAlertVariant] = useState('info');
     const [memberId, setMemberId] = useState("");
     const [memberPwd, setMemberPwd] = useState("");
+    const [alertMsg, setAlertMsg] = useState("");
     const [idMsg, setIdMsg] = useState("");
     const [pwdMsg, setPwdMsg] = useState("");
     const { login } = useContext(AuthContext);
@@ -43,15 +44,17 @@ const Login = () => {
         }).then(result => {
             //console.log(result);
             const {memberId, nickName, accessToken, refreshToken, role} = result.data;
-            login(memberId, nickName, accessToken, refreshToken, role);  
-            setShowAlert(true);        
+            login(memberId, nickName, accessToken, refreshToken, role); 
+            setAlertMsg("로그인에 성공하였습니다."); 
             setAlertVariant('info');
+            setShowAlert(true);        
             //navi('/');
 
         }).catch(error => {
             //console.error(error);
-            setShowAlert(true);        
+            setAlertMsg(error.response.data["error-message"]);
             setAlertVariant('warning');
+            setShowAlert(true);        
         }
         )
     }
@@ -93,7 +96,7 @@ const Login = () => {
                 show={showAlert}
                 onClose={() => {setShowAlert(false), alertVariant === 'info' ? navi('/') : <></>}}
                 title= { alertVariant === 'info' ? '로그인 성공' : '로그인 실패'}
-                message= { alertVariant === 'info' ? '로그인에 성공하였습니다.' : '로그인에 실패했습니다.'}
+                message= {alertMsg}
                 variant={alertVariant}
             />
             </PageContent>

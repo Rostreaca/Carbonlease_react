@@ -6,6 +6,7 @@ const AuthLinks = ({ onClick }) => {
 
     const { auth, logout } = useContext(AuthContext);
 
+
     return (
 
         <>
