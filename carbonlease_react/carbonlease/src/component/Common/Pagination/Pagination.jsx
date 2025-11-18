@@ -2,18 +2,24 @@ import { PageButton, PaginationContainer } from './Pagination.styled';
 
 const Pagination = ({ 
     currentPage, 
-    totalPages, 
     setCurrentPage, 
-    pageInfo 
+    pageInfo = {
+        startPage:"",
+        endPage:"",
+        totalPage:""
+    }
 }) => {
 
     // 페이지 번호 배열 생성
     const getPageNumbers = () => {
         if (pageInfo) {
             const numbers = [];
-            for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
+            for (let i = Number(pageInfo.startPage); i <= Number(pageInfo.endPage); i++) {
                 numbers.push(i);
             }
+            // console.log(pageInfo.startPage)
+            // console.log(pageInfo.endPage)
+            // console.log(numbers);
             return numbers;
         }
         return [];
@@ -41,7 +47,7 @@ const Pagination = ({
 
     // 다음 페이지 그룹 이동
     const handleNextPage = () => {
-        if (currentPage < totalPages) {
+        if (currentPage < pageInfo.totalPage) {
             setCurrentPage(currentPage + 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -49,7 +55,7 @@ const Pagination = ({
 
     // 마지막 페이지 이동
     const handleLastPage = () => {
-        setCurrentPage(totalPages);
+        setCurrentPage(pageInfo.totalPage);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -81,13 +87,13 @@ const Pagination = ({
             ))}
             <PageButton 
                 onClick={handleNextPage} 
-                disabled={currentPage === totalPages}
+                disabled={currentPage === pageInfo.totalPage}
             >
                 <i className="bi bi-chevron-right"></i>
             </PageButton>
             <PageButton 
                 onClick={handleLastPage} 
-                disabled={currentPage === totalPages}
+                disabled={currentPage === pageInfo.totalPage}
             >
                 <i className="bi bi-chevron-double-right"></i>
             </PageButton>
