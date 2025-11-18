@@ -32,7 +32,6 @@ import SamplePage from "./component/Sample/SamplePage";
 import { AuthProvider } from './component/Context/AuthContext';
 
 
-
 function App() {
 	return (
 		<>

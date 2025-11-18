@@ -46,7 +46,7 @@ export const Topbar = styled.div`
     height: 40px;
     padding: 0;
     font-size: 14px;
-    transition: all 0.5s;
+    transition: all 0.2s;
     width: 100%;
     overflow: hidden;
     

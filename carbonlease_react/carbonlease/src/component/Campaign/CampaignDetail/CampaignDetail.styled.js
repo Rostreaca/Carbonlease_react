@@ -6,6 +6,16 @@ export const CampaignDetailContainer = styled.div`
     padding: 40px 20px;
 `;
 
+
+export const CampaignDetailHeader = styled.div`
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    boarder-bottom: 1px solid #e0e0e0;  
+`;
+
+
 export const CategoryBadge = styled.span`
     display: inline-block;
     padding: 8px 20px;
@@ -14,19 +24,13 @@ export const CategoryBadge = styled.span`
     border-radius: 20px;
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 20px;
 `;
 
 export const Title = styled.h1`
-    font-size: 32px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--heading-color);
-    margin-bottom: 20px;
     line-height: 1.4;
-
-    @media (max-width: 768px) {
-        font-size: 24px;
-    }
 `;
 
 export const MetaInfo = styled.div`
