@@ -2,7 +2,8 @@ import { useState } from 'react';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
 import Toast from '../../Common/Toast/Toast';
-import CampaignList from './CampaignList';
+import CampaignList from './component/CampaignList';
+
 
 const Campaigns = () => {
     const [toastMessage, setToastMessage] = useState('');
