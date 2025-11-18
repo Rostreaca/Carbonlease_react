@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
@@ -15,15 +15,17 @@ import ReplyEditForm from "./components/ReplyEditForm.jsx";
 import InputButton from "./components/InputButton.jsx";
 import OutlineSuccessButton from "../../Common/UI/Button/OutlineWriterButton.jsx";
 import OutlineDangerButton from "../../Common/UI/Button/OutlineDangerButton.jsx";
-
 import {
   Wrapper, Section, ImageCard, ContentCard, MapCard,
   ButtonArea, ButtonGroup, ReplyWriteArea,
   ProfileAndLike, LikeCard
 } from "./ActivityBoardDetail.styles.js";
+import axios from "axios";
 
 const ActivityBoardDetail = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  axios.get(`/activityBoards/${id}`)
   const [post, setPost] = useState({
     id: 1,
     title: "대중교통 이용하기",

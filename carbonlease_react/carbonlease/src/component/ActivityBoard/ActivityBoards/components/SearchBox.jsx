@@ -6,7 +6,7 @@ const SearchBox = ({ filter, onSearch }) => {
   const [ keyword, setKeyword ] = useState('');
 
   const handleSearch = () => {
-    setKeyword(keyword);
+    onSearch(keyword);
   };
 
   const handleKeyDown = (e) => {
@@ -24,7 +24,7 @@ const SearchBox = ({ filter, onSearch }) => {
         onChange={(e) => setKeyword(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      <Button variant="outline-success" onClick={() => onSearch(handleSearch)}>
+      <Button variant="outline-success" onClick={() => onSearch(keyword)}>
         검색
       </Button>
     </InputGroup>
