@@ -36,19 +36,23 @@ const NoticeDetail = () => {
     return(
         <>
             <PageTitle 
-                titles={[
-                    { label: '공지사항', path: '/notices' },
+                title="공지사항" 
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: '공지사항', path: '/notices'},
                     { label: '공지사항 상세', current: true }
                 ]} 
             />
             <PageContent>
 
-                <div id='title'>{notice.title}</div>
+                <div id='title'><strong>{notice.title}</strong></div>
                 <div id='meta'>
-                    {notice.viewCount}
-                    {notice.createDate}
+                    <p>조회수: {notice.viewCount}</p>
+                    <p>등록일자: {notice.createDate}</p>
                 </div>
-                <div id='content'></div>
+                <div id='content'>
+                    {notice.content}
+                </div>
             </PageContent>
         </>
     )   

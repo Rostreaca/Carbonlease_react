@@ -146,3 +146,37 @@ export const DatePickerWrapper = styled.div`
         }
     }
 `;
+
+export const SwitchWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+`;
+
+export const SwitchInput = styled.input`
+    display: none;
+`;
+
+export const SwitchLabel = styled.label`
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background-color: ${props => (props.$checked ? '#0d6efd' : '#dee2e6')};
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        background-color: #fff;
+        border-radius: 50%;
+        top: 2px;
+        left: ${props => (props.$checked ? '24px' : '2px')};
+        transition: left 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+`;
+

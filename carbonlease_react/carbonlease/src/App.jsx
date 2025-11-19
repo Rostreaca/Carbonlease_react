@@ -27,6 +27,8 @@ import UpdateForm from './component/Admin/Campaign/UpdateForm';
 import AdminLayout from './component/Admin/Layout/AdminLayout';
 import AdminLogin from './component/Admin/Login/AdminLogin';
 import AdminNotices from './component/Admin/Notice/AdminNotices';
+import NoticeInsertForm from './component/Admin/Notice/NoticeInsertForm';
+import NoticeUpdateForm from './component/Admin/Notice/NoticeUpdateForm';
 import AdminUsers from './component/Admin/User/AdminUsers';
 import SamplePage from "./component/Sample/SamplePage";
 import { AuthProvider } from './component/Context/AuthContext';
@@ -66,6 +68,8 @@ function App() {
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />
+				<Route path="notices/insert" element={<NoticeInsertForm />} />
+				<Route path="notices/update/:id" element={<NoticeUpdateForm />} />
 				<Route path="campaigns" element={<AdminCampaigns />} />
 				<Route path="campaigns/insert" element={<InsertForm />} />
 				<Route path="campaigns/update/:id" element={<UpdateForm />} />
