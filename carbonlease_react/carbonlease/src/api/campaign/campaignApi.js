@@ -14,7 +14,7 @@ const campaignApi = axios.create({
 });
 
 // 캠페인 리스트 조회
-export const selectCampaignList  = (page = 1, size = 12) => {
+export const selectCampaignListWithPage  = (page = 1, size = 12) => {
     return campaignApi.get('', {
         params: { page, size }
     });

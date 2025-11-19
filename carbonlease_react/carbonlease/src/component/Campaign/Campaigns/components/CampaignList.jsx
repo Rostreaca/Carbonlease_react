@@ -7,9 +7,14 @@ import CampaignListItem from './CampaignListItem';
 import { CampaignGrid, CampaignListContainer } from './CampaignList.styled';
 import { useCampaignList } from '../useCampaignList';
 
-    const CampaignList = ({ onShowToast }) => {
+// 캠페인 리스트 컴포넌트
+const CampaignList = ({ onShowToast }) => {
         const navigate = useNavigate();
+
+        // 인증 정보 가져오기
         const { auth } = useContext(AuthContext);
+
+        // 캠페인 목록 훅 사용
         const {
             campaigns,
             currentPage,
@@ -20,10 +25,12 @@ import { useCampaignList } from '../useCampaignList';
             handleLikeToggle,
         } = useCampaignList(onShowToast, auth);
 
+        // 캠페인 카드 클릭 핸들러
         const handleCardClick = (campaign) => {
             navigate(`/campaigns/detail/${campaign.campaignNo}`, { state: campaign });
         };
 
+        // 로딩 중일 때 스켈레톤 표시
         if (loading) {
             return (
                 <CampaignListContainer>
@@ -32,6 +39,7 @@ import { useCampaignList } from '../useCampaignList';
             );
         }
 
+        // 캠페인 목록이 없을 때 null 반환
         if (!campaigns || campaigns.length === 0) {
             return null;
         }
