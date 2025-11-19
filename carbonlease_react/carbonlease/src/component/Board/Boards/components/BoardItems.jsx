@@ -1,15 +1,24 @@
+import { useNavigate } from "react-router-dom";
 import { BoardInfo, BoardItemWrapper, BoardNo } from "../../../ActivityBoard/ActivityBoards/components/BoardItem.styles";
+import BoardDetail from "../../BoardDetail/BoardDetail";
 
 const BoardItems = ({ item }) => {
+  const navigate = useNavigate();
+  const onClickBoardDetail = (item) =>{
+    console.log("클릭한 값:", item);
+    console.log("key vale : ", item.boardNo);
+    navigate(`/boards/${item.boardNo}`);
+  }
+
   return (
     <BoardItemWrapper>
 
       <BoardNo>No.{ item.boardSeq } </BoardNo>
 
       <BoardInfo>
-        <div className="title">{ item.boardTitle}</div>
-        <div className="content">{ item.boardContent }</div>
-        <div className="meta">
+        <div className="title" onClick={() => onClickBoardDetail(item)}>{ item.boardTitle}</div>
+        <div className="content" onClick={() => onClickBoardDetail(item)} >{ item.boardContent }</div>
+        <div className="meta" onClick={() => onClickBoardDetail(item)}>
         작성일 : { item.enrollDate } · 조회 : { item.viewCount } · 댓글 : { item.replyCount } · 닉네임 : { item.nickname }
         </div>
       </BoardInfo>

@@ -4,11 +4,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Pagination from '../../Common/Pagination/Pagination';
 import BoardItems from './components/BoardItems';
+import { useNavigate } from 'react-router-dom';
 
 // useEffect를 사용하여 컴포넌트가 마운트될 때 데이터를 가져오고 상태를 업데이트합니다.
 // useState를 사용하여 상태 변수를 선언합니다.
 
  const Boards = () => {
+
+    const navigate = useNavigate();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [board, setBoard] = useState([]);
@@ -38,6 +41,11 @@ import BoardItems from './components/BoardItems';
             })
     }
 
+     const handleRowClick = () => {
+        console.log("hi");
+        navigate(`/boards/${row.boardNo}`)
+    }
+
     return (
         <>
             <PageTitle 
@@ -51,7 +59,7 @@ import BoardItems from './components/BoardItems';
               
                 {
                     board.map((item) => (
-                        <BoardItems key={item.boardNo} item={item} />
+                        <BoardItems key={item.boardNo} item={item} onRowClick={handleRowClick} />
                 ))}
             </PageContent>
            <Pagination
