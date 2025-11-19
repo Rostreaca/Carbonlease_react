@@ -5,34 +5,50 @@ import { useNavigate, useParams } from 'react-router-dom';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import Loading from '../../Common/Loading/Loading';
 import PageContent from '../../Common/PageContent/PageContent';
-import { CampaignDetailContainer, ErrorContainer } from './CampaignDetail.styled';
-import CampaignHeader from './component/CampaignHeader';
-import CampaignImage from './component/CampaignImage';
-import CampaignContent from './component/CampaignContent';
-import CampaignMeta from './component/CampaignMeta';
-import CampaignActions from './component/CampaignActions';
+import { CampaignDetailContainer, ErrorContainer, BackButton } from './CampaignDetail.styled';
+import CampaignHeader from './components/CampaignHeader';
+import CampaignImage from './components/CampaignImage';
+import CampaignContent from './components/CampaignContent';
+import CampaignMeta from './components/CampaignMeta';
+import CampaignActions from './components/CampaignActions';
 import { useCampaignDetail } from './useCampaignDetail';
 
 
 const CampaignDetail = () => {
     const navigate = useNavigate();
+
+    // Toast 상태 관리
     const [toastMessage, setToastMessage] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [toastVariant, setToastVariant] = useState('success');
+    
+    // 캠페인 ID 가져오기
+    const { id } = useParams();
 
+    // 인증 정보 가져오기
+    const { auth } = useContext(AuthContext);
 
+    // 캠페인 컴포넌트 배열
+    const campaignComponents = [
+        CampaignHeader,
+        CampaignImage,
+        CampaignContent,
+        CampaignMeta,
+    ];
+
+    // 토스트 메시지 표시
     const handleShowToast = (message, variant = 'success') => {
         setToastMessage(message);
         setToastVariant(variant);
         setShowToast(true);
     };
 
+    // 토스트 메시지 닫기
     const handleCloseToast = () => {
         setShowToast(false);
     };
 
-    const { id } = useParams();
-    const { auth } = useContext(AuthContext);
+    // 캠페인 상세 정보 훅 사용
     const {
         campaign,
         loading,
@@ -40,11 +56,14 @@ const CampaignDetail = () => {
         handleLikeToggle,
     } = useCampaignDetail(id, handleShowToast, auth);
 
-    // 목록으로 돌아가기 (변경된 캠페인 데이터 함께 전달)
+    
+
+    // 목록으로 돌아가기 (변경된 캠페인 데이터 함께 전달(좋아요 상태 등))
     const handleBack = () => {
         navigate('/campaigns', { state: { updatedCampaign: campaign } });
     };
 
+    // 로딩 상태
     if (loading) {
         return (
             <>
@@ -63,6 +82,7 @@ const CampaignDetail = () => {
         );
     }
 
+    // 에러 상태 또는 캠페인 데이터 없음
     if (error || !campaign) {
         return (
             <>
@@ -100,11 +120,10 @@ const CampaignDetail = () => {
             />
             <PageContent>
                 <CampaignDetailContainer>
-                    <CampaignHeader campaign={campaign} />
-                    <CampaignImage campaign={campaign} />
-                    <CampaignContent campaign={campaign} />
-                    <CampaignMeta campaign={campaign} />
-                    <CampaignActions 
+                    {campaignComponents.map((Component, idx) => (
+                        <Component key={idx} campaign={campaign} />
+                    ))}
+                    <CampaignActions
                         campaign={campaign}
                         auth={auth}
                         handleBack={handleBack}

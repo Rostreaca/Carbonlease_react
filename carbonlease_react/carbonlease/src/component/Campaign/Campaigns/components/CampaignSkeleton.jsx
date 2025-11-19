@@ -10,11 +10,11 @@ import {
     SkeletonTitle
 } from './CampaignSkeleton.styled';
 
-const CampaignSkeleton = ({ count = 6 }) => {
+const CampaignSkeleton = ({ viewCount = 6 }) => {
     return (
         <CampaignGrid>
-            {Array.from({ length: count }).map((_, index) => (
-                <SkeletonCard key={index}>
+            {Array.from({ length: viewCount }).map((_, idx) => (
+                <SkeletonCard key={idx}>
                     <SkeletonImage />
                     <SkeletonContent>
                         <SkeletonCategory />
