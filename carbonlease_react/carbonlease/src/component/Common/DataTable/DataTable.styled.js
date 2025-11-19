@@ -145,8 +145,19 @@ export const TableCardBody = styled.div`
             }
         }
 
-        tbody tr:hover {
-            background-color: #f8f9fa;
+        tbody tr {
+            &.clickable {
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+                
+                &:hover {
+                    background-color: #f8f9fa !important;
+                }
+            }
+            
+            &:hover {
+                background-color: #f8f9fa;
+            }
         }
 
         tfoot th {

@@ -6,42 +6,45 @@ const DataTable = ({
     columns = [], 
     data = [],
     showIcon = true,
-    icon = 'fas fa-table'
+    icon = 'fas fa-table',
+    onRowClick,
 }) => {
+
     const tableRef = useRef(null);
 
-    useEffect(() => {
-        if (tableRef.current && window.simpleDatatables && data.length > 0) {
-            // 기존 DataTable 인스턴스 제거
-            if (tableRef.current.dataTable) {
-                tableRef.current.dataTable.destroy();
-            }
+    // useEffect(() => {
+    //     //console.log("얘가 안도는거 같은디?");
+    //     if (tableRef.current && window.simpleDatatables && data.length > 0) {
+    //         // 기존 DataTable 인스턴스 제거
+    //         console.log(data)
+    //         if (tableRef.current.dataTable) {
+    //             tableRef.current.dataTable.destroy();
+    //         }
 
-            // 새로운 DataTable 생성
-            const dataTable = new window.simpleDatatables.DataTable(tableRef.current, {
-                searchable: true,
-                fixedHeight: false,
-                perPageSelect: false,
-                paging: false,
-                layout: {
-                    top: "{search}",
-                    bottom: ""
-                },
-                labels: {
-                    placeholder: "검색...",
-                    noRows: "데이터가 없습니다"
-                }
-            });
-
-            tableRef.current.dataTable = dataTable;
-
-            return () => {
-                if (tableRef.current?.dataTable) {
-                    tableRef.current.dataTable.destroy();
-                }
-            };
-        }
-    }, [data]);
+    //         // 새로운 DataTable 생성
+    //         const dataTable = new window.simpleDatatables.DataTable(tableRef.current, {
+    //             searchable: true,
+    //             fixedHeight: false,
+    //             perPageSelect: false,
+    //             paging: false,
+    //             layout: {
+    //                 top: "{search}",
+    //                 bottom: ""
+    //             },      
+    //             labels: {
+    //                 placeholder: "검색...",
+    //                 noRows: "데이터가 없습니다"
+    //             }
+    //         });
+    //         tableRef.current.dataTable = dataTable;
+    //         //console.log(tableRef)
+    //         return () => {
+    //             if (tableRef.current?.dataTable) {
+    //                 tableRef.current.dataTable.destroy();
+    //             }
+    //         };
+    //     }
+    // }, [data]);
 
     return (
         <DataTableContainer>
@@ -61,7 +64,11 @@ const DataTable = ({
                         </thead>
                         <tbody>
                             {data.map((row, rowIndex) => (
-                                <tr key={rowIndex}>
+                                <tr 
+                                    key={rowIndex}
+                                    onClick={() => onRowClick && onRowClick(row, rowIndex)}
+                                    style={{ cursor: onRowClick ? 'pointer' : 'default' }}
+                                >
                                     {columns.map((column, colIndex) => (
                                         <td key={colIndex}>
                                             {column.render
@@ -72,12 +79,13 @@ const DataTable = ({
                                     ))}
                                 </tr>
                             ))}
+ 
                         </tbody>
                         <tfoot>
                             <tr>
-                                {columns.map((column, index) => (
+                                {/* {columns.map((column, index) => (
                                     <th key={index}>{column.header}</th>
-                                ))}
+                                ))} */}
                             </tr>
                         </tfoot>
                     </table>
