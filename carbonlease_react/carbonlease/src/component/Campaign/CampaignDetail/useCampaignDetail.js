@@ -7,6 +7,7 @@ export function useCampaignDetail(id, onShowToast, auth) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
+    // 캠페인 ID 변경 시 상세 정보 다시 불러오기
     useEffect(() => {
         if (!id) {
             setError(true);
@@ -15,11 +16,14 @@ export function useCampaignDetail(id, onShowToast, auth) {
         }
         fetchCampaignDetail(id);
     }, [id]);
+    
 
     // 캠페인 상세 정보 불러오기
     const fetchCampaignDetail = (campaignNo) => {
+
         setLoading(true);
         setError(false);
+        
         selectByCampaignNo(campaignNo)
             .then(response => {
                 const campaignData = response.data;
@@ -39,10 +43,12 @@ export function useCampaignDetail(id, onShowToast, auth) {
     // 캠페인 좋아요 토글
     const handleLikeToggle = (e, campaignNo, currentLikeStatus) => {
         e.stopPropagation();
+
         if (!auth.isAuthenticated) {
             onShowToast('로그인이 필요합니다.', 'error');
             return;
         }
+
         toggleLike(campaignNo)
             .then(() => {
                 const newLikeStatus = !currentLikeStatus;

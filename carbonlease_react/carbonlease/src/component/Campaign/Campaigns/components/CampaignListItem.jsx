@@ -2,13 +2,17 @@ import React from 'react';
 import { CampaignCard, CampaignImage, CampaignContent, CampaignCategory, CampaignTitle, CampaignDescription, CampaignInfo, ParticipantCount, CampaignDate } from './CampaignList.styled';
 import LikeButton from '../../../Common/LikeButton/LikeButton';
 
+// 날짜 형식 변환 함수
 const formatDate = (dateString) => {
     const date = new Date(dateString);
     return `${date.getMonth() + 1}.${date.getDate()}`;
 };
 
+// 캠페인 리스트 아이템 컴포넌트
 const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick }) => (
+
     <CampaignCard key={campaign.campaignNo} onClick={() => onCardClick(campaign)}>
+
         <CampaignImage>
             <img src={`${campaign.filePath}/${campaign.changeName}`} alt={campaign.campaignTitle} />
             {auth.isAuthenticated && (
@@ -21,6 +25,7 @@ const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick }) => (
                 </LikeButton>
             )}
         </CampaignImage>
+
         <CampaignContent>
             <CampaignCategory>{campaign.category?.categoryName || '카테고리 없음'}</CampaignCategory>
             <CampaignTitle>{campaign.campaignTitle}</CampaignTitle>
@@ -36,6 +41,7 @@ const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick }) => (
                 </CampaignDate>
             </CampaignInfo>
         </CampaignContent>
+
     </CampaignCard>
 );
 
