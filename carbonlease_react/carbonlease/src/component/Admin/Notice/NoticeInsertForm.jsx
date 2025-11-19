@@ -73,10 +73,6 @@ const NoticeInsertForm = () => {
             newErrors.noticeContent = '내용을 입력해주세요.';
         }
 
-        if (!formData.file) {
-            newErrors.file = '첨부파일을 선택해주세요.';
-        }
-
         if (!formData.fix) {
             newErrors.fix = '고정여부 선택.';
         }
@@ -128,7 +124,7 @@ const NoticeInsertForm = () => {
                         />
 
                         <FormField
-                            label="사용 여부"
+                            label="고정 여부"
                             type="toggle-switch"
                             name="isActive"
                             value={formData.isActive}
@@ -156,7 +152,6 @@ const NoticeInsertForm = () => {
                             name="file"
                             onChange={handleFileChange}
                             error={errors.file}
-                            required
                             accept="image/*"
                             fileName={fileNames.file}
                         />
