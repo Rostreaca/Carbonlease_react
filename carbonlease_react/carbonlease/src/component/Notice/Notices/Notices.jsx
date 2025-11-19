@@ -1,5 +1,7 @@
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
+import NoticesList from './NoticesList';
+import NoticeCalendar from './NoticeCalendar';
 
 const Notices = () => {
     return(
@@ -8,11 +10,12 @@ const Notices = () => {
                 title="공지사항" 
                 breadcrumbs={[
                     { label: 'Home', path: '/' },
-                    { label: '공지사항', current: true }
+                    { label: '공지사항', current: true}
                 ]} 
             />
             <PageContent>
-                컨텐츠가 들어가는 영역
+                {/* <NoticeCalendar /> */}
+               <NoticesList />
             </PageContent>
         </>
     )
