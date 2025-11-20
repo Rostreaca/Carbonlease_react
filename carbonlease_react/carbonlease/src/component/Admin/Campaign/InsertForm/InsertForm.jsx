@@ -192,7 +192,7 @@ const InsertForm = () => {
                             required
                             options={categoryOptions}
                         />
-
+                        
                         <FormField
                             label="내용"
                             type="textarea"

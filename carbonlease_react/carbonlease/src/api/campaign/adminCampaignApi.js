@@ -16,14 +16,22 @@ const adminCampaignApi = axios.create({
 
 // 캠페인 등록 API
 export const insertCampaign = (campaign, files, accessToken) => {
+    const formData = new FormData();
 
-    return adminCampaignApi.post('/insert', {
+    Object.entries(campaign).forEach(([key, value]) => {
+        formData.append(key, value);
+    });
+
+    // 서버가 요구하는 이름으로 추가
+    formData.append("thumbnail", files[0]);
+    formData.append("detailImage", files[1]);
+
+    return adminCampaignApi.post('/insert', formData, {
         headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'multipart/form-data'
         }
     });
-
 };
 
 
@@ -31,7 +39,6 @@ export const insertCampaign = (campaign, files, accessToken) => {
 export const fetchCategoryOptions = () => {
     return adminCampaignApi.get('/categories');
 };
-
 
 
 
