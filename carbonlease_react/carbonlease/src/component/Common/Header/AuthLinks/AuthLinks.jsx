@@ -38,6 +38,7 @@ const AuthLinks = ({ onClick }) => {
             </NavLink>
             <span style={{margin: '0 8px'}}>|</span>
             <NavLink 
+            to="/"
             onClick={logout}
             style={{padding: 0, flex: 'none', width: 'auto'}}
             >로그아웃</NavLink>

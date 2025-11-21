@@ -1,22 +1,40 @@
+import { useEffect } from "react";
+
 export default function AddressSearchInput({ value, onChange }) {
 
-  const handleSearch = () => {
-    new window.daum.Postcode({
-      oncomplete: (data) => {
-        const address = data.address;
-        
-        // 카카오 지도 Geocoder 사용
-        const geocoder = new window.kakao.maps.services.Geocoder();
+  useEffect(() => {
+    if (window.kakao && window.kakao.maps) return; // 중복 방지
 
+    const script = document.createElement("script");
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_API_KEY}&libraries=services`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      console.log("Kakao Map SDK Loaded");
+    };
+  }, []);
+
+  const handleSearch = () => {
+    if (!window.daum || !window.daum.Postcode) {
+      alert("주소 검색 라이브러리가 로드되지 않았습니다.");
+      return;
+    }
+
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        const address = data.address;
+
+        const geocoder = new window.kakao.maps.services.Geocoder();
         geocoder.addressSearch(address, (result, status) => {
           if (status === window.kakao.maps.services.Status.OK) {
             const lat = result[0].y;
             const lng = result[0].x;
 
-            // 부모로 주소 + 좌표 전달
+            console.log("주소 선택됨:", address, lat, lng);
             onChange(address, lat, lng);
           } else {
-            alert("주소 좌표 조회 실패했습니다.");
+            alert("좌표 조회 실패");
             onChange(address, null, null);
           }
         });

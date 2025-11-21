@@ -13,6 +13,9 @@ export const AuthProvider = ({ children }) => {
         nickName : null,
         accessToken : null,
         refreshToken : null,
+        email : null,
+        addressLine1 : null,
+        addressLine2 : null,
         role : null,
         isAuthenticated : false,
     });
@@ -22,6 +25,9 @@ export const AuthProvider = ({ children }) => {
         const nickName = localStorage.getItem("nickName");
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
+        const email = localStorage.getItem("email");
+        const addressLine1 = localStorage.getItem("addressLine1");
+        const addressLine2 = localStorage.getItem("addressLine2");
         const role = localStorage.getItem("role");
 
         //console.log(refreshToken);
@@ -32,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
         }).then(result => {
-            console.log(result.data);
+            //console.log(result.data);
             const newAccessToken = result.data["accessToken"];
             const newRefreshToken = result.data["refreshToken"];
             localStorage.setItem("accessToken",newAccessToken);
@@ -41,8 +47,11 @@ export const AuthProvider = ({ children }) => {
             setAuth({
                 memberId,
                 nickName,
-                newAccessToken,
-                newRefreshToken,
+                accessToken : newAccessToken,
+                refreshToken : newRefreshToken,
+                email, 
+                addressLine1, 
+                addressLine2,
                 role,
                 isAuthenticated : true,
             });
@@ -54,6 +63,9 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("nickName");
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
+            localStorage.removeItem("email");
+            localStorage.removeItem("addressLine1");
+            localStorage.removeItem("addressLine2");
             localStorage.removeItem("role");
         })
         :
@@ -62,12 +74,15 @@ export const AuthProvider = ({ children }) => {
 
     },[]);
 
-    const login = (memberId, nickName, accessToken, refreshToken, role) => {
+    const login = (memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role) => {
         setAuth({
             memberId,
             nickName,
             accessToken,
             refreshToken,
+            email, 
+            addressLine1, 
+            addressLine2,
             role,
             isAuthenticated : true,
         });
@@ -76,6 +91,9 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("nickName",nickName);
         localStorage.setItem("accessToken",accessToken);
         localStorage.setItem("refreshToken",refreshToken);
+        localStorage.setItem("email",email);
+        localStorage.setItem("addressLine1",addressLine1);
+        localStorage.setItem("addressLine2",addressLine2);
         localStorage.setItem("role",role);
     }
 
@@ -85,6 +103,9 @@ export const AuthProvider = ({ children }) => {
             nickName : null,
             accessToken : null,
             refreshToken : null,
+            email : null, 
+            addressLine1 : null, 
+            addressLine2 : null,
             role : null,
             isAuthenticated : false,
         });
@@ -93,9 +114,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("nickName");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("email");
+        localStorage.removeItem("addressLine1");
+        localStorage.removeItem("addressLine2");
         localStorage.removeItem("role");
 
-        navi('/');
+        //navi('/');
 
     }
 
