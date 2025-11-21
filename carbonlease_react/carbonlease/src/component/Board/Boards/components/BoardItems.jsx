@@ -13,7 +13,7 @@ const BoardItems = ({ item }) => {
   return (
     <BoardItemWrapper>
 
-      <BoardNo>No.{ item.boardSeq } </BoardNo>
+      <BoardNo>{ item.boardSeq } </BoardNo>
 
       <BoardInfo>
         <div className="title" onClick={() => onClickBoardDetail(item)}>{ item.boardTitle}</div>
