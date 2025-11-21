@@ -14,25 +14,9 @@ const campaignApi = axios.create({
 });
 
 // 캠페인 리스트 조회
-export const selectCampaignListWithPage  = (page = 1, size = 12) => {
+export const selectCampaignList  = (page) => {
     return campaignApi.get('', {
-        params: { page, size }
-    });
-};
-
-
-// 캠페인 좋아요 토글
-export const toggleLike = (campaignNo) => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    if (!accessToken) {
-        return Promise.reject(new Error('No token found'));
-    }
-    
-    return campaignApi.post(`/${campaignNo}/like`, {}, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
+        params: { pageNo : page }
     });
 };
 
@@ -40,6 +24,23 @@ export const toggleLike = (campaignNo) => {
 export const selectByCampaignNo = (campaignNo) => {
     return campaignApi.get(`/detail/${campaignNo}`);
 };
+
+// 캠페인 좋아요 토글
+export const toggleLike = (campaignNo) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+        return Promise.reject(new Error('No token found'));
+    }
+    return campaignApi.post(`/${campaignNo}/like`, {}, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
+};
+
+
+
+
 
 
 

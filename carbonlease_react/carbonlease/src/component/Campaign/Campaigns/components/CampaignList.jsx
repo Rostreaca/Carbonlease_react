@@ -9,6 +9,7 @@ import { useCampaignList } from '../useCampaignList';
 
 // 캠페인 리스트 컴포넌트
 const CampaignList = ({ onShowToast }) => {
+
         const navigate = useNavigate();
 
         // 인증 정보 가져오기
@@ -19,12 +20,17 @@ const CampaignList = ({ onShowToast }) => {
             campaigns,
             currentPage,
             setCurrentPage,
-            totalPages,
             loading,
             pageInfo,
             handleLikeToggle,
         } = useCampaignList(onShowToast, auth);
 
+        console.log('currentPage:', currentPage);
+        console.log('pageInfo:', pageInfo);
+        console.log('campaigns:', campaigns);
+        console.log('캠페인 총 개수(전체):', pageInfo.listCount);
+        console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
+        
         // 캠페인 카드 클릭 핸들러
         const handleCardClick = (campaign) => {
             navigate(`/campaigns/detail/${campaign.campaignNo}`, { state: campaign });
@@ -57,14 +63,13 @@ const CampaignList = ({ onShowToast }) => {
                         />
                     ))}
                 </CampaignGrid>
-                {campaigns.length > 0 && (
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        setCurrentPage={setCurrentPage}
-                        pageInfo={pageInfo}
-                    />
-                )}
+                <Pagination
+                    currentPage={currentPage} 
+                    setCurrentPage={setCurrentPage}
+                    pageInfo={pageInfo}
+                    totalPage={pageInfo.totalPage}
+                    campaignsLength={campaigns.length}
+                />
             </CampaignListContainer>
         );
     };

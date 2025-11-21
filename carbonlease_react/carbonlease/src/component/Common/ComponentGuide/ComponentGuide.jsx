@@ -484,6 +484,12 @@ const [showAlert, setShowAlert] = useState(false);
                                     <td>Dialog 메시지 내용</td>
                                 </tr>
                                 <tr>
+                                    <td>content</td>
+                                    <td>string</td>
+                                    <td>-</td>
+                                    <td>Dialog 추가 내용 추가</td>
+                                </tr>
+                                <tr>
                                     <td>confirmText</td>
                                     <td>string</td>
                                     <td>'확인'</td>
@@ -526,6 +532,7 @@ const handleDelete = () => {
     confirmText="삭제"
     cancelText="취소"
     variant="danger"
+    content={<input type="text" placeholder="사유를 입력하세요" />}
 />`}
                         </CodeBlock>
                     </ComponentSection>
@@ -1162,6 +1169,9 @@ const handleRowClick = (rowData) => {
                         : confirmVariant === 'warning'
                         ? '이 작업은 주의가 필요합니다. 진행하시겠습니까?'
                         : '정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.'
+                }
+                content={
+                    <input type="text" placeholder="스타일은 개인 페이지에서 적용하시면 됩니다." />
                 }
                 confirmText={confirmVariant === 'danger' ? '삭제' : '확인'}
                 cancelText="취소"

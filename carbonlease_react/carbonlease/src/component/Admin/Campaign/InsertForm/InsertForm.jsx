@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { insertCampaign, fetchCategoryOptions } from '../../../../api/campaign/adminCampaignApi';
 import { useNavigate } from 'react-router-dom';
 import {
     CancelButton,
@@ -9,11 +10,16 @@ import {
     FormContainer,
     PageHeader,
     SubmitButton
-} from '../../Common/DataTable/DataTable.styled';
-import FormField from '../../Common/Form/FormField';
+} from '../../../Common/DataTable/DataTable.styled';
+import FormField from '../../../Common/Form/FormField';
 
 const InsertForm = () => {
+
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [categoryOptions, setCategoryOptions] = useState([]);
+
+    // 폼 데이터 상태 관리
     const [formData, setFormData] = useState({
         campaignTitle: '',
         categoryNo: '',
@@ -24,19 +30,24 @@ const InsertForm = () => {
         endDate: ''
     });
 
+    // 파일 이름 상태 관리
     const [fileNames, setFileNames] = useState({
         thumbnail: '',
         detailImage: ''
     });
+    
 
-    const [errors, setErrors] = useState({});
-
-    const categoryOptions = [
-        { value: '환경', label: '환경' },
-        { value: '기술', label: '기술' },
-        { value: '사회', label: '사회' },
-        { value: '기타', label: '기타' }
-    ];
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        fetchCategoryOptions(accessToken)
+            .then(res => {
+                const options = res.data.map(cat => ({ value: cat.categoryNo, label: cat.categoryName }));
+                setCategoryOptions(options);
+            })
+            .catch(() => {
+                setCategoryOptions([]);
+            });
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,7 +56,6 @@ const InsertForm = () => {
             [name]: value
         }));
         
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -118,18 +128,31 @@ const InsertForm = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!validate()) {
             return;
         }
 
-        // TODO: API 호출 로직
-        console.log('Form submitted:', formData);
-        
-        // 임시: 목록 페이지로 이동
-        // navigate('/admin/campaigns');
+        // FormData 생성
+        const campaign = {
+            campaignTitle: formData.campaignTitle,
+            categoryNo: formData.categoryNo,
+            campaignContent: formData.campaignContent,
+            startDate: formData.startDate,
+            endDate: formData.endDate
+        };
+        const files = [formData.thumbnailFile, formData.detailImageFile].filter(Boolean);
+        const accessToken = localStorage.getItem('accessToken');
+
+        try {
+            await insertCampaign(campaign, files, accessToken);
+            // 성공 시 목록 페이지로 이동
+            navigate('/admin/campaigns');
+        } catch (error) {
+            alert('등록에 실패했습니다.', error);
+        }
     };
 
     const handleCancel = () => {

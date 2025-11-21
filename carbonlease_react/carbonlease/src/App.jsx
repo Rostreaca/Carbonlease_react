@@ -22,7 +22,7 @@ import AdminActivityBoards from './component/Admin/ActivityBoard/AdminActivityBo
 import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
 import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns';
-import InsertForm from './component/Admin/Campaign/InsertForm';
+import InsertForm from './component/Admin/Campaign/InsertForm/InsertForm';
 import UpdateForm from './component/Admin/Campaign/UpdateForm';
 import AdminLayout from './component/Admin/Layout/AdminLayout';
 import AdminLogin from './component/Admin/Login/AdminLogin';

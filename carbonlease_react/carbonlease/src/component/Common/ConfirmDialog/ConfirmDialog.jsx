@@ -16,6 +16,7 @@ const ConfirmDialog = ({
     onConfirm,
     title = '확인',
     message,
+    content,
     confirmText = '삭제',
     cancelText = '취소',
     variant = 'danger',
@@ -46,7 +47,8 @@ const ConfirmDialog = ({
                 <Modal.Title>{title}</Modal.Title>
             </ConfirmHeader>
             <ConfirmBody>
-                {message}
+                {message && <div>{message}</div>}
+                {content}
             </ConfirmBody>
             <ConfirmFooter>
                 <ButtonGroup>

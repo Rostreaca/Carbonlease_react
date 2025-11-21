@@ -6,8 +6,9 @@ const Pagination = ({
     pageInfo = {
         startPage:"",
         endPage:"",
-        totalPage:""
-    }
+        totalPage:"",
+    },
+    campaignsLength = 0
 }) => {
 
     // 페이지 번호 배열 생성
@@ -76,24 +77,30 @@ const Pagination = ({
             >
                 <i className="bi bi-chevron-left"></i>
             </PageButton>
-            {pageNumbers.map(page => (
-                <PageButton
-                    key={page}
-                    onClick={() => handlePageClick(page)}
-                    $active={currentPage === page}
-                >
-                    {page}
-                </PageButton>
-            ))}
+
+            {pageNumbers.map(page => {
+                // 마지막 페이지 && 데이터가 없으면 버튼 숨김
+                if (page === pageInfo.totalPage && campaignsLength === 0) return null;
+                return (
+                    <PageButton
+                        key={page}
+                        onClick={() => handlePageClick(page)}
+                        $active={currentPage === page}
+                    >
+                        {page}
+                    </PageButton>
+                );
+            })}
+            
             <PageButton 
                 onClick={handleNextPage} 
-                disabled={currentPage === pageInfo.totalPage}
+                disabled={currentPage === pageInfo.totalPage || (currentPage === pageInfo.totalPage - 1 && campaignsLength === 0)}
             >
                 <i className="bi bi-chevron-right"></i>
             </PageButton>
             <PageButton 
                 onClick={handleLastPage} 
-                disabled={currentPage === pageInfo.totalPage}
+                disabled={currentPage === pageInfo.totalPage || campaignsLength === 0}
             >
                 <i className="bi bi-chevron-double-right"></i>
             </PageButton>

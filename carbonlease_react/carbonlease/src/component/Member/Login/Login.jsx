@@ -31,11 +31,14 @@ const Login = () => {
         if(!regexp.test(memberId)){
             setIdMsg("아이디는 4-20자사이의 영문 숫자로만 입력할 수 있습니다.");
             return;
-        } else if(!regexp.test(memberPwd)){
+        } else {
+            setIdMsg("");
+        }
+
+        if(!regexp.test(memberPwd)){
             setPwdMsg("비밀번호는 4-20자사이의 영문 숫자로만 입력할 수 있습니다.");
             return;
         } else {
-            setIdMsg("");
             setPwdMsg("");
         }
 
@@ -90,7 +93,7 @@ const Login = () => {
                     <FieldLabel>{pwdMsg}</FieldLabel>
 
                     <Button variant='success' type='submit'>로그인</Button>
-                    <Button variant='dark' type='button'>회원가입</Button>
+                    <Button variant='dark' type='button' onClick={() => navi('/member/enrollForm')}>회원가입</Button>
                 </form>
             <Alert
                 show={showAlert}
