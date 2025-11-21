@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
 import PageContent from "../../Common/PageContent/PageContent";
@@ -20,7 +21,7 @@ const ActivityBoardInsertForm = () => {
   const [files, setFiles] = useState([]);
   const [category, setCategory] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!title || !content || !address || !lat || !lng) {
@@ -28,24 +29,42 @@ const ActivityBoardInsertForm = () => {
       return;
     }
 
+    const token = localStorage.getItem("accessToken");
     const formData = new FormData();
+
     formData.append("title", title);
     formData.append("content", content);
     formData.append("address", address);
     formData.append("lat", lat);
     formData.append("lng", lng);
     formData.append("certificationNo", category);
+    formData.append("regionNo", regionNo);
 
-    Array.from(files).forEach(file => {
-      formData.append("files", file);
-    });
-
-    console.log("전송 데이터 미리보기:");
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ":", pair[1]);
+    if (files) {
+      formData.append("files", files);
     }
 
-    alert("등록 완료 (Mock)");
+    try {
+        const res = await axios.post(
+          "http://localhost:80/activityBoards/insertForm",
+          formData,
+          {
+            headers: {
+              Authorization: token ? `Bearer ${token}` : undefined,
+              "Content-Type": "multipart/form-data",
+            },
+          } 
+        );
+        const newActivityNo = res.data.activityNo;
+
+        console.log("Token:", token);
+        alert("등록 완료!");
+
+        window.location.href = `/activityBoards/${newActivityNo}`;
+      } catch (err) {
+        console.error("등록 실패:", err);
+        alert("등록 실패하였습니다.");
+      }
   };
 
   return (
