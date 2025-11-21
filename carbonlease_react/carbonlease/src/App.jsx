@@ -32,6 +32,8 @@ import NoticeUpdateForm from './component/Admin/Notice/NoticeUpdateForm';
 import AdminUsers from './component/Admin/User/AdminUsers';
 import SamplePage from "./component/Sample/SamplePage";
 import { AuthProvider } from './component/Context/AuthContext';
+import MyPage from './component/Member/MyPage/MyPage';
+import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
 
 
 function App() {
@@ -56,6 +58,8 @@ function App() {
 				<Route path="/campaigns/detail/:id" element={<CampaignDetail />} />
 				<Route path="/login" element={<Login/>} />
 				<Route path="/member/enrollForm" element={<EnrollForm/>} />
+				<Route path="/myPage" element = {<MyPage/>} />
+				<Route path="/myPage/updateForm" element={<MemberUpdateForm />} />
 				<Route path="/guide" element={<ComponentGuide />} />
 				
 				{/* Sample Page Route */}

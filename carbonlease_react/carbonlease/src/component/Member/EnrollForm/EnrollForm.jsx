@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Alert from '../../Common/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
+import CheckIdDuplicate from '../CheckDuplicate/CheckIdDuplicate';
+import CheckNickNameDuplicate from '../CheckDuplicate/CheckNickNameDuplicate';
+import CheckEmailDuplicate from '../CheckDuplicate/CheckEmailDuplicate';
 
 
 
@@ -16,16 +19,9 @@ const EnrollForm = () => {
 
     const navi = useNavigate();
 
-
-
-    const [checkAlertTitle, setCheckAlertTitle] = useState("id");
-    const [showCheckAlert, setShowCheckAlert] = useState(false);
-    const [checkAlertVariant, setCheckAlertVariant] = useState('info');
-    const [checkAlertMsg, setCheckAlertMsg] = useState("");
-
-    const [showSingUpAlert, setShowSingUpAlert] = useState(false);
-    const [singUpAlertVariant, setSingUpAlertVariant] = useState('info');
-    const [singUpAlertMsg, setSingUpAlertMsg] = useState("");
+    const [showSignUpAlert, setShowsignUpAlert] = useState(false);
+    const [signUpAlertVariant, setSignUpAlertVariant] = useState('info');
+    const [signUpAlertMsg, setSignUpAlertMsg] = useState("");
     const [memberId, setMemberId] = useState("");
     const [memberPwd, setMemberPwd] = useState("");
     const [nickName, setNickName] = useState("");
@@ -38,12 +34,9 @@ const EnrollForm = () => {
     const [nickNameMsg, setNickNameMsg] = useState("");
     const [emailMsg, setEmailMsg] = useState("");
 
-     const [idMsgStyle, setIdMsgStyle] = useState('regMsg');
-     const [pwdMsgStyle, setPwdMsgStyle] = useState('regMsg');
-     const [nickNameMsgStyle, setNickNameMsgStyle] = useState('regMsg');
-     const [emailMsgStyle, setEmailMsgStyle] = useState('regSuccessMsg');
 
     const [checkId, setCheckId] = useState(false);
+    const [checkPwd, setCheckPwd] = useState(false);
     const [checkNickName, setCheckNickName] = useState(false);
     const [checkEmail, setCheckEmail] = useState(false);
 
@@ -58,14 +51,14 @@ const EnrollForm = () => {
             ?
             (
             setPwdMsg("비밀번호는 4-20자 사이의 영문-숫자로만 입력할 수 있습니다."),
-            setPwdMsgStyle('regMsg')
+            setCheckPwd(false)
             )
             :
             memberPwd != ""
             ?
             (
             setPwdMsg("사용가능한 비밀번호 입니다."),
-            setPwdMsgStyle('regSuccessMsg')
+            setCheckPwd(true)
             )
             :
             setPwdMsg("");
@@ -86,7 +79,6 @@ const EnrollForm = () => {
         }
 
         setCheckId(false);
-        setIdMsgStyle('regMsg');
     }, [memberId])
 
     useEffect(() => {
@@ -95,22 +87,20 @@ const EnrollForm = () => {
             (nickName != "" && !nickNameregexp.test(nickName)) 
             ?
             (
-            setNickNameMsg("닉네임은 2-12자 사이로만 입력할 수 있습니다."),
-            setNickNameMsgStyle('regSuccessMsg')
+            setNickNameMsg("닉네임은 2-12자 사이로만 입력할 수 있습니다.")
             )
             :
             setNickNameMsg("")
-
         }
 
         setCheckNickName(false);
-        setNickNameMsgStyle('regMsg');
     }, [nickName])
 
     useEffect(() => {
         setCheckEmail(false);
         setEmailMsg("");
     }, [email])
+
 
     const findAddress = () => {
 
@@ -122,71 +112,6 @@ const EnrollForm = () => {
         }).open();
     }
 
-    const handleCheckId = () => {
-
-        setCheckAlertTitle('id');
-
-        axios.post("http://localhost/members/checkId",
-            {
-                memberId: memberId
-            }).then(result => {
-                setCheckAlertVariant('info');
-                setCheckAlertMsg("중복된 아이디가 없습니다.");
-                setShowCheckAlert(true);
-                setCheckId(true);
-                setIdMsgStyle('regSuccessMsg');
-                setIdMsg("사용 가능한 아이디입니다.");
-            }).catch(error => {
-                setCheckAlertVariant('warning');
-                setCheckAlertMsg(error.response.data["error-message"]);
-                setShowCheckAlert(true);
-            })
-
-    }
-
-    const handleCheckNickName = () => {
-
-        setCheckAlertTitle('nickName');
-
-        axios.post("http://localhost/members/checkNickName",
-            {
-                nickName: nickName
-            }).then(result => {
-                setCheckAlertVariant('info');
-                setCheckAlertMsg("중복된 닉네임이 없습니다.");
-                setShowCheckAlert(true);
-                setCheckNickName(true);
-                setNickNameMsgStyle('regSuccessMsg');
-                setNickNameMsg("사용 가능한 닉네임입니다.")
-            }).catch(error => {
-                setCheckAlertVariant('warning');
-                setCheckAlertMsg(error.response.data["error-message"]);
-                setShowCheckAlert(true);
-            })
-
-    }
-
-    const handleCheckEmail = () => {
-
-        setCheckAlertTitle('email');
-
-        axios.post("http://localhost/members/checkEmail",
-            {
-                email: email
-            }).then(result => {
-                setCheckAlertVariant('info');
-                setCheckAlertMsg("중복된 이메일이 없습니다.");
-                setShowCheckAlert(true);
-                setCheckEmail(true);
-                setEmailMsgStyle('regSuccessMsg');
-                setEmailMsg("사용 가능한 이메일입니다.");
-            }).catch(error => {
-                setCheckAlertVariant('warning');
-                setCheckAlertMsg(error.response.data["error-message"]);
-                setShowCheckAlert(true);
-            })
-
-    }
 
     const handleSignUp = (e) => {
         e.preventDefault();
@@ -195,21 +120,19 @@ const EnrollForm = () => {
                 axios.post("http://localhost/members", {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
-                    setSingUpAlertMsg("회원가입에 성공하였습니다.");
-                    setSingUpAlertVariant('info');
-                    setShowSingUpAlert(true);
+                    setSignUpAlertVariant('info');
+                    setSignUpAlertMsg("회원가입에 성공하였습니다.");
+                    setShowsignUpAlert(true);
                 }).catch(error => {
-                    setSingUpAlertMsg(error.response.data["error-message"]);
-                    setSingUpAlertVariant('warning');
-                    setShowSingUpAlert(true);
-                }) :
-                setSingUpAlertMsg("중복확인을 먼저 진행해 주십시오.");
-            setSingUpAlertVariant('warning');
-            setShowSingUpAlert(true);
-            return;
+                    setSignUpAlertVariant('warning');
+                    setSignUpAlertMsg(error.response.data["error-message"]);
+                    setShowsignUpAlert(true);
+                }) : (
+                setSignUpAlertMsg("중복확인을 먼저 진행해 주십시오."),
+                setSignUpAlertVariant('warning'),
+                setShowsignUpAlert(true)
+                )
         }
-
-
 
     }
 
@@ -223,7 +146,6 @@ const EnrollForm = () => {
                 ]}
             />
             <PageContent>
-
                 <form onSubmit={handleSignUp}>
                     <DemoContainer id="signUpContainer" style={{ maxWidth: '600px' }}>
                         <FieldGroup>
@@ -234,8 +156,8 @@ const EnrollForm = () => {
                                 onChange={(e) => setMemberId(e.target.value)}
                                 required
                             />
-                            <Button type='button' onClick={handleCheckId}>중복확인</Button>
-                            <FormLabel className={idMsgStyle}>{idMsg}</FormLabel>
+                            <CheckIdDuplicate memberId = {memberId} checkId ={checkId} setCheckId = {setCheckId} setIdMsg = {setIdMsg}/>
+                            <FormLabel className={checkId ? 'regValidMsg' : 'regInvalidMsg'}>{idMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>비밀번호</FieldLabel>
@@ -245,7 +167,7 @@ const EnrollForm = () => {
                                 onChange={(e) => setMemberPwd(e.target.value)}
                                 required
                             />
-                            <FormLabel className={pwdMsgStyle}>{pwdMsg}</FormLabel>
+                            <FormLabel className={checkPwd ? 'regValidMsg' : 'regInvalidMsg'}>{pwdMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>닉네임</FieldLabel>
@@ -255,8 +177,8 @@ const EnrollForm = () => {
                                 onChange={(e) => setNickName(e.target.value)}
                                 required
                             />
-                            <Button type='button' onClick={handleCheckNickName}>중복확인</Button>
-                            <FormLabel className={nickNameMsgStyle}>{nickNameMsg}</FormLabel>
+                            <CheckNickNameDuplicate nickName = {nickName} checkNickName = {checkNickName} setCheckNickName = {setCheckNickName} setNickNameMsg = {setNickNameMsg}/>
+                            <FormLabel className={checkNickName ? 'regValidMsg' : 'regInvalidMsg'}>{nickNameMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>이메일</FieldLabel>
@@ -266,8 +188,8 @@ const EnrollForm = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
-                            <Button type='button' onClick={handleCheckEmail}>중복확인</Button>
-                            <FormLabel className={emailMsgStyle}>{emailMsg}</FormLabel>
+                            <CheckEmailDuplicate email = {email} checkEmail = {checkEmail} setCheckEmail = {setCheckEmail} setEmailMsg = {setEmailMsg}/>
+                            <FormLabel className={checkEmail ? 'regValidMsg' : 'regInvalidMsg'}>{emailMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <Button variant='primary' type='button' onClick={findAddress}>주소지 검색</Button>
@@ -295,20 +217,14 @@ const EnrollForm = () => {
                     </DemoContainer>
                 </form>
                 <Alert
-                    show={showSingUpAlert}
-                    onClose={() => { setShowSingUpAlert(false), singUpAlertVariant === 'info' ? navi('/') : <></> }}
-                    title={singUpAlertVariant === 'info' ? '회원가입 성공' : '회원가입 실패'}
-                    message={singUpAlertMsg}
-                    variant={singUpAlertVariant}
+                    show={showSignUpAlert}
+                    onClose={() => { setShowsignUpAlert(false), signUpAlertVariant === 'info' ? navi('/') : <></> }}
+                    title={signUpAlertVariant === 'info' ? '회원가입 성공' : '회원가입 실패'}
+                    message={signUpAlertMsg}
+                    variant={signUpAlertVariant}
                 />
 
-                <Alert
-                    show={showCheckAlert}
-                    onClose={() => { setShowCheckAlert(false) }}
-                    title={checkAlertTitle === 'id' ? '아이디 중복 확인' : checkAlertTitle === 'nickName' ? '닉네임 중복 확인' : '이메일 중복 확인'}
-                    message={checkAlertMsg}
-                    variant={checkAlertVariant}
-                />
+
             </PageContent>
         </>
     )

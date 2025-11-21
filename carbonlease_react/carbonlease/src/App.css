@@ -87,12 +87,12 @@ h6 {
     margin:auto;
 }
 
-.regMsg {
+.regInvalidMsg {
   font-size: 14px;
   color: red;
 }
 
-.regSuccessMsg {
+.regValidMsg {
   font-size: 14px;
   color: rgb(7, 165, 7);
 }
