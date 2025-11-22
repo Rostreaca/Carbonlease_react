@@ -55,7 +55,7 @@ const ActivityBoards = () => {
     },[currentPage ,filter, keyword]);
     
 
-    const goWritePage = () => navigate("/activityBoards/insertForm");
+    const goWritePage = () => navigate("/activityBoards/insert");
     const handleSelectFilter = (value) => setFilter(value);
     const handleSearch = (value) => {
         setCurrentPage(1);

@@ -1,4 +1,4 @@
-import { PreviewArea, PreviewImage, EmptyText } from "../ActivityBoardInsertForm.styles";
+import { PreviewArea, PreviewImage, EmptyText } from "../ActivityInsertForm.styles";
 
 export default function ImagePreviewBox({ file }) {
   const isFileObject = file instanceof File;

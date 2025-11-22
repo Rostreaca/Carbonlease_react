@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
-import ActivityBoardInsertForm from "./component/ActivityBoard/ActivityBoardInsertForm/ActivityBoardInsertForm";
+import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
@@ -48,7 +48,7 @@ function App() {
 				<Route path="/boards" element={<Boards />} />
 				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/activityBoards" element={<ActivityBoards />} />
-				<Route path="/activityBoards/insertForm" element={<ActivityBoardInsertForm />} />
+				<Route path="/activityBoards/insert" element={<ActivityInsertForm />} />
 				<Route path="/activityBoards/updateForm/:id" element={<ActivityBoardUpdateForm />} />	
 				<Route path="/activityBoards/:id" element={<ActivityBoardDetail />} />
 

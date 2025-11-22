@@ -1,3 +1,5 @@
+import { CategorySelectButton, CategorySelectWrapper } from "../ActivityInsertForm.styles";
+
 const REGIONS = [
   { no: 1, name: "서울특별시" },
   { no: 2, name: "부산광역시" },
@@ -18,20 +20,27 @@ const REGIONS = [
   { no: 17, name: "제주특별자치도" }
 ];
 
-export default function RegionSelect({ value, onChange }) {
-  return (
-    <select
-      className="form-select"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    >
-      <option value="">지역 선택</option>
+const RegionSelect = ({value, onChange}) => {
 
-      {REGIONS.map(r => (
-        <option key={r.no} value={r.no}>
-          {r.name}
-        </option>
-      ))}
-    </select>
+  return (
+    <>
+      <CategorySelectWrapper>
+          <CategorySelectButton
+            className="region-select"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+          >
+              <option value={""}>지역 (시/도)</option>
+            {REGIONS.map((r) => (
+              <option key={r.no} value={r.no}>
+                {r.name}
+              </option>
+            ))}
+          </CategorySelectButton>
+        </CategorySelectWrapper>
+  </>
   );
+
 }
+
+export default RegionSelect;
