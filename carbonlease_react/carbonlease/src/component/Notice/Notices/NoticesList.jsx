@@ -25,7 +25,7 @@ function NoticesList() {
         axios
             .get(`http://localhost/notices?pageNo=${page}`)
             .then((result) => {
-                //console.log(result); // OK
+                console.log(result); // OK
                 const responseNotice = result.data.notices;
                 const responsePageInfo = result.data.pageInfo;
                 setNotice([...responseNotice]);
@@ -34,6 +34,7 @@ function NoticesList() {
                     endPage: responsePageInfo.endPage,
                     totalPage: responsePageInfo.maxPage
                 })
+                
             })
     }
 

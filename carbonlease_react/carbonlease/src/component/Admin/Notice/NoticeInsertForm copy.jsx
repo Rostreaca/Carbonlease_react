@@ -1,0 +1,198 @@
+// import {
+//     CancelButton,
+//     FormButtonGroup,
+//     FormCard,
+//     FormCardBody,
+//     FormCardHeader,
+//     FormContainer,
+//     PageHeader,
+//     SubmitButton
+// } from '../../Common/DataTable/DataTable.styled';
+// import FormField from '../../Common/Form/FormField';
+// import { AuthContext } from '../../Context/AuthContext'
+
+// import axios from 'axios';
+// import { useContext, useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+
+// const NoticeInsertForm = () => {
+//     const navigate = useNavigate();
+    
+//     const [errors, setErrors] = useState({});
+//     const { auth } = useContext(AuthContext);
+
+//     useEffect(() => {
+//         if(!auth.isAuthenticated){
+//             alert("로그인 필요");
+//             navigate("/login");
+//         }
+
+//     }, [auth.isAuthenticated])    
+
+//     const [formData, setFormData] = useState({
+//         noticeTitle: '',
+//         noticeContent: '',
+//         file: null,
+//         fix: false
+//     });
+
+//     const [fileNames, setFileNames] = useState({
+//         file: '',
+//     });
+
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setFormData(prev => ({
+//             ...prev,
+//             [name]: value
+//         }));
+        
+//         // Clear error when user enrolls typing
+//         if (errors[name]) {
+//             setErrors(prev => ({
+//                 ...prev,
+//                 [name]: ''
+//             }));
+//         }
+//     };
+
+//     const handleFileChange = (e) => {
+//         const { name, files } = e.target;
+//         if (files && files[0]) {
+//             setFormData(prev => ({
+//                 ...prev,
+//                 [name]: files[0]
+//             }));
+
+//             // Clear error
+//             if (errors[name]) {
+//                 setErrors(prev => ({
+//                     ...prev,
+//                     [name]: ''
+//                 }));
+//             }
+//         }
+//     };
+
+//     const validate = () => {
+//         const newErrors = {};
+
+//         if (!formData.noticeTitle.trim()) {
+//             newErrors.noticeTitle = '제목을 입력해주세요.';
+//         }
+
+//         if (!formData.noticeContent.trim()) {
+//             newErrors.noticeContent = '내용을 입력해주세요.';
+//         }
+
+//         setErrors(newErrors);
+//         return Object.keys(newErrors).length === 0;
+//     };
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+
+//         if (!validate()) return;
+
+//         const fd = new FormData();
+//         fd.append("noticeTitle", formData.noticeTitle);
+//         fd.append("noticeContent", formData.noticeContent);
+//         fd.append("fix", formData.fix ? 'Y' : 'N'); 
+//         if (formData.file) fd.append("file", formData.file);
+
+//         axios.post("http://localhost/admin/notices/insert", fd, {
+//             headers: {
+//                 Authorization: `Bearer ${auth.accessToken}`,
+//                 "Content-Type": "multipart/form-data"
+//             }
+//         })
+//         .then(res => {
+//             alert("등록완료");
+//             navigate("/admin/notices");
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             alert("등록 실패");
+//         });
+//     };
+
+
+//     const handleCancel = () => {
+//         navigate('/admin/notices');
+//     };
+
+//     return (
+//         <FormContainer>
+//             <PageHeader>
+//                 <h1>공지사항 등록</h1>
+//             </PageHeader>
+
+//             <FormCard>
+//                 <FormCardHeader>
+//                     <h5>공지사항 정보</h5>
+//                 </FormCardHeader>
+
+//                 <FormCardBody>
+//                     <form onSubmit={handleSubmit}>
+//                         <FormField
+//                             label="제목"
+//                             type="text"
+//                             name="noticeTitle"
+//                             value={formData.noticeTitle}
+//                             onChange={handleChange}
+//                             error={errors.noticeTitle}
+//                             required
+//                             placeholder="공지사항 제목을 입력하세요"
+//                         />
+
+//                         <FormField
+//                             label="고정 여부"
+//                             type="toggle-switch"
+//                             name="fix"
+//                             checked={formData.fix}
+//                             onChange={(e) =>
+//                                 setFormData({ ...formData, fix: e.target.checked })
+//                             }
+//                         />
+
+
+//                         <FormField
+//                             label="내용"
+//                             type="textarea"
+//                             name="noticeContent"
+//                             value={formData.noticeContent}
+//                             onChange={handleChange}
+//                             error={errors.noticeContent}
+//                             required
+//                             placeholder="공지사항 내용을 입력하세요"
+//                             rows={8}
+//                         />
+
+//                         <FormField
+//                             label="첨부파일"
+//                             type="file"
+//                             name="file"
+//                             onChange={handleFileChange}
+//                             error={errors.file}
+//                             accept="image/*"
+//                             fileName={fileNames.file}
+//                         />
+
+//                         <FormButtonGroup>
+//                             <CancelButton type="button" onClick={handleCancel}>
+//                                 <i className="fas fa-times"></i>
+//                                 취소
+//                             </CancelButton>
+//                             <SubmitButton type="submit">
+//                                 <i className="fas fa-check"></i>
+//                                 등록
+//                             </SubmitButton>
+//                         </FormButtonGroup>
+//                     </form>
+//                 </FormCardBody>
+//             </FormCard>
+//         </FormContainer>
+//     );
+// };
+
+// export default NoticeInsertForm;

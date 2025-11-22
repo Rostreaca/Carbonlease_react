@@ -1,11 +1,21 @@
 import { useParams } from 'react-router-dom';
-import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
-import PageContent from '../../Common/PageContent/PageContent';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
+import PageContent from '../../Common/PageContent/PageContent';
+import { NoticeDetailContainer } from './NoticeDetail.styled';
+import NoticeHeader from './components/NoticeHeader';
+import NoticeImage from './components/NoticeImage';
+import NoticeContent from './components/NoticeContent';
+import NoticeMeta from './components/NoticeMeta';
+import NoticeActions from './components/NoticeActions';
 
 const NoticeDetail = () => {
     
+    const navigate = useNavigate();
+
     const {id} = useParams();
     const [notice, setNotice] = useState(
         {
@@ -15,6 +25,17 @@ const NoticeDetail = () => {
             createDate: ""
         }
     )
+
+    const noticeComponents = [
+        NoticeHeader,
+        //NoticeImage,
+        NoticeContent,
+        NoticeMeta,
+    ];
+
+    const handleBack = () => {
+        navigate('/notices');
+    };
 
     useEffect(()=>{
         axios
@@ -44,15 +65,14 @@ const NoticeDetail = () => {
                 ]} 
             />
             <PageContent>
-
-                <div id='title'><strong>{notice.title}</strong></div>
-                <div id='meta'>
-                    <p>조회수: {notice.viewCount}</p>
-                    <p>등록일자: {notice.createDate}</p>
-                </div>
-                <div id='content'>
-                    {notice.content}
-                </div>
+                <NoticeDetailContainer>
+                {noticeComponents.map((Component, idx) => (
+                        <Component key={idx} notice={notice} />
+                    ))}
+                    <NoticeActions
+                        handleBack={handleBack}
+                    />
+                </NoticeDetailContainer>
             </PageContent>
         </>
     )   

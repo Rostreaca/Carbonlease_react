@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ConfirmDialog from '../../Common/ConfirmDialog/ConfirmDialog';
@@ -14,12 +14,14 @@ import {
 } from '../../Common/DataTable/DataTable.styled';
 import Pagination from '../../Common/Pagination/Pagination';
 import Toast from '../../Common/Toast/Toast';
+import { AuthContext } from '../../Context/AuthContext'
 
 const AdminNotices = () => {
     const navigate = useNavigate();
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [toast, setToast] = useState({ show: false, message: '', variant: 'success' });
+    const { auth } = useContext(AuthContext);
     
     // Pagination 상태 (Spring Boot에서 받아올 데이터)
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,22 +34,31 @@ const AdminNotices = () => {
 
     useEffect (()=>{
         getNotices(currentPage);
-    }, [currentPage])
+        //console.log(auth)
+    }, [currentPage, auth])
 
     const getNotices = (page) => {
-        axios
-            .get(`http://localhost/admin/notices?pageNo=${page}`)
-            .then((result) => {
-                console.log(result); // OK
-                const responseNotice = result.data.notices;
-                const responsePageInfo = result.data.pageInfo;
-                setNotice([...responseNotice]);
-                setPageInfo({
-                    startPage: responsePageInfo.startPage,
-                    endPage: responsePageInfo.endPage,
-                    totalPage: responsePageInfo.maxPage
+        if(auth.accessToken){
+            // console.log('너안감?');
+            // console.log(auth.accessToken); 이제 감
+            axios
+                .get(`http://localhost/admin/notices?pageNo=${page}`, {
+                    headers: {
+                        Authorization: `Bearer ${auth.accessToken}`
+                    },
                 })
-            })
+                .then((result) => {
+                    console.log(result); // OK
+                    const responseNotice = result.data.notices;
+                    const responsePageInfo = result.data.pageInfo;
+                    setNotice([...responseNotice]);
+                    setPageInfo({
+                        startPage: responsePageInfo.startPage,
+                        endPage: responsePageInfo.endPage,
+                        totalPage: responsePageInfo.maxPage
+                    })
+                })
+        }
     }
 
     const handleEdit = (id) => {

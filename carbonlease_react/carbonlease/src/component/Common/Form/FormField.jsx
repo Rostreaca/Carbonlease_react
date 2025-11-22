@@ -102,11 +102,12 @@ const FormField = ({
                                 onChange({
                                     target: {
                                         name,
-                                        value: e.target.checked
+                                        value: e.target.checked   // boolean
                                     }
                                 })
                             }
                         />
+
                         <SwitchLabel htmlFor={name} $checked={!!value} />
                     </SwitchWrapper>
                 );
