@@ -4,12 +4,12 @@ import PageContent from '../../Common/PageContent/PageContent';
 import { AuthContext } from '../../Context/AuthContext';
 import FormField from '../../Common/Form/FormField';
 import SuccessButton from '../../Sample/Buttons/SuccessButton';
-import { Button } from 'react-bootstrap';
+import { Button, FormLabel } from 'react-bootstrap';
 import OutlineWarningButton from '../../Sample/Outlinebuttons/OutlineWarningButton';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../Common/Alert/Alert';
-import { FieldLabel } from '../../Common/Form/FormField.styled';
+import { FieldGroup, FieldInput, FieldLabel } from '../../Common/Form/FormField.styled';
 
 
 const Login = () => {
@@ -25,83 +25,86 @@ const Login = () => {
     const navi = useNavigate();
 
 
-    const handleLogin= (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         const regexp = /^[a-zA-Z0-9]{4,20}$/;
-        if(!regexp.test(memberId)){
+        if (!regexp.test(memberId)) {
             setIdMsg("아이디는 4-20자사이의 영문 숫자로만 입력할 수 있습니다.");
             return;
         } else {
             setIdMsg("");
         }
 
-        if(!regexp.test(memberPwd)){
+        if (!regexp.test(memberPwd)) {
             setPwdMsg("비밀번호는 4-20자사이의 영문 숫자로만 입력할 수 있습니다.");
             return;
         } else {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost/auth/login",{
+        axios.post("http://localhost/auth/login", {
             memberId, memberPwd
         }).then(result => {
             //console.log(result);
-            const {memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2 ,role} = result.data;
-            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role); 
-            setAlertMsg("로그인에 성공하였습니다."); 
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role } = result.data;
+            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role);
+            setAlertMsg("로그인에 성공하였습니다.");
             setAlertVariant('info');
-            setShowAlert(true);        
-            //navi('/');
+            setShowAlert(true);
+            navi('/');
 
         }).catch(error => {
-            //console.error(error);
+            console.error(error);
             setAlertMsg(error.response.data["error-message"]);
             setAlertVariant('warning');
-            setShowAlert(true);        
+            setShowAlert(true);
         }
         )
     }
 
-    return(
+    return (
         <>
-            <PageTitle 
-                title="로그인" 
+            <PageTitle
+                title="로그인"
                 breadcrumbs={[
                     { label: 'Home', path: '/' },
                     { label: '로그인', current: true }
-                ]} 
+                ]}
             />
             <PageContent>
                 <form onSubmit={handleLogin}>
-                    <FormField
-                        label="아이디"
-                        type="text"
-                        name="id"
-                        placeholder="아이디를 입력하세요"
-                        onChange={(e) => setMemberId(e.target.value)}
-                        required
-                    />
-                    <FieldLabel>{idMsg}</FieldLabel>
-                    <FormField
-                        label="비밀번호"
-                        type="password"
-                        name="password"
-                        placeholder="비밀번호를 입력하세요"
-                        onChange={(e) => setMemberPwd(e.target.value)}
-                        required
-                    />
-                    <FieldLabel>{pwdMsg}</FieldLabel>
-
+                    <FieldGroup>
+                        <FieldInput
+                            label="아이디"
+                            type="text"
+                            name="id"
+                            placeholder="아이디를 입력하세요"
+                            onChange={(e) => setMemberId(e.target.value)}
+                            required
+                        />
+                        <FormLabel className={'regInvalidMsg'}>{idMsg}</FormLabel>
+                    </FieldGroup>
+                    <FieldGroup>
+                        <FieldInput
+                            label="비밀번호"
+                            type="password"
+                            name="password"
+                            placeholder="비밀번호를 입력하세요"
+                            onChange={(e) => setMemberPwd(e.target.value)}
+                            required
+                        />
+                        <FormLabel className={'regInvalidMsg'}>{pwdMsg}</FormLabel>
+                    </FieldGroup>
                     <Button variant='success' type='submit'>로그인</Button>
                     <Button variant='dark' type='button' onClick={() => navi('/member/enrollForm')}>회원가입</Button>
                 </form>
-            <Alert
-                show={showAlert}
-                onClose={() => {setShowAlert(false), alertVariant === 'info' ? navi('/') : <></>}}
-                title= { alertVariant === 'info' ? '로그인 성공' : '로그인 실패'}
-                message= {alertMsg}
-                variant={alertVariant}
-            />
+                <Alert
+                    show={showAlert}
+                    onClose={() => { setShowAlert(false), alertVariant === 'info' ? navi('/') : <></> }}
+                    title={alertVariant === 'info' ? '로그인 성공' : '로그인 실패'}
+                    message={alertMsg}
+                    variant={alertVariant}
+                />
             </PageContent>
         </>
     )

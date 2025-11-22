@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import {
     Footer,
@@ -10,10 +10,13 @@ import {
     SidenavMenu,
     Topnav
 } from './AdminLayout.styled';
+import { AuthContext } from '../../Context/AuthContext';
 
 const AdminLayout = () => {
     const [sidebarActive, setSidebarActive] = useState(false);
     const showUsersMenu = true; // 필요 시 false로 변경
+
+    const { logout } = useContext(AuthContext);
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
@@ -85,9 +88,9 @@ const AdminLayout = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a href="/admin/login">
+                            <NavLink onClick={logout} to="/admin/login">
                                 <i className="fas fa-sign-out-alt"></i>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </Topnav>

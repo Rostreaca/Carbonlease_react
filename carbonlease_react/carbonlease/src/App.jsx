@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
@@ -31,17 +31,23 @@ import NoticeInsertForm from './component/Admin/Notice/NoticeInsertForm';
 import NoticeUpdateForm from './component/Admin/Notice/NoticeUpdateForm';
 import AdminUsers from './component/Admin/User/AdminUsers';
 import SamplePage from "./component/Sample/SamplePage";
-import { AuthProvider } from './component/Context/AuthContext';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
+import { useContext } from 'react';
+import { AuthContext } from './component/Context/AuthContext';
 
 
 function App() {
+	const navi = useNavigate();
+	const { auth } = useContext(AuthContext);
+
 	return (
 		<>
-		<AuthProvider>
 		<GlobalCommonStyles />
+
+{ auth.role !== '[ROLE_ADMIN]'?
 		<Routes>
+			<Route path='*' element = "존재하지 않는 페이지" />
 			{/* User Routes - with Layout */}
 			<Route element={<Layout />}>
 				<Route path="/" element={<Home />} />
@@ -65,10 +71,16 @@ function App() {
 				{/* Sample Page Route */}
 				<Route path="/sample" element={<SamplePage />} />
 			</Route>
-
-			{/* Admin Routes - without user Layout */}
-			<Route path="/admin/login" element={<AdminLogin />} />
+			
+			<Route path="/admin/*" element={<AdminLogin />} />
+			</Routes>
+			:
+			<Routes>
+				{/* Admin Routes - without user Layout */}
+			<Route path='*' element = "존재하지 않는 페이지" />
+			
 			<Route path="admin/*" element={<AdminLayout />}>
+				<Route path='login' element={<AdminHome />} />
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />
@@ -80,8 +92,9 @@ function App() {
 				<Route path="boards" element={<AdminBoards />} />
 				<Route path="activityBoards" element={<AdminActivityBoards />} />
 			</Route>
+
 		</Routes>
-		</AuthProvider>
+}
 		</>
 	)
 }

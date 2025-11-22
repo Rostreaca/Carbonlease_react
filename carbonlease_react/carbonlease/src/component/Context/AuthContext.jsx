@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     useEffect(() => {
+
         const memberId = localStorage.getItem("memberId");
         const nickName = localStorage.getItem("nickName");
         const accessToken = localStorage.getItem("accessToken");
@@ -29,8 +30,13 @@ export const AuthProvider = ({ children }) => {
         const addressLine1 = localStorage.getItem("addressLine1");
         const addressLine2 = localStorage.getItem("addressLine2");
         const role = localStorage.getItem("role");
-
         //console.log(refreshToken);
+
+        // 관리자는 자동로그인 불가
+        if(role === '[ROLE_ADMIN]'){
+            logout();
+            return;
+        }
 
         {
             accessToken !== null ? 
@@ -71,6 +77,7 @@ export const AuthProvider = ({ children }) => {
         :
         <></>
     }
+
 
     },[]);
 

@@ -44,22 +44,22 @@ const MemberUpdateForm = () => {
     }
 
     useEffect(() => {
-        setNickName(auth.nickName);
-        setEmail(auth.email);
-        setAddressLine1(auth.addressLine1);
-        setAddressLine2(auth.addressLine2);
-    },[]);
+            setNickName(auth.nickName);
+            setEmail(auth.email);
+            setAddressLine1(auth.addressLine1);
+            setAddressLine2(auth.addressLine2);
+    }, [auth]);
 
-        useEffect(() => {
+    useEffect(() => {
 
         {
-            (nickName != "" && !nickNameregexp.test(nickName)) 
-            ?
-            (
-            setNickNameMsg("닉네임은 2-12자 사이로만 입력할 수 있습니다.")
-            )
-            :
-            setNickNameMsg("")
+            (nickName != "" && !nickNameregexp.test(nickName))
+                ?
+                (
+                    setNickNameMsg("닉네임은 2-12자 사이로만 입력할 수 있습니다.")
+                )
+                :
+                setNickNameMsg("")
         }
 
         setCheckNickName(false);
@@ -78,12 +78,12 @@ const MemberUpdateForm = () => {
         {
             checkNickName && checkEmail ?
                 axios.put("http://localhost/members", {
-                    memberId : auth.memberId, nickName, email, addressLine1, addressLine2
-                },{
-                    headers : {
+                    memberId: auth.memberId, nickName, email, addressLine1, addressLine2
+                }, {
+                    headers: {
                         Authorization: `Bearer ${auth.accessToken}`
                     }
-        }).then(result => {
+                }).then(result => {
                     setUpdateAlertVariant('info');
                     setUpdateAlertMsg("정보수정에 성공하였습니다.");
                     setShowUpdateAlert(true);
@@ -92,9 +92,9 @@ const MemberUpdateForm = () => {
                     setUpdateAlertMsg(error.response.data["error-message"]);
                     setShowUpdateAlert(true);
                 }) : (
-                setUpdateAlertMsg("중복확인을 먼저 진행해 주십시오."),
-                setUpdateAlertVariant('warning'),
-                setShowUpdateAlert(true)
+                    setUpdateAlertMsg("중복확인을 먼저 진행해 주십시오."),
+                    setUpdateAlertVariant('warning'),
+                    setShowUpdateAlert(true)
                 )
         }
 
@@ -130,8 +130,8 @@ const MemberUpdateForm = () => {
                                 onChange={(e) => setNickName(e.target.value)}
                                 required
                             />
-                            <CheckNickNameDuplicate nickName = {nickName} checkNickName = {checkNickName} setCheckNickName = {setCheckNickName} setNickNameMsg = {setNickNameMsg}/>
-                            <FormLabel className={checkNickName ? 'regValidMsg' : 'regInValidMsg'}>{nickNameMsg}</FormLabel>
+                            <CheckNickNameDuplicate nickName={nickName} checkNickName={checkNickName} setCheckNickName={setCheckNickName} setNickNameMsg={setNickNameMsg} />
+                            <FormLabel className={checkNickName ? 'regValidMsg' : 'regInvalidMsg'}>{nickNameMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>이메일</FieldLabel>
@@ -142,8 +142,8 @@ const MemberUpdateForm = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
-                            <CheckEmailDuplicate email = {email} checkEmail = {checkEmail} setCheckEmail = {setCheckEmail} setEmailMsg = {setEmailMsg}/>
-                            <FormLabel className={checkEmail ? 'regValidMsg' : 'regInValidMsg'}>{emailMsg}</FormLabel>
+                            <CheckEmailDuplicate email={email} checkEmail={checkEmail} setCheckEmail={setCheckEmail} setEmailMsg={setEmailMsg} />
+                            <FormLabel className={checkEmail ? 'regValidMsg' : 'regInvalidMsg'}>{emailMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <Button variant='primary' type='button' onClick={findAddress}>주소지 검색</Button>

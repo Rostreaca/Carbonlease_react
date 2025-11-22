@@ -157,6 +157,7 @@ const MyPage = () => {
                         />
                     </FieldGroup>
                     <FieldGroup>
+                        
                         <FieldLabel>기본주소</FieldLabel>
                         <FieldInput
                             type="text"
