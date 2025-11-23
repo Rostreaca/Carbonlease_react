@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchCategoryOptions, insertCampaign } from '../../../../api/campaign/adminCampaignApi';
+import { fetchCategoryOptions, save } from '../../../../api/campaign/adminCampaignApi';
 
 const useInsertForm = (onShowToast, auth) => {
 	const navigate = useNavigate();
@@ -130,7 +130,7 @@ const useInsertForm = (onShowToast, auth) => {
 		const accessToken = localStorage.getItem('accessToken');
 
         // 캠페인 등록 API 호출
-		insertCampaign(campaign, files, accessToken)
+		save(campaign, files, accessToken)
 			.then((ressult) => {
 				if (ressult && ressult.status === 201) {
 					onShowToast && onShowToast('캠페인 등록이 완료되었습니다!', 'success');

@@ -14,14 +14,14 @@ const campaignApi = axios.create({
 });
 
 // 캠페인 리스트 조회
-export const selectCampaignList  = (page) => {
+export const findAll = (page) => {
     return campaignApi.get('', {
         params: { pageNo : page }
     });
 };
 
 // 캠페인 상세 조회
-export const selectByCampaignNo = (id) => {
+export const findByNo = (id) => {
     return campaignApi.get(`/detail/${id}`);
 };
 

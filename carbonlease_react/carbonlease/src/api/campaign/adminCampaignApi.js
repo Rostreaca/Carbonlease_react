@@ -14,8 +14,15 @@ const adminCampaignApi = axios.create({
     }
 });
 
-// 캠페인 등록 API
-export const insertCampaign = (campaign, files, accessToken) => {
+// 캠페인 리스트 조회
+export const findAll = (page) => {
+    return campaignApi.get('', {
+        params: { pageNo : page }
+    });
+};
+
+// 캠페인 게시글 등록
+export const save = (campaign, files, accessToken) => {
     const formData = new FormData();
 
     Object.entries(campaign).forEach(([key, value]) => {

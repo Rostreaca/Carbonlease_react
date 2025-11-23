@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { selectByCampaignNo, toggleLike } from '../../../api/campaign/campaignApi';
+import { findByNo, toggleLike } from '../../../api/campaign/campaignApi';
 import campaignStore from '../../../store/campaignStore';
 
 const useCampaignDetail = (id, onShowToast, auth) => {
@@ -24,7 +24,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         setLoading(true);
         setError(false);
 
-        selectByCampaignNo(campaignNo)
+        findByNo(campaignNo)
             .then(ressult => {
                 if (ressult && ressult.status === 200) {
                     const campaignData = ressult.data;

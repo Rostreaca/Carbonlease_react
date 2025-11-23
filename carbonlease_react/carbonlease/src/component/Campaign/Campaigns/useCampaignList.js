@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { selectCampaignList, toggleLike } from '../../../api/campaign/campaignApi';
+import { findAll, toggleLike } from '../../../api/campaign/campaignApi';
 import campaignStore from '../../../store/campaignStore';
 
 const useCampaignList = (onShowToast, auth) => {
@@ -23,7 +23,7 @@ const useCampaignList = (onShowToast, auth) => {
         setLoading(true);
 
         // 캠페인 목록 API 호출
-        selectCampaignList(page)
+        findAll(page)
             .then((result) => {
                 if (result && result.status === 200) {
                     // 캠페인 목록 및 페이지 정보 설정
