@@ -8,10 +8,10 @@ import BoardItems from '../Boards/components/BoardItems';
 import { ButtonArea, ButtonGroup, LikeCard, ProfileAndLike, ReplyButton, ReplyWriteArea } from '../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles';
 import OutlineSuccessButton from "../../Common/UI/Button/OutlineWriterButton.jsx";
 import OutlineDangerButton from '../../Common/UI/Button/OutlineDangerButton';
-import { FormCard } from '../../ActivityBoard/ActivityBoardInsertForm/ActivityBoardInsertForm.styles.js';
+import { FormCard } from '../../../component/ActivityBoard/ActivityInsertForm/ActivityInsertForm.styles.js';
 import { Button, Form, Modal } from 'react-bootstrap';
 import BoardReply from './BoardReply.jsx';
-import RegionSelect from '../../ActivityBoard/ActivityBoardInsertForm/components/RegionSelect.jsx';
+import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
 import ReplyPagination from '../../Common/UI/ReplyPagination.jsx';
 
 const BoardDetail = () => {

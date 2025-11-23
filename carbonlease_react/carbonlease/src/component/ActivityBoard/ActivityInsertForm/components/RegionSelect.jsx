@@ -20,19 +20,8 @@ const REGIONS = [
   { no: 17, name: "제주특별자치도" }
 ];
 
-<<<<<<< HEAD:carbonlease_react/carbonlease/src/component/ActivityBoard/ActivityBoardInsertForm/components/RegionSelect.jsx
-export default function RegionSelect({ value, onChange }) {
-  
-  return (
-    <select
-      className="form-select"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    >
-      <option value="">지역 선택</option>
-=======
+
 const RegionSelect = ({value, onChange}) => {
->>>>>>> 8ff73d5eb648fc68c1c14ff181e62415ce66a611:carbonlease_react/carbonlease/src/component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx
 
   return (
     <>

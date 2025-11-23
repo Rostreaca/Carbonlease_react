@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-import { BoardInfo, BoardItemWrapper, BoardNo } from "../../../ActivityBoard/ActivityBoards/components/BoardItem.styles";
-import BoardDetail from "../../BoardDetail/BoardDetail";
-=======
+
 import { BoardInfo, BoardItemWrapper, BoardNo } from "./BoardItem.styles";
->>>>>>> 8ff73d5eb648fc68c1c14ff181e62415ce66a611
 
 const BoardItems = ({ item }) => {
   const navigate = useNavigate();

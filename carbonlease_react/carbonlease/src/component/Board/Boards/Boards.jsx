@@ -6,8 +6,6 @@ import Pagination from '../../Common/Pagination/Pagination';
 import BoardItems from './components/BoardItems';
 import { useNavigate } from 'react-router-dom';
 import OutlineWriterButton from '../../Common/UI/Button/OutlineWriterButton';
-import SearchFilterDropdowns from '../../ActivityBoard/ActivityBoards/components/SearchFilterDropdowns';
-import SearchBox from '../../ActivityBoard/ActivityBoards/components/SearchBox';
 import { ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
 
 // useEffect를 사용하여 컴포넌트가 마운트될 때 데이터를 가져오고 상태를 업데이트합니다.
