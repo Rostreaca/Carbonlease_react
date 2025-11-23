@@ -23,10 +23,10 @@ export function useCampaignDetail(id, onShowToast, auth) {
 
         setLoading(true);
         setError(false);
-        
+
         selectByCampaignNo(campaignNo)
-            .then(response => {
-                const campaignData = response.data;
+            .then(res => {
+                const campaignData = res.data;
                 const storedLike = campaignStore.getLike(campaignNo);
                 setCampaign({
                     ...campaignData,

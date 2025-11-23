@@ -16,18 +16,15 @@ const adminCampaignApi = axios.create({
 
 // 캠페인 등록 API
 export const insertCampaign = (campaign, files, accessToken) => {
-
     const formData = new FormData();
 
-    // campaign 객체의 각 필드를 formData에 추가
     Object.entries(campaign).forEach(([key, value]) => {
         formData.append(key, value);
     });
 
-    // 파일 배열 추가
-    if (files && files.length > 0) {
-        files.forEach(file => formData.append('files', file));
-    }
+    // 서버가 요구하는 이름으로 추가
+    formData.append("thumbnail", files[0]);
+    formData.append("detailImage", files[1]);
 
     return adminCampaignApi.post('/insert', formData, {
         headers: {
@@ -35,7 +32,6 @@ export const insertCampaign = (campaign, files, accessToken) => {
             'Content-Type': 'multipart/form-data'
         }
     });
-
 };
 
 
@@ -43,7 +39,6 @@ export const insertCampaign = (campaign, files, accessToken) => {
 export const fetchCategoryOptions = () => {
     return adminCampaignApi.get('/categories');
 };
-
 
 
 

@@ -3,8 +3,8 @@ import { selectCampaignList, toggleLike } from '../../../api/campaign/campaignAp
 import campaignStore from '../../../store/campaignStore';
 
 export function useCampaignList(onShowToast, auth) {
-    const [campaigns, setCampaigns] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [campaigns, setCampaigns] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageInfo, setPageInfo] = useState({
         startPage: 1,
@@ -12,26 +12,27 @@ export function useCampaignList(onShowToast, auth) {
         totalPage: 1
     });
 
-    useEffect(() => {
-        fetchCampaigns(currentPage);
+    useEffect (()=>{
+        getCampaigns(currentPage);
     }, [currentPage]);
 
 
     // 캠페인 목록 불러오기
-    const fetchCampaigns = (page) => {
+    const getCampaigns = (page) => {
 
         // 캠페인 목록 불러오기 시작
         setLoading(true);
 
         // 캠페인 목록 API 호출
         selectCampaignList(page)
-            .then(response => {
+            .then((result) => {
 
                 // 캠페인 목록 및 페이지 정보 설정
-                const { campaigns, pageInfo } = response.data;
+                const Campaigns = result.data.campaigns;
+                const PageInfo = result.data.pageInfo;
 
                 // 각 캠페인에 저장된 좋아요 상태 반영
-                const updatedCampaigns = campaigns.map(campaign => {
+                const updatedCampaigns = Campaigns.map(campaign => {
                     const storedLike = campaignStore.getLike(campaign.campaignNo);
                     return {
                         ...campaign,
@@ -40,8 +41,13 @@ export function useCampaignList(onShowToast, auth) {
                 });
 
                 // 상태 업데이트
-                setCampaigns(updatedCampaigns);
-                setPageInfo(pageInfo);
+                setCampaigns([...updatedCampaigns]);
+                // pageInfo 구조를 Pagination에서 기대하는 형태로 변환
+                setPageInfo({
+                    startPage: PageInfo.startPage,
+                    endPage: PageInfo.endPage,
+                    totalPage: PageInfo.maxPage
+                });
             })
             .catch(() => {
                 onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');
@@ -94,6 +100,7 @@ export function useCampaignList(onShowToast, auth) {
             });
     };
     
+
     return {
         campaigns,
         currentPage,
