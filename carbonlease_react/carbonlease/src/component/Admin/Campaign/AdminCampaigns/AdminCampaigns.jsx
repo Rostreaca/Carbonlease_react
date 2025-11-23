@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
 import {
@@ -13,9 +14,12 @@ import Pagination from '../../../Common/Pagination/Pagination';
 import Toast from '../../../Common/Toast/Toast';
 import useAdminCampaign from './useAdminCampaign';
 
-const AdminCampaigns = (onShowToast) => {
 
+const AdminCampaigns = (onShowToast) => {
     const navigate = useNavigate();
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [toast, setToast] = useState({ show: false, message: '', variant: 'success' });
 
     // 캠페인 목록 훅 사용
     const {
@@ -25,9 +29,7 @@ const AdminCampaigns = (onShowToast) => {
         loading,
         pageInfo,
     } = useAdminCampaign(onShowToast);
-    
-    
-    
+
     const handleEdit = (id) => {
         navigate(`/admin/campaigns/update/${id}`);
     };
@@ -38,7 +40,6 @@ const AdminCampaigns = (onShowToast) => {
     };
 
     const confirmDelete = () => {
-        console.log('삭제 확정:', selectedId);
         // TODO: 삭제 API 호출
         setShowConfirm(false);
         setToast({ show: true, message: '삭제되었습니다!', variant: 'success' });
@@ -99,6 +100,11 @@ const AdminCampaigns = (onShowToast) => {
         }
     ];
 
+    // 로딩 처리
+    if (loading) {
+        return <div style={{ padding: '2rem', textAlign: 'center' }}>로딩중...</div>;
+    }
+
     return (
         <div>
             <PageHeader>
@@ -109,7 +115,6 @@ const AdminCampaigns = (onShowToast) => {
                 </CreateButton>
             </PageHeader>
 
-
             <AdminCampaignList
                 campaigns={campaigns}
                 columns={columns}
@@ -117,17 +122,17 @@ const AdminCampaigns = (onShowToast) => {
                 onDelete={handleDelete}
             />
 
-            <Pagination 
+            <Pagination
                 currentPage={currentPage}
-                totalPages={totalPages}
-                pageNumbers={pageNumbers}
-                onFirstPage={handleFirstPage}
-                onPrevPage={handlePrevPage}
-                onPageClick={handlePageClick}
-                onNextPage={handleNextPage}
-                onLastPage={handleLastPage}
+                totalPages={pageInfo.totalPage}
+                pageNumbers={Array.from({ length: pageInfo.endPage - pageInfo.startPage + 1 }, (_, i) => pageInfo.startPage + i)}
+                onFirstPage={() => setCurrentPage(1)}
+                onPrevPage={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                onPageClick={setCurrentPage}
+                onNextPage={() => setCurrentPage(Math.min(pageInfo.totalPage, currentPage + 1))}
+                onLastPage={() => setCurrentPage(pageInfo.totalPage)}
             />
-            
+
             <ConfirmDialog
                 show={showConfirm}
                 onClose={cancelDelete}
@@ -139,7 +144,7 @@ const AdminCampaigns = (onShowToast) => {
                 variant="danger"
                 showIcon={false}
             />
-            
+
             <Toast
                 isVisible={toast.show}
                 message={toast.message}
