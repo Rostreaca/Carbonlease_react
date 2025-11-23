@@ -13,7 +13,7 @@ const BoardsList = ({ boards, onClickItem }) => {
                   <BoardNo>{item.activityNo}</BoardNo>
               
               <TextInfo>
-                  <Title>{item.activitytitle}</Title>
+                  <Title>{item.activityTitle}</Title>
                   <Content>{item.activityContent}</Content>
                   <ETC>
                     작성일 {item.enrollDate} • 조회수 {item.viewCount} • 댓글 {item.replyCount} • 닉네임 {item.nickName}

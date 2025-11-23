@@ -75,17 +75,19 @@ export const ImageBox = styled.div`
 export const ContentBox = styled.div`
   width: 100%;
   max-width: 830px;
-  margin: 30px auto;
-  padding: 25px;
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid #d4d4d4;
-  font-size: 17px;
-  line-height: 1.7;
-  color: #333;
-  white-space: pre-line;
+  margin: 24px auto;
+  padding: 28px;
 
-  min-height: 200px;
+  background: #ffffff;
+  border-radius: 24px;
+
+  border: 1.5px solid #e3e3e8;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+
+  font-size: 17px;
+  line-height: 1.8;
+  color: #1c1c1e;
+  white-space: pre-line;
 `;
 
 export const MapArea = styled.div`
@@ -101,83 +103,140 @@ export const MapArea = styled.div`
 /* ====== 프로필 + 좋아요 ====== */
 export const ProfilAndLike = styled.div`
   max-width: 830px;
-  margin: 20px auto;
-  margin-top: 25px;
+  margin: 30px auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 32px;
+  justify-content: center; 
+  gap: 60px;                   
 `;
 
+/* 프로필 카드 */
 export const ProfilCardWrapper = styled.div`
-  padding: 18px 22px;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  background: #fff;
   display: flex;
   align-items: center;
-  gap: 16px;
-  width: 250px;
+  justify-content: center; 
+  gap: 18px;
+  margin-right: 100px;
+
+  padding: 20px 26px;
+  background: #b2f2bb;
+  border-radius: 40px;
+  
+  border: 2px solid #b2f2bb;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+
+  height: 100px;
+  min-width: 280px;
 `;
 
+/* 텍스트 */
 export const ProfilText = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 
   strong {
     font-size: 17px;
-    color: #333;
+    font-weight: 600;
+    color: #1c1c1e;   
   }
 
   div {
     font-size: 14px;
-    color: #666;
+    color: #6e6e73;  
   }
 `;
 
-/* ====== 탄소 게이지 ====== */
+/* 게이지 컨테이너 */
 export const GaugeWrapper = styled.div`
-  width: 42px;
-  height: 110px;
-  background: #eee;
-  border-radius: 25px;
+  position: relative; 
+  width: 40px;
+  height: 90px;
+  background: #f5f5f7;
+  border-radius: 15px;
+  border: 1px solid #e0e0e5;
   overflow: hidden;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 `;
 
+/* 채워지는 액체 */
 export const GaugeFill = styled.div`
   width: 100%;
-  background: #ffb74d;
+  background: linear-gradient(
+    180deg,
+    #ffa500 0%,
+    #ff7b00 100%
+  );
   transition: height 0.3s ease;
+`;
+
+/* 4등분 라인 */
+export const GaugeLines = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px 0;
+
+  div {
+    width: 100%;
+    height: 1px;
+    background: rgba(0,0,0,0.15);
+  }
+`;
+
+/* % 텍스트 */
+export const GaugePercentText = styled.div`
+  position: absolute;
+  bottom: 50%; 
+  left: 50%;
+  transform: translate(-50%, 50%);
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  text-shadow: 0 0 2px white;
 `;
 
 /* ====== 좋아요 버튼 ====== */
 export const LikeButton = styled.button`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    background: ${props => props.$liked ? '#00a34a' : 'white'};
-    color: ${props => props.$liked ? 'white' : '#333'};
-    border: 2px solid ${props => props.$liked ? '#00a34a' : '#ddd'};
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  gap: 10px;
+  height: 100px;
+  min-width: 220px;
 
-    i {
-        font-size: 20px;
-    }
+  padding: 16px 38px;
+  font-size: 28px;
 
-    &:active {
-        transform: translateY(0);
-        border: 2px solid ${props => props.$liked ? '##00a34a' : '#ddd'};
-    }
+  background: ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
+  color: #fff;
+  border: 2px solid ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
+
+  border-radius: 40px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 30px;
+  }
+
+  &:hover {
+    background: ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
+  }
 `;
+
 
 /* ====== 수정/삭제 버튼 ====== */
 export const ButtonSection = styled.div`
@@ -212,24 +271,128 @@ export const CommentSection = styled.div`
   margin-top: 40px;
   padding-top: 16px;
   border-top: 1px solid #eee;
-`;
-
-export const Reply = styled.div`
-  padding: 14px 0;
-  border-bottom: 1px solid #f0f0f0;
 
   display: flex;
   flex-direction: column;
-  gap: 5px;
+`;
 
-  b {
-    font-size: 15px;
-    color: #333;
+export const ReplyListBox = styled.div`
+  width: 100%;
+`;
+
+export const ReplyInputSection = styled.div`
+  display: flex;
+`
+
+export const ReplyInput = styled.textarea`
+  flex: 0.85;
+  width: 100%;
+  height: 100px;
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #3cb371;
+    box-shadow: 0 0 0 2px rgba(60,179,113,0.2);
+  }
+`
+export const ReplyInputButton = styled.button`
+  flex: 0.15;
+  padding: 10px 0;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+`
+
+export const Reply = styled.div`
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+`;
+
+/* 닉네임 */
+export const ReplyWriter = styled.div`
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #111;
+`;
+
+/* 댓글 본문 */
+export const ReplyContent = styled.div`
+  margin: 4px 0 8px 0;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-line;
+`;
+
+/* 날짜 + 수정 삭제 줄 */
+export const ReplyFooter = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #777;
+`;
+
+/* 날짜 */
+export const ReplyDate = styled.span`
+  color: #aaa;
+  font-size: 13px;
+  margin-right: 14px;
+`;
+
+/* 수정/삭제 버튼 */
+export const ReplyButton = styled.span`
+  font-size: 13px;
+  color: #007aff;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
-export const ReplyContent = styled.div`
-  font-size: 15px;
-  color: #444;
-  margin-left: 2px;
+export const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 `;
+
+export const ModalBox = styled.div`
+  width: 360px;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+`;
+
+export const BackButton = styled.button`
+  background: #27ae60;
+  margin-top: 15px;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+`
+
+
+
+

@@ -51,6 +51,7 @@ export const fetchActivityDetail = (activityNo) => {
   });
 };
 
+
 export const toggleLike = (activityNo) => {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
@@ -73,6 +74,51 @@ export const deleteActivityBoard = (activityNo) => {
     }
   });
 };
+
+export const fetchRepliesAPI = (activityNo, pageNo) => {
+  return activityAPI.get(`/${activityNo}/replies`, {
+    params: { pageNo }
+  });
+};
+
+export const insertReplyAPI = (activityNo, replyContent, accessToken) => {
+  return activityAPI.post(
+    `/${activityNo}/replies`,
+    { replyContent },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  );
+};
+
+export const deleteReplyAPI = (replyNo, accessToken) => {
+  return activityAPI.delete(`/replies/${replyNo}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+};
+
+
+export const updateReplyAPI = async (replyNo, replyContent, accessToken) => {
+  return activityAPI.put(
+    `/replies/${replyNo}`,
+    { replyContent },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  );
+};
+
+export const increaseViewCountAPI = (activityNo) => {
+  return activityAPI.post(`/${activityNo}/view`);
+};
+
+
 
 
 

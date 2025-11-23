@@ -1,6 +1,6 @@
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
-import { Wrapper, ActivityInfo, ProfilAndLike, ButtonSection,CommentSection, LikeButton } from "./ActivityBoardDetail.styles.js";
+import { Wrapper, ActivityInfo, ProfilAndLike, ButtonSection,CommentSection, LikeButton, BackButton } from "./ActivityBoardDetail.styles.js";
 import CommentInsert from "./components/CommentInsert.jsx";
 import Comments from "./components/Comments.jsx";
 import ImageSection from "./components/ImageSection.jsx";
@@ -11,13 +11,21 @@ import ContentSection from "./components/ContentSection.jsx";
 import CommentsPagination from "./components/CommentsPagination.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { fetchActivityDetail, toggleLike, deleteActivityBoard } from "../../../api/activity/activityAPI.js";
+import { 
+  fetchActivityDetail,
+  toggleLike,
+  deleteActivityBoard,
+  fetchRepliesAPI,
+  updateReplyAPI,
+  deleteReplyAPI,
+  increaseViewCountAPI
+} from "../../../api/activity/activityAPI.js";
 import { AuthContext } from "../../Context/AuthContext.jsx";
 import Toast from "../../Common/Toast/Toast.jsx";
 import activityStore from "../../../store/activityStore.js";
 
 
-const ActivityBoardDetail = ({onShowToast}) => {
+const ActivityBoardDetail = ({}) => {
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,6 +37,17 @@ const ActivityBoardDetail = ({onShowToast}) => {
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastVariant, setToastVariant] = useState('success');
+
+  const [replies, setReplies] = useState([]);
+  const [editReplyId, setEditReplyId] = useState(null);
+  
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [replyPageInfo, setReplyPageInfo] = useState({
+      startPage: 1,
+      endPage: 1,
+      totalPage: 1
+  });
 
   // 토스트 메시지 표시
     const handleShowToast = (message, variant = 'success') => {
@@ -44,7 +63,9 @@ const ActivityBoardDetail = ({onShowToast}) => {
 
   useEffect(() => {
     loadDetail();
-  }, []);
+    increaseViewCountAPI(id);
+    fetchReplies();
+  }, [currentPage]);
 
   const loadDetail = async () => {
     try {
@@ -65,9 +86,24 @@ const ActivityBoardDetail = ({onShowToast}) => {
     }
   };
 
+  const fetchReplies = async () => {
+    try {
+      const res = await fetchRepliesAPI(id, currentPage);
 
-  console.log(post);
-  console.log(auth);
+      setReplies(res.data.replies || []);
+
+      setReplyPageInfo({
+        startPage: res.data.pageInfo.startPage,
+        endPage: res.data.pageInfo.endPage,
+        totalPage: res.data.pageInfo.maxPage
+      });
+
+    } catch (err) {
+      console.error("댓글 조회 실패", err);
+    }
+  };
+
+
   if (loading) return <div>로딩중...</div>
   if (!post) return <div>게시글을 찾을수 없습니다.</div>
 
@@ -98,7 +134,7 @@ const ActivityBoardDetail = ({onShowToast}) => {
     e.stopPropagation();
 
     if (!auth.isAuthenticated) {
-      handleShowToast("로그인이 필요합니다.", "error");
+      handleShowToast("로그인 후 이용 가능합니다.", "error");
       return;
     }
 
@@ -116,9 +152,7 @@ const ActivityBoardDetail = ({onShowToast}) => {
       }));
 
       handleShowToast(
-        newLikeStatus
-          ? "이 활동에 공감해주셨어요!"
-          : "공감을 취소했어요."
+        newLikeStatus ? "이 활동에 공감해주셨어요!" : "공감을 취소했어요."
       );
 
     } catch (error) {
@@ -126,6 +160,49 @@ const ActivityBoardDetail = ({onShowToast}) => {
       console.error(error);
     }
   };
+
+  const stopEditing = () => setEditReplyId(null);
+
+  // 댓글 수정
+  const handleUpdateReply = async (reply, content, stopEditing) => {
+    if (content === undefined) {
+      setEditReplyId(reply.replyNo);
+      return;
+    }
+
+    try {
+      await updateReplyAPI(reply.replyNo, content, auth.accessToken);
+      stopEditing();
+      fetchReplies();
+
+      handleShowToast("댓글이 수정되었습니다!", "success");
+
+    } catch (err) {
+      console.error("댓글 수정 실패", err);
+      alert("댓글 수정 실패");
+    }
+  };
+
+
+  // 댓글 삭제
+  const handleDeleteReply = async (replyNo) => {
+    if (!auth.isAuthenticated) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+
+    try {
+      await deleteReplyAPI(replyNo, auth.accessToken);
+      fetchReplies();
+      handleShowToast("댓글이 삭제되었습니다!", "success");
+    } catch (err) {
+      console.error("댓글 삭제 실패", err);
+      alert("삭제 실패");
+    }
+  };
+
 
   
 
@@ -170,17 +247,17 @@ const ActivityBoardDetail = ({onShowToast}) => {
               count={post.certificationCount}
               carbon={post.carbonSave}
             />
-            {auth.isAuthenticated && (
-              <LikeButton
-                $liked={post.isLiked}
-                onClick={handleLikeToggle}
-                className="detail-like-btn"
-              >
-                <i className={post.isLiked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
-                좋아요
-              </LikeButton>
-            )}
+
+            <LikeButton
+              $liked={post.isLiked}
+              onClick={handleLikeToggle}
+              className="detail-like-btn"
+            >
+              <i className={post.isLiked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
+              좋아요
+            </LikeButton>
           </ProfilAndLike>
+          <hr />
 
           {/* 수정/삭제 버튼 */}
           {auth.isAuthenticated && auth.nickName === post.nickName && (
@@ -190,17 +267,33 @@ const ActivityBoardDetail = ({onShowToast}) => {
             </ButtonSection>
           )}
 
-
           {/* 댓글 영역 */}
           <CommentSection>
-            <Comments />
-            <CommentInsert />
+
+              <Comments
+                comments={replies}
+                onUpdate={handleUpdateReply}
+                onDelete={handleDeleteReply}
+                auth={auth}
+                editReplyId={editReplyId}
+                stopEditing={stopEditing}
+              />
+                {/* 댓글 페이징 */}
+                <CommentsPagination
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  pageInfo={replyPageInfo}
+                />
+
+                <CommentInsert 
+                  boardNo={id}
+                  onSuccess={fetchReplies}
+                />
+
           </CommentSection>
 
-          {/* 댓글 페이징 */}
-          <CommentsPagination />
-
-          <button onClick={() => navigate("/activityBoards")}>목록으로</button>
+          <BackButton onClick={() => navigate("/activityBoards")}>목록으로</BackButton>
+        
         </Wrapper>
       </PageContent>
       <Toast

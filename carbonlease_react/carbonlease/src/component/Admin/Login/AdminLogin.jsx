@@ -48,9 +48,9 @@ const AdminLogin = () => {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost/auth/adminLogin", {
-            memberId, memberPwd
-        }).then(result => {
+        axios.post("http://localhost/login/admin", {
+    memberId, memberPwd
+}).then(result => {
             //console.log(result);
             const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role } = result.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role);
