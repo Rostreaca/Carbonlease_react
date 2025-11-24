@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
         const addressLine1 = localStorage.getItem("addressLine1");
         const addressLine2 = localStorage.getItem("addressLine2");
         const role = localStorage.getItem("role");
+        const expiredDate = localStorage.getItem("expiredDate");
         //console.log(refreshToken);
 
         // 관리자는 자동로그인 불가
@@ -38,8 +39,14 @@ export const AuthProvider = ({ children }) => {
             return;
         }
 
+        console.log('토큰 만료 기간 : '+ expiredDate);
+
+        console.log(Date.now() - expiredDate);
+
+        console.log(1000*60*60*24);
+
         {
-            accessToken !== null ? 
+            accessToken !== null && (Date.now() - expiredDate > 1000*60*60*24)? 
 
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
@@ -75,7 +82,17 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("role");
         })
         :
-        <></>
+        setAuth({
+                memberId,
+                nickName,
+                accessToken,
+                refreshToken,
+                email, 
+                addressLine1, 
+                addressLine2,
+                role,
+                isAuthenticated : true,
+        });
     }
 
 
@@ -102,6 +119,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("addressLine1",addressLine1);
         localStorage.setItem("addressLine2",addressLine2);
         localStorage.setItem("role",role);
+        localStorage.setItem("expiredDate",Date.now());
     }
 
     const logout = () => {
