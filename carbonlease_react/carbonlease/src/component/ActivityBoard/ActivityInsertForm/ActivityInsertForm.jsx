@@ -7,8 +7,8 @@ import RegionSelect from "./components/RegionSelect";
 import CategorySelect from "./components/CategorySelect";
 import TextInputSection from "./components/TextInputSection";
 import { useNavigate } from "react-router-dom";
-import useInsertFormState from "./hook/useInsertFormState";
-import useInsertSubmit from "./hook/useInsertSubmit";
+import useInsertFormState from "./hooks/useInsertFormState";
+import useInsertSubmit from "./hooks/useInsertSubmit";
 import useToast from "../ActivityBoardDetail/hooks/useToast";
 import Toast from "../../Common/Toast/Toast";
 

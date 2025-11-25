@@ -6,13 +6,13 @@ import AddressSearchInput from "../ActivityInsertForm/components/AddressSearchIn
 import CategorySelect from "../ActivityInsertForm/components/CategorySelect";
 import RegionSelect from "../ActivityInsertForm/components/RegionSelect";
 import ImagePreviewBox from "../ActivityInsertForm/components/ImagePreviewBox";
-import { ActivityForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./ActivityBoardUpdateForm.styles";
+import { ActivityForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./ActivityUpdateForm.styles";
 import useToast from "../ActivityBoardDetail/hooks/useToast";
-import useUpdateFormState from "./hook/useUpdateFormState";
-import useUpdateSubmit from "./hook/useUpateSubmit";
+import useUpdateFormState from "./hooks/useUpdateFormState";
+import useUpdateSubmit from "./hooks/useUpateSubmit";
 import Toast from "../../Common/Toast/Toast";
 
-const ActivityBoardUpdateForm = () => {
+const ActivityUpdateForm = () => {
 
   const navigate = useNavigate();
 
@@ -126,4 +126,4 @@ const ActivityBoardUpdateForm = () => {
   );
 };
 
-export default ActivityBoardUpdateForm;
+export default ActivityUpdateForm;

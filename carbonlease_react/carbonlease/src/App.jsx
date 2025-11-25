@@ -3,7 +3,7 @@ import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
-import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";
+import ActivityUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityUpdateForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -55,7 +55,7 @@ function App() {
 				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/activityBoards" element={<ActivityBoards />} />
 				<Route path="/activityBoards/insert" element={<ActivityInsertForm />} />
-				<Route path="/activityBoards/update/:id" element={<ActivityBoardUpdateForm />} />	
+				<Route path="/activityBoards/update/:id" element={<ActivityUpdateForm />} />	
 				<Route path="/activityBoards/:id" element={<ActivityBoardDetail />} />
 
 				<Route path="/notices" element={<Notices />} />
