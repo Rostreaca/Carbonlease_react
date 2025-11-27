@@ -45,9 +45,8 @@ const BoardDetail = () => {
     }));
   };
 
-
-     useEffect(()=>{
-        axios
+  const fetchReplies = async () => {
+    axios
             .get(`http://localhost/boards/detail/${id}`)
             .then((result) => {
                 const response = result.data;
@@ -65,7 +64,10 @@ const BoardDetail = () => {
                 setReply([
                     ...response.replyList]);
             })
+  }
 
+     useEffect(()=>{
+        fetchReplies();
     }, [id])
     
     const replyBt = () => {
@@ -94,17 +96,21 @@ const BoardDetail = () => {
          nickname : auth.nickname,
          boardNo : board.boardNo,
          replyContent : replyTextarea.current.value,
-      }
+      };
+
       await axios
             .post(`http://localhost/boards/detail/replyInsert`, ReplyInsertVO, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
               }
             })
             .then((result) => {
                 const response = result.data;
                 console.log("상세보기 데이터:", response);
-              
+                alert("등록되었습니다.");
+                console.log("게시글 번호 :", {id});
+                fetchReplies();
             })
     }
         

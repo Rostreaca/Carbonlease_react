@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle"
 import PageContent from "../../Common/PageContent/PageContent"
 import { BoardForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./BoardInsertForm.styles";
-import RegionSelect from "./components/RegionSelect";
-import CategorySelect from "./components/CategorySelect";
-import TextInputSection from "./components/TextInputSection";
+import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
+import CategorySelect from "../../../component/ActivityBoard/ActivityInsertForm/components/CategorySelect";
+import TextInputSection from "../../../component/ActivityBoard/ActivityInsertForm/components/TextInputSection";
 import { useNavigate } from "react-router-dom";
-import { BoardInsertForm } from "../../../api/board/boardAPI";
 import axios from "axios";
 
 const BoardInsertForm = () => {
+  console.log( " 새글 등록  ");
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -28,6 +28,7 @@ const BoardInsertForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
       alert("로그인이 필요한 서비스입니다!");
@@ -39,28 +40,43 @@ const BoardInsertForm = () => {
     if(!content) return alert("내용을 입력해주세요!");
     if(!regionNo || !category) return alert("지역 or 탄소절감 카테고리를 선택해주세요!");
 
-    const accessToken = localStorage.getItem("accessToken");
+    
 
     const board = {
-      title,
-      content,
-      lat,
-      lng,
-      certificationNo: category,
-      regionNo,
+      boardTitle : title,
+      boardContent : content,
+      regionNo : regionNo,
+      viewCount : 0
     };
 
-    try{
-      const res = BoardInsertForm(board, accessToken);
-      const boardNo = res.data.boardNo;
+    regBoardcall(board);
 
-      navigate(`/boards/${boardNo}`);
-      alert("등록 성공!");
-    } catch(err) {
-      console.error(err);
-      alert("등록 실패!");
-    }
+    console.log( " 새글 등록 input {} ",  board);
 
+  };
+
+
+  const regBoardcall = async (board) => {
+    const accessToken = localStorage.getItem("accessToken");
+    await axios
+            .post(`http://localhost/boards/boardInsert`, board, {
+              headers: {
+                Authorization : `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+              }
+            })
+            .then((result) => {
+                const response = result.data;
+                console.log("새글 데이터:", response);
+                if (response.boardInsert == 1) {
+                  alert("등록되었습니다.");
+                  navigate(`/boards`)
+                } else {
+                  alert("새글 등록이 실패!");
+                  
+                }
+                
+            })
   };
 
   return (

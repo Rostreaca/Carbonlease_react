@@ -4,6 +4,7 @@ import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/A
 import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";
+import BoardInsertForm from "./component/Board/BoardInsert/BoardInsertForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -53,6 +54,7 @@ function App() {
 				<Route path="/" element={<Home />} />
 				<Route path="/boards" element={<Boards />} />
 				<Route path="/boards/:id" element={<BoardDetail />} />
+				<Route path="/boards/InsertForm" element={<BoardInsertForm />} />
 				<Route path="/activityBoards" element={<ActivityBoards />} />
 				<Route path="/activityBoards/insert" element={<ActivityInsertForm />} />
 				<Route path="/activityBoards/updateForm/:id" element={<ActivityBoardUpdateForm />} />	
