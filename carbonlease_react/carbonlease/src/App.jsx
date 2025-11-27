@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
@@ -38,7 +38,6 @@ import SamplePage from "./component/Sample/SamplePage";
 
 
 function App() {
-	const navi = useNavigate();
 	const { auth } = useContext(AuthContext);
 
 	return (

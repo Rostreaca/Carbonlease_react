@@ -24,6 +24,7 @@ const CampaignList = ({ onShowToast }) => {
             pageInfo,
             handleLikeToggle,
         } = useCampaignList(onShowToast, auth);
+        
 
         console.log('currentPage:', currentPage);
         console.log('pageInfo:', pageInfo);
@@ -67,8 +68,6 @@ const CampaignList = ({ onShowToast }) => {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     pageInfo={pageInfo}
-                    totalPage={pageInfo.totalPage}
-                    campaignsLength={campaigns.length}
                 />
             </CampaignListContainer>
         );

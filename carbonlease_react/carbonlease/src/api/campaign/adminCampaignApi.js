@@ -61,25 +61,33 @@ export const getCategories = () => {
 
 
 // 캠페인 게시글 수정
-export const update = (campaignNo, campaign, files) => {
-    const formData = new FormData();    
+export const update = (campaignNo, files, campaign) => {
+    const formData = new FormData();
+
+    // 서버가 받지 않는 필드 제외
+    const excludeFields = [
+        'thumbnailFile', 'detailImageFile', 'thumbnailUrl', 'detailImageUrl',
+        'attachments', // 첨부파일 배열도 제외
+    ];
 
     Object.entries(campaign).forEach(([key, value]) => {
+        if (excludeFields.includes(key)) return;
+        // undefined, null, object(파일 제외)는 추가하지 않음
+        if (value === undefined || value === null) return;
+        if (typeof value === 'object') return;
         formData.append(key, value);
     });
 
     // 파일 추가
     if (files && files.length > 0) {
-        formData.append("thumbnail", files[0]);
-        if (files[1]) {
-            formData.append("detailImage", files[1]);
-        }
+        if (files[0]) formData.append("thumbnail", files[0]);
+        if (files[1]) formData.append("detailImage", files[1]);
     }
 
     return adminCampaignApi.put(`/update/${campaignNo}`, formData);
 }
 
-// // 캠페인 상세 조회
-export const findByNo = (id) => {
-    return adminCampaignApi.get(`/detail/${id}`);
-};
+//캠페인 상세 조회
+// export const findByNo = (id) => {
+//     return adminCampaignApi.get(`/detail/${id}`);
+// };

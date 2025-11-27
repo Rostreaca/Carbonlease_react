@@ -16,7 +16,7 @@ const useCampaignList = (onShowToast, auth) => {
     useEffect(() => {
         getCampaigns(currentPage);
         // eslint-disable-next-line
-    }, []);
+    }, [currentPage]);
 
     // 캠페인 목록 불러오기
     const getCampaigns = (page) => {
