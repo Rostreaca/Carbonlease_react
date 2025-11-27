@@ -1,17 +1,15 @@
-import { Button, FormLabel } from "react-bootstrap";
+import axios from "axios";
+import { useContext, useState } from "react";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
+import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
+import DataTable from "../../Common/DataTable/DataTable";
 import { FieldGroup, FieldInput, FieldLabel } from "../../Common/Form/FormField.styled";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
 import PageContent from "../../Common/PageContent/PageContent";
-import { AuthContext } from "../../Context/AuthContext";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DataTable from "../../Common/DataTable/DataTable";
-import { CategoryBadge } from "../../Campaign/CampaignDetail/CampaignDetail.styled";
-import { DeleteButton, EditButton, StatusBadge } from "../../Common/DataTable/DataTable.styled";
-import axios, { Axios } from "axios";
-import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import Toast from "../../Common/Toast/Toast";
+import { AuthContext } from "../../Context/AuthContext";
 
 const MyPage = () => {
 

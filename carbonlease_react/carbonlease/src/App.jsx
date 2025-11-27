@@ -1,7 +1,6 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
-import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityUpdateForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
@@ -21,16 +20,16 @@ import { GlobalCommonStyles } from './styles/global.styled';
 import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
 import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
-import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns';
+import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns/AdminCampaigns';
 import InsertForm from './component/Admin/Campaign/InsertForm/InsertForm';
-import UpdateForm from './component/Admin/Campaign/UpdateForm';
+import UpdateForm from './component/Admin/Campaign/updateForm/UpdateForm';
 import AdminLayout from './component/Admin/Layout/AdminLayout';
 import AdminLogin from './component/Admin/Login/AdminLogin';
 import AdminNotices from './component/Admin/Notice/AdminNotices';
 import NoticeInsertForm from './component/Admin/Notice/NoticeInsertForm';
 import NoticeUpdateForm from './component/Admin/Notice/NoticeUpdateForm';
 import AdminUsers from './component/Admin/User/AdminUsers';
-import SamplePage from "./component/Sample/SamplePage";
+import { AuthContext } from './component/Context/AuthContext';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
 import { useContext } from 'react';
@@ -39,7 +38,6 @@ import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/Adm
 
 
 function App() {
-	const navi = useNavigate();
 	const { auth } = useContext(AuthContext);
 
 	return (

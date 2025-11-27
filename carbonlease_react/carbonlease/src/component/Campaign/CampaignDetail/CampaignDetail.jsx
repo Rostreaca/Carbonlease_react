@@ -1,17 +1,17 @@
 import { useContext, useState } from 'react';
-import Toast from '../../Common/Toast/Toast';
-import { AuthContext } from '../../Context/AuthContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import Loading from '../../Common/Loading/Loading';
 import PageContent from '../../Common/PageContent/PageContent';
-import { CampaignDetailContainer, ErrorContainer, BackButton } from './CampaignDetail.styled';
+import Toast from '../../Common/Toast/Toast';
+import { AuthContext } from '../../Context/AuthContext';
+import CampaignActions from './components/CampaignActions';
+import CampaignContent from './components/CampaignContent';
+import { BackButton, CampaignDetailContainer, ErrorContainer } from './components/CampaignDetail.styled';
 import CampaignHeader from './components/CampaignHeader';
 import CampaignImage from './components/CampaignImage';
-import CampaignContent from './components/CampaignContent';
 import CampaignMeta from './components/CampaignMeta';
-import CampaignActions from './components/CampaignActions';
-import { useCampaignDetail } from './useCampaignDetail';
+import useCampaignDetail from './useCampaignDetail';
 
 
 const CampaignDetail = () => {
@@ -120,9 +120,11 @@ const CampaignDetail = () => {
             />
             <PageContent>
                 <CampaignDetailContainer>
-                    {campaignComponents.map((Component, idx) => (
-                        <Component key={idx} campaign={campaign} />
-                    ))}
+                    {campaignComponents.map((Component, idx) =>
+                        Component === CampaignMeta
+                            ? <Component key={idx} campaign={campaign} auth={auth} />
+                            : <Component key={idx} campaign={campaign} />
+                    )}
                     <CampaignActions
                         campaign={campaign}
                         auth={auth}

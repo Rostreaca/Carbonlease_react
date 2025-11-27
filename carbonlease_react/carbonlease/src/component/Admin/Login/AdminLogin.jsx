@@ -1,20 +1,19 @@
+import axios from 'axios';
 import { useContext, useState } from 'react';
+import { FormLabel } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Alert from '../../Common/Alert/Alert';
+import { AuthContext } from '../../Context/AuthContext';
 import {
+    ButtonGroup,
+    Footer,
+    FormFloating,
     LayoutAuthentication,
     LayoutAuthenticationContent,
     LayoutAuthenticationFooter,
-    MainContent,
     LoginCard,
-    FormFloating,
-    FormCheck,
-    ButtonGroup,
-    Footer
+    MainContent
 } from './AdminLogin.styled';
-import axios from 'axios';
-import { AuthContext } from '../../Context/AuthContext';
-import Alert from '../../Common/Alert/Alert';
-import { useNavigate } from 'react-router-dom';
-import { FormLabel } from 'react-bootstrap';
 
 const AdminLogin = () => {
 
