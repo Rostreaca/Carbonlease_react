@@ -30,7 +30,7 @@ const BoardDetail = () => {
 
     const handleUpdate = () => {
         navigate(`/boards/updateForm/${post.id}`);
-  };
+  }; 
 
     const goList = () => {
         navigate("/boards");
