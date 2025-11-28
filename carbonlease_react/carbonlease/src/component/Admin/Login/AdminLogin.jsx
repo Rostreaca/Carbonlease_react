@@ -1,20 +1,19 @@
+import axios from 'axios';
 import { useContext, useState } from 'react';
+import { FormLabel } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Alert from '../../Common/Alert/Alert';
+import { AuthContext } from '../../Context/AuthContext';
 import {
+    ButtonGroup,
+    Footer,
+    FormFloating,
     LayoutAuthentication,
     LayoutAuthenticationContent,
     LayoutAuthenticationFooter,
-    MainContent,
     LoginCard,
-    FormFloating,
-    FormCheck,
-    ButtonGroup,
-    Footer
+    MainContent
 } from './AdminLogin.styled';
-import axios from 'axios';
-import { AuthContext } from '../../Context/AuthContext';
-import Alert from '../../Common/Alert/Alert';
-import { useNavigate } from 'react-router-dom';
-import { FormLabel } from 'react-bootstrap';
 
 const AdminLogin = () => {
 
@@ -49,8 +48,8 @@ const AdminLogin = () => {
         }
 
         axios.post("http://localhost/auth/adminLogin", {
-            memberId, memberPwd
-        }).then(result => {
+    memberId, memberPwd
+}).then(result => {
             //console.log(result);
             const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role } = result.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role);

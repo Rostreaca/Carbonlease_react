@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle"
 import PageContent from "../../Common/PageContent/PageContent"
 import AddressSearchInput from "./components/AddressSearchInput";
@@ -7,71 +6,46 @@ import { ActivityForm, ButtonSection, FormArea, SelectLabel, SelectRow } from ".
 import RegionSelect from "./components/RegionSelect";
 import CategorySelect from "./components/CategorySelect";
 import TextInputSection from "./components/TextInputSection";
-import { activityInsertForm } from "../../../api/activity/activityAPI";
 import { useNavigate } from "react-router-dom";
+import useInsertFormState from "./hooks/useInsertFormState";
+import useInsertSubmit from "./hooks/useInsertSubmit";
+import useToast from "../ActivityBoardDetail/hooks/useToast";
+import Toast from "../../Common/Toast/Toast";
 
 
 const ActivityInsertForm = () => {
+  
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
 
-  const [address, setAddress] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
+  const {
+    toastMessage,
+    showToast,
+    toastVariant,
+    showToastMessage,
+    closeToast
+  } = useToast();
 
-  const [regionNo, setRegionNo] = useState("");
-  const [category, setCategory] = useState(""); 
+  const {
+    title, setTitle,
+    content, setContent,
+    address, lat, lng, handleAddressChange,
+    regionNo, setRegionNo,
+    category, setCategory,
+    file, handleChangeFile
+  } = useInsertFormState();
 
-  const [file, setFile] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-
-    if(!token){
-      alert("로그인 후 이용해주세요!");
-      navigate("/login");
-    }
-  }, [navigate]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!accessToken) {
-      alert("로그인이 필요한 서비스입니다!");
-      navigate("/login");
-      return;
-    }
-
-    if(!title) return alert("제목을 입력해주세요!");
-    if(!content) return alert("내용을 입력해주세요!");
-    if(!address || !lat || !lng) return alert("주소를 입력해주세요!");
-    if(!regionNo || !category) return alert("지역 or 탄소절감 카테고리를 선택해주세요!");
-
-    const accessToken = localStorage.getItem("accessToken");
-
-    const activity = {
-      title,
-      content,
-      address,
-      lat,
-      lng,
-      certificationNo: category,
-      regionNo,
-    };
-
-    try{
-      const res = await activityInsertForm(activity, file, accessToken);
-      const activityNo = res.data.activityNo;
-
-      navigate(`/activityBoards/${activityNo}`);
-      alert("등록 성공!");
-    } catch(err) {
-      console.error(err);
-      alert("등록 실패!");
-    }
-
-  };
+  const { handleSubmit } = useInsertSubmit({
+    title,
+    content,
+    address,
+    lat,
+    lng,
+    regionNo,
+    category,
+    file,
+    navigate,
+    showToastMessage
+  });
 
   return (
     <>
@@ -87,6 +61,7 @@ const ActivityInsertForm = () => {
         <PageContent>
           <FormArea>
             <ActivityForm onSubmit={handleSubmit}>
+            
             <TextInputSection 
               title={title}
               setTitle={setTitle}
@@ -97,22 +72,18 @@ const ActivityInsertForm = () => {
             <label><strong>주소</strong></label>
             <AddressSearchInput 
               value={address}
-              onChange={(addr, latValue, lngValue) => {
-                setAddress(addr);
-                setLat(latValue);
-                setLng(lngValue);
-              }}
+              onChange={handleAddressChange}
             />
 
             <hr />
 
             <SelectRow>
-              <SelectLabel>활동 선택
-              <CategorySelect value={category} onChange={setCategory}/>
-              </SelectLabel>
-
               <SelectLabel>지역 선택
               <RegionSelect value={regionNo} onChange={setRegionNo}/>
+              </SelectLabel>
+              
+              <SelectLabel>활동 선택
+              <CategorySelect value={category} onChange={setCategory}/>
               </SelectLabel>
             </SelectRow>
             
@@ -122,7 +93,7 @@ const ActivityInsertForm = () => {
             <input 
               type="file" 
               accept="image/*" 
-              onChange={(e) => setFile(e.target.files[0])} 
+              onChange={(e) => handleChangeFile(e.target.files[0])} 
             />
 
             <hr />
@@ -133,6 +104,13 @@ const ActivityInsertForm = () => {
             </ActivityForm>
           </FormArea>
         </PageContent>
+
+        <Toast 
+          message={toastMessage}
+          isVisible={showToast}
+          variant={toastVariant}
+          onClose={closeToast}
+        />
     </>
   )
 }

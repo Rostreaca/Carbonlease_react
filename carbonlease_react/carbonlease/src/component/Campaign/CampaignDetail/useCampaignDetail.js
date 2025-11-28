@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { selectByCampaignNo, toggleLike } from '../../../api/campaign/campaignApi';
+import { useEffect, useState } from 'react';
+import { findDetailByNo, toggleLike } from '../../../api/campaign/campaignApi';
 import campaignStore from '../../../store/campaignStore';
 
-export function useCampaignDetail(id, onShowToast, auth) {
+const useCampaignDetail = (id, onShowToast, auth) => {
     const [campaign, setCampaign] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -24,19 +24,31 @@ export function useCampaignDetail(id, onShowToast, auth) {
         setLoading(true);
         setError(false);
 
-        selectByCampaignNo(campaignNo)
-            .then(res => {
-                const campaignData = res.data;
-                const storedLike = campaignStore.getLike(campaignNo);
-                setCampaign({
-                    ...campaignData,
-                    isLiked: storedLike !== undefined ? storedLike : campaignData.isLiked
-                });
-                setLoading(false);
+        findDetailByNo(campaignNo)
+            .then((result) => {
+                if (result && result.status === 200) {
+
+                    const campaignData = result.data;
+                    const storedLike = campaignStore.getLike(campaignNo);
+
+                    setCampaign({
+                        ...campaignData,
+                        isLiked: storedLike !== undefined ? storedLike : campaignData.isLiked
+                    });
+                    setLoading(false);
+                } else {
+                    setError(true);
+                    setLoading(false);
+                    onShowToast && onShowToast("알 수 없는 오류가 발생했습니다.", "error");
+                }
             })
-            .catch(() => {
+            .catch((error) => {
                 setError(true);
                 setLoading(false);
+                onShowToast && onShowToast(
+                    error?.response?.data?.["error-message"] || "캠페인 정보를 불러오지 못했습니다.",
+                    "error"
+                );
             });
     };
 
@@ -45,25 +57,32 @@ export function useCampaignDetail(id, onShowToast, auth) {
         e.stopPropagation();
 
         if (!auth.isAuthenticated) {
-            onShowToast('로그인이 필요합니다.', 'error');
+            onShowToast && onShowToast('로그인이 필요합니다.', 'error');
             return;
         }
 
         toggleLike(campaignNo)
-            .then(() => {
-                const newLikeStatus = !currentLikeStatus;
-                campaignStore.setLike(campaignNo, newLikeStatus);
-                setCampaign(prevCampaign =>
-                    prevCampaign ? { ...prevCampaign, isLiked: newLikeStatus } : prevCampaign
-                );
-                if (!currentLikeStatus) {
-                    onShowToast('이 캠페인에 공감해주셨어요!');
+            .then((result) => {
+                if (result && result.status === 200) {
+                    const newLikeStatus = !currentLikeStatus;
+                    campaignStore.setLike(campaignNo, newLikeStatus);
+                    setCampaign(prevCampaign =>
+                        prevCampaign ? { ...prevCampaign, isLiked: newLikeStatus } : prevCampaign
+                    );
+                    if (!currentLikeStatus) {
+                        onShowToast && onShowToast('이 캠페인에 공감해주셨어요!');
+                    } else {
+                        onShowToast && onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
+                    }
                 } else {
-                    onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
+                    onShowToast && onShowToast('좋아요 처리에 실패했습니다.', 'error');
                 }
             })
-            .catch(error => {
-                onShowToast('좋아요 처리에 실패했습니다.', error);
+            .catch((error) => {
+                onShowToast && onShowToast(
+                    error?.response?.data?.["error-message"] || '좋아요 처리에 실패했습니다.',
+                    'error'
+                );
             });
     };
 
@@ -72,7 +91,9 @@ export function useCampaignDetail(id, onShowToast, auth) {
         loading,
         error,
         fetchCampaignDetail,
-        handleLikeToggle,
         setCampaign,
+        handleLikeToggle,
     };
-}
+};
+
+export default useCampaignDetail;

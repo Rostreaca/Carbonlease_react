@@ -36,7 +36,8 @@ export const HeaderWrap = styled.header`
         }
     }
 
-    .container {padding: 10px 0;
+    .container {
+        padding: 10px 0;
     }
 `;
 

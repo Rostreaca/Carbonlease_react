@@ -68,6 +68,10 @@ const Pagination = ({
                 <i className="bi bi-chevron-left"></i>
             </PageButton>
             {pageNumbers.map(page => {
+<<<<<<< HEAD
+=======
+                {/* [D: 20251127 : 조건문 삭제]*/}
+>>>>>>> 263eeae7c03ca483a59e1a4f0909aedd6bdbc97a
                 return (
                     <PageButton
                         key={page}
@@ -78,14 +82,25 @@ const Pagination = ({
                     </PageButton>
                 );
             })}
+<<<<<<< HEAD
             <PageButton
                 onClick={handleNextPage}
+=======
+            {/* [D: 20251127 : totalPage -1 삭제 및 pageInfo.totalPage === 0 삭제 ]*/}
+            <PageButton 
+                onClick={handleNextPage} 
+>>>>>>> 263eeae7c03ca483a59e1a4f0909aedd6bdbc97a
                 disabled={currentPage === pageInfo.totalPage || (currentPage === pageInfo.totalPage && campaignsLength === 0)}
             >
                 <i className="bi bi-chevron-right"></i>
             </PageButton>
+<<<<<<< HEAD
             <PageButton
                 onClick={handleLastPage}
+=======
+            <PageButton 
+                onClick={handleLastPage} 
+>>>>>>> 263eeae7c03ca483a59e1a4f0909aedd6bdbc97a
                 disabled={pageInfo.totalPage === 0 || currentPage === pageInfo.totalPage}
             >
                 <i className="bi bi-chevron-double-right"></i>

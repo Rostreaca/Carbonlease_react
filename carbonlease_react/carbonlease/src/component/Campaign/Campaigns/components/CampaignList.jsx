@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import { AuthContext } from '../../../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '../../../Common/Pagination/Pagination';
-import CampaignSkeleton from './CampaignSkeleton';
-import CampaignListItem from './CampaignListItem';
+import { AuthContext } from '../../../Context/AuthContext';
+import useCampaignList from '../useCampaignList';
 import { CampaignGrid, CampaignListContainer } from './CampaignList.styled';
-import { useCampaignList } from '../useCampaignList';
+import CampaignListItem from './CampaignListItem';
+import CampaignSkeleton from './CampaignSkeleton';
 
 // 캠페인 리스트 컴포넌트
 const CampaignList = ({ onShowToast }) => {
@@ -24,6 +24,7 @@ const CampaignList = ({ onShowToast }) => {
             pageInfo,
             handleLikeToggle,
         } = useCampaignList(onShowToast, auth);
+        
 
         console.log('currentPage:', currentPage);
         console.log('pageInfo:', pageInfo);
@@ -64,11 +65,9 @@ const CampaignList = ({ onShowToast }) => {
                     ))}
                 </CampaignGrid>
                 <Pagination
-                    currentPage={currentPage} 
+                    currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     pageInfo={pageInfo}
-                    totalPage={pageInfo.totalPage}
-                    campaignsLength={campaigns.length}
                 />
             </CampaignListContainer>
         );

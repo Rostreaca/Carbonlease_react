@@ -20,27 +20,27 @@ const REGIONS = [
   { no: 17, name: "제주특별자치도" }
 ];
 
-const RegionSelect = ({value, onChange}) => {
+const RegionSelect = ({ value, onChange }) => {
+  const selectedValue = value ? String(value) : "";
 
   return (
-    <>
-      <CategorySelectWrapper>
-          <CategorySelectButton
-            className="region-select"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-          >
-              <option value={""}>지역 (시/도)</option>
-            {REGIONS.map((r) => (
-              <option key={r.no} value={r.no}>
-                {r.name}
-              </option>
-            ))}
-          </CategorySelectButton>
-        </CategorySelectWrapper>
-  </>
-  );
+    <CategorySelectWrapper>
+      <CategorySelectButton
+        value={selectedValue}
+        onChange={(e) => onChange(e.target.value)}
+      >
 
-}
+        <option value="">지역 (시/도)</option>
+
+        {REGIONS.map((r) => (
+          <option key={r.no} value={String(r.no)}>
+            {r.name}
+          </option>
+        ))}
+      </CategorySelectButton>
+    </CategorySelectWrapper>
+  );
+};
+
 
 export default RegionSelect;

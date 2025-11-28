@@ -96,3 +96,13 @@ h6 {
   font-size: 14px;
   color: rgb(7, 165, 7);
 }
+
+.userTable { 
+  display: block;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.userTable tbody td{
+  width: 300px;
+}

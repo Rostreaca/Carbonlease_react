@@ -1,230 +1,398 @@
 import styled from "styled-components";
-import BootstrapButton from "react-bootstrap/Button";
 
 export const Wrapper = styled.div`
-  width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   padding-bottom: 60px;
 `;
 
-export const Section = styled.div`
-  width: 100%;
-  margin: 32px 0;
+export const Title = styled.h2`
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin: 20px 0 15px 0;
+  color: #222;
+`;
+
+export const ActivityInfo = styled.div`
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 25px;
+`;
+
+export const InfoRow = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 1px solid #ececec;
-  padding-bottom: 24px;
-  &:last-of-type {
-    border-bottom: none;
+  justify-content: space-between;
+  margin: 8px 0;
+  color: #666;
+  font-size: 15px;
+`;
+
+export const InfoItem = styled.div`
+  display: flex;
+  gap: 6px;
+
+  span:first-child {
+    font-weight: 600;
   }
 `;
 
-export const ImageCard = styled.div`
+export const InfoBox = styled.div`
+  margin-top: 5px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+`;
+
+
+export const WriterIcon = styled.span`
+  margin-right: 5px;
+  color: #ff9900;
+`;
+
+export const ImageWrapper = styled.div`
   width: 100%;
-  border-radius: 14px;
+  margin: 25px 0;
+  display: flex;
+  justify-content: center;
+`;
+
+export const ImageBox = styled.div`
+  width: 100%;
+  max-width: 830px;
+  height: 500px;
+  border: 1px solid #d4d4d4;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
-export const ImgGrid = styled.div`
+export const ContentBox = styled.div`
   width: 100%;
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-`;
+  max-width: 830px;
+  margin: 24px auto;
+  padding: 28px;
 
-export const ImgThumb = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: .2s;
-  &:hover { transform: scale(1.03); }
-`;
+  background: #ffffff;
+  border-radius: 24px;
 
-export const ImgLarge = styled.img`
-   width: 100%;
-   max-height: 420px;
-   object-fit: cover;
-   border-radius: 12px;
-   cursor: pointer;
-`;
+  border: 1.5px solid #e3e3e8;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.04);
 
-export const ContentCard = styled.div`
-  width: 100%;
-  background: #fff;
-  border-radius: 14px;
-  padding: 26px 28px;
-  line-height: 1.75;
   font-size: 17px;
-  color: #222;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+  line-height: 1.8;
+  color: #1c1c1e;
   white-space: pre-line;
 `;
 
-export const MapCard = styled.div`
+export const MapArea = styled.div`
   width: 100%;
+  max-width: 830px;
+  margin: 20px auto;
   height: 360px;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
-`;
+  border-radius: 12px;
+  borderRadius: 10px;
+  box-shadow: 0 0 1.2px; 
+`
 
-export const ButtonArea = styled.div`
-  width: 100%;
-  margin-top: 20px;
+/* ====== 프로필 + 좋아요 ====== */
+export const ProfilAndLike = styled.div`
+  max-width: 830px;
+  margin: 30px auto;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center; 
+  gap: 60px;                   
 `;
 
-export const ButtonGroup = styled.div`
+/* 프로필 카드 */
+export const ProfilCardWrapper = styled.div`
   display: flex;
-  gap: 10px;
-`;
+  align-items: center;
+  justify-content: center; 
+  gap: 18px;
+  margin-right: 100px;
 
-export const ReplyWriteArea = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 8px;
-  margin-top: 30px;
-`;
+  padding: 20px 26px;
+  background: #b2f2bb;
+  border-radius: 40px;
+  
+  border: 2px solid #b2f2bb;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
 
-export const PostTitle = styled.h2`
-  font-size: 26px;
-  font-weight: 700;
-  text-align: left;
-  margin: 0 0 20px 0;
-`;
-
-export const ReplyButton = styled(BootstrapButton)`
-  white-space: nowrap;
   height: 100px;
-  padding: 0 20px;
+  min-width: 280px;
+`;
+
+/* 텍스트 */
+export const ProfilText = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+  flex-direction: column;
+  gap: 5px;
 
-export const ProfileCardBox = styled.div`
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  padding: 14px 18px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 310px;
-`;
+  strong {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1c1c1e;   
+  }
 
-export const ProfileGradeIcon = styled.div`
-  font-size: 32px;
-`;
-
-export const ProfileNickname = styled.div`
-  font-weight: 700;
-  font-size: 15px;
-  margin-bottom: 4px;
-`;
-
-export const ProfileAndLike = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
-  width: 100%;
-  margin: 40px 0;
-  flex-wrap: wrap;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
+  div {
+    font-size: 14px;
+    color: #6e6e73;  
   }
 `;
 
-export const LikeCard = styled.div`
-  width: 240px;
-  background: ${props => props.$liked ? '#00a34a' : '#ffffff'};
-  color: ${props => props.$liked ? '#ffffff' : '#333'};
-  border: 1px solid ${props => props.$liked ? '#00a34a' : '#ddd'};
-  border-radius: 12px;
-  padding: 20px;
+/* 게이지 컨테이너 */
+export const GaugeWrapper = styled.div`
+  position: relative; 
+  width: 40px;
+  height: 90px;
+  background: #f5f5f7;
+  border-radius: 15px;
+  border: 1px solid #e0e0e5;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+
+/* 채워지는 액체 */
+export const GaugeFill = styled.div`
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    #ffa500 0%,
+    #ff7b00 100%
+  );
+  transition: height 0.3s ease;
+`;
+
+/* 4등분 라인 */
+export const GaugeLines = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px 0;
+
+  div {
+    width: 100%;
+    height: 1px;
+    background: rgba(0,0,0,0.15);
+  }
+`;
+
+/* % 텍스트 */
+export const GaugePercentText = styled.div`
+  position: absolute;
+  bottom: 50%; 
+  left: 50%;
+  transform: translate(-50%, 50%);
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  text-shadow: 0 0 2px white;
+`;
+
+/* ====== 좋아요 버튼 ====== */
+export const LikeButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   gap: 10px;
-  font-size: 17px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  height: 100px;
+  min-width: 220px;
+
+  padding: 16px 38px;
+  font-size: 28px;
+
+  background: ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
+  color: #fff;
+  border: 2px solid ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
+
+  border-radius: 40px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+
+  transition: all 0.2s ease;
 
   i {
-    font-size: 22px;
+    font-size: 30px;
   }
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
-    background: ${props => props.$liked ? '#00913f' : '#fafafa'};
-  }
-
-  &:active {
-    transform: translateY(0);
+    background: ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
   }
 `;
 
-export const Wrap = styled.div`
-  width: 110px;  /* 기존 140px → 축소 */
+
+/* ====== 수정/삭제 버튼 ====== */
+export const ButtonSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 25px 0;
+
+  .update-btn {
+    background: #27ae60;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .delete-btn {
+    background: #e74c3c;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+  }
+`;
+
+/* ====== 댓글 ====== */
+export const CommentSection = styled.div`
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 6px 0;
 `;
 
-export const Title = styled.div`
-  font-size: 13px; /* 기존 14px */
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #444;
-  text-align: center;
-`;
-
-export const ThermoBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const Tube = styled.div`
-  width: 16px; /* 기존 22px 줄임 */
-  height: 90px; /* 기존 150px 줄임 */
-  background: #e6e6e6;
-  border-radius: 18px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column-reverse;
-  border: 2px solid #ccc;
-`;
-
-export const Fill = styled.div`
+export const ReplyListBox = styled.div`
   width: 100%;
-  transition: height 0.4s ease;
 `;
 
-export const Bulb = styled.div`
-  width: 32px;  /* 기존 42px → 축소 */
-  height: 32px;
-  border-radius: 50%;
-  margin-top: -6px;
-  border: 2px solid #ccc;
+export const ReplyInputSection = styled.div`
+  display: flex;
+`
+
+export const ReplyInput = styled.textarea`
+  flex: 0.85;
+  width: 100%;
+  height: 100px;
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #3cb371;
+    box-shadow: 0 0 0 2px rgba(60,179,113,0.2);
+  }
+`
+export const ReplyInputButton = styled.button`
+  flex: 0.15;
+  padding: 10px 0;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+`
+
+export const Reply = styled.div`
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
 `;
 
-export const Value = styled.div`
-  font-size: 12px;
-  margin-top: 4px;
+/* 닉네임 */
+export const ReplyWriter = styled.div`
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #111;
+`;
+
+/* 댓글 본문 */
+export const ReplyContent = styled.div`
+  margin: 4px 0 8px 0;
+  line-height: 1.6;
   color: #333;
-  text-align: center;
-  line-height: 1.35;
+  white-space: pre-line;
 `;
+
+/* 날짜 + 수정 삭제 줄 */
+export const ReplyFooter = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #777;
+`;
+
+/* 날짜 */
+export const ReplyDate = styled.span`
+  color: #aaa;
+  font-size: 13px;
+  margin-right: 14px;
+`;
+
+/* 수정/삭제 버튼 */
+export const ReplyButton = styled.span`
+  font-size: 13px;
+  color: #007aff;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+`;
+
+export const ModalBox = styled.div`
+  width: 360px;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+`;
+
+export const BackButton = styled.button`
+  background: #27ae60;
+  margin-top: 15px;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+`
+
+
+
+

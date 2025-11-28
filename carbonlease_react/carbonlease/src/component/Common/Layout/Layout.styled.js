@@ -1,21 +1,21 @@
 import styled from "styled-components";
 
 export const LayoutWrap = styled.div`
-    /* Main Content Layout */
-    main {
-        min-height: calc(100vh - 200px);
-    }
-
-    /* Page Layout */
-    .page-content {
-        padding: 40px 0;
-    }
-
-    @media (max-width: 768px) {
-        .page-content {
-            padding: 20px 0;
-        }
-    }
+  width: 100%;
 `;
 
-export default LayoutWrap;
+export const PageWrapper = styled.div`
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: ${props => (props.$showSidebar ? "40px" : "0px")};
+  padding: 40px 0;
+  min-height: 800px;
+`;
+
+export const MainContent = styled.div`
+  flex: 1;
+  max-width: ${({ showSidebar }) => (showSidebar ? "1100px" : "100%")};
+`;
+
+

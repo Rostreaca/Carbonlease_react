@@ -1,6 +1,5 @@
 import { CategorySelectButton, CategorySelectWrapper } from "../ActivityInsertForm.styles";
 
-
 const CATEGORY = [
   { no: 1, name: "대중교통 이용" },
   { no: 2, name: "텀블러 사용" },
@@ -12,27 +11,29 @@ const CATEGORY = [
   { no: 8, name: "도보 이동" },
   { no: 9, name: "샤워 절약" },
   { no: 10, name: "전기 절약" }
-]
+];
 
-const CategorySelect = ({value, onChange}) => {
+const CategorySelect = ({ value, onChange }) => {
+  
+  const selectedValue = value ? String(value) : "";
+  
   return (
-    <>
-      <CategorySelectWrapper>
-          <CategorySelectButton
-            className="category-select"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-          >
-              <option value={""}>탄소절감 활동</option>
-            {CATEGORY.map((c) => (
-              <option key={c.no} value={c.no}>
-                {c.name}
-              </option>
-            ))}
-          </CategorySelectButton>
-      </CategorySelectWrapper>
-    </>
-  )
-}
+    <CategorySelectWrapper>
+      <CategorySelectButton
+        value={selectedValue}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option value="">탄소절감 활동</option>
+
+        {CATEGORY.map((c) => (
+          <option key={c.no} value={String(c.no)}>
+            {c.name}
+          </option>
+        ))}
+      </CategorySelectButton>
+    </CategorySelectWrapper>
+  );
+};
+
 
 export default CategorySelect;
