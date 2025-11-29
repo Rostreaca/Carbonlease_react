@@ -5,8 +5,8 @@ import Pagination from '../Pagination/Pagination';
 import { ButtonAndSearch } from './ActivityBoards.styles';
 import BoardsList from './components/BoardsList';
 import SearchBar from './components/SearchBar';
+import EmptyState from './components/EmptyState';
 import { useActivityBoards } from './hooks/useActivityBoards';
-
 
 const ActivityBoards = () => {
 
@@ -35,12 +35,17 @@ const ActivityBoards = () => {
             />
 
             <PageContent>
-                
-                <BoardsList 
-                boards={activityBoards}
-                loading={loading}
-                onClickItem={(id) => navigate(`/activityBoards/${id}`)}
-                />
+
+                {/* 게시글 없을 때 */}
+                {activityBoards.length === 0 ? (
+                    <EmptyState message="검색된 게시글이 없습니다." />
+                ) : (
+                    <BoardsList 
+                        boards={activityBoards}
+                        loading={loading}
+                        onClickItem={(id) => navigate(`/activityBoards/${id}`)}
+                    />
+                )}
                
                 <ButtonAndSearch>
                     <button 

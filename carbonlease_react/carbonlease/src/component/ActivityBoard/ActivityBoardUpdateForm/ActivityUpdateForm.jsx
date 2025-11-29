@@ -11,12 +11,14 @@ import useToast from "../ActivityBoardDetail/hooks/useToast";
 import useUpdateFormState from "./hooks/useUpdateFormState";
 import useUpdateSubmit from "./hooks/useUpateSubmit";
 import Toast from "../../Common/Toast/Toast";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 const ActivityUpdateForm = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log("activityNo from params:", id);
+  const { auth } = useContext(AuthContext);
 
   const {
     toastMessage,
@@ -25,6 +27,17 @@ const ActivityUpdateForm = () => {
     showToastMessage,
     closeToast
   } = useToast();
+
+  useEffect(() => {
+    if(!auth.isAuthenticated) {
+      showToastMessage("로그인이 필요한 서비스 입니다!", "error");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+      return;
+    }
+  }, [auth.isAuthenticated]);
 
   const {
     title, setTitle,

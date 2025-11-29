@@ -11,11 +11,14 @@ import useInsertFormState from "./hooks/useInsertFormState";
 import useInsertSubmit from "./hooks/useInsertSubmit";
 import useToast from "../ActivityBoardDetail/hooks/useToast";
 import Toast from "../../Common/Toast/Toast";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 
 const ActivityInsertForm = () => {
   
   const navigate = useNavigate();
+  const { auth } = useContext(AuthContext);
 
   const {
     toastMessage,
@@ -24,6 +27,27 @@ const ActivityInsertForm = () => {
     showToastMessage,
     closeToast
   } = useToast();
+
+  useEffect(() => {
+    if(!auth.isAuthenticated) {
+      showToastMessage("로그인이 필요한 서비스입니다!", "error");
+      
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  }, [auth.isAuthenticated]);
+
+  if (!auth.isAuthenticated) {
+    return (
+      <Toast 
+        message={toastMessage}
+        isVisible={showToast}
+        variant={toastVariant}
+        onClose={closeToast}
+      />
+    )
+  }
 
   const {
     title, setTitle,

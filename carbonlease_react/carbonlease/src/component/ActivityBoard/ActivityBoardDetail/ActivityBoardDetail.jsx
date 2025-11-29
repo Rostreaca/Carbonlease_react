@@ -55,7 +55,6 @@ const ActivityBoardDetail = () => {
     id,
     showToastMessage
   );
-  
 
   // 댓글 훅
   const {

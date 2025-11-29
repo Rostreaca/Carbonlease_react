@@ -6,7 +6,8 @@ import {
   ReplyFooter,
   ReplyDate,
   ReplyButton,
-  ReplyInput
+  ReplyEditInput,
+  NoReplyText
 } from "../../ActivityBoardDetail.styles";
 
 const Comments = ({
@@ -26,7 +27,7 @@ const Comments = ({
 
   return (
     <div>
-      {comments.length === 0 && <div>댓글이 없습니다.</div>}
+      {comments.length === 0 && <NoReplyText>댓글이 없습니다.</NoReplyText>}
 
       {comments.map(reply => (
         <Reply key={reply.replyNo}>
@@ -34,12 +35,10 @@ const Comments = ({
 
           {editReplyId === reply.replyNo ? (
             <>
-              <ReplyInput
+              <ReplyEditInput
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
-                style={{ width: "100%", height: "80px" }}
               />
-
               <ReplyFooter>
                 <ReplyButton onClick={() => onUpdate(reply.replyNo, editContent, stopEditing)}>
                   저장
@@ -50,10 +49,8 @@ const Comments = ({
           ) : (
             <>
               <ReplyContent>{reply.replyContent}</ReplyContent>
-
               <ReplyFooter>
                 <ReplyDate>{reply.enrollDate}</ReplyDate>
-
                 {auth.isAuthenticated && auth.nickName === reply.writer && (
                   <>
                     |

@@ -179,3 +179,26 @@ export const SearchBox = styled.div`
     transform: translateY(-1px);
   }
 `;
+
+export const EmptyWrapper = styled.div`
+  margin: 60px 0;
+  width: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EmptyMessage = styled.div`
+  font-size: 18px;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: #666;
+`;
+
+export const EmptySub = styled.div`
+  font-size: 14px;
+  margin-bottom: 50px;
+  color: #999;
+`;

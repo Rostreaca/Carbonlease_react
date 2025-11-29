@@ -320,6 +320,29 @@ export const ReplyInput = styled.textarea`
   }
 `;
 
+export const ReplyEditInput = styled.textarea`
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #3cb371;
+    box-shadow: 0 0 0 2px rgba(60,179,113,0.2);
+  }
+`;
+
+export const NoReplyText = styled.div`
+  padding: 20px 0;
+  color: #777;
+  text-align: center;
+  font-size: 14px;
+`;
+
+
 export const ReplyInputButton = styled.button`
   flex: 0.15;
   padding: 10px 0;
