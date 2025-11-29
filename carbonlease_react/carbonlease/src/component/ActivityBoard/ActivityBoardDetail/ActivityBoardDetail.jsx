@@ -113,7 +113,7 @@ const ActivityBoardDetail = () => {
         title="인증 상세보기"
         breadcrumbs={[
           { label: "Home", path: "/" },
-          { label: "인증게시판", path: "/ActivityBoards" },
+          { label: "인증게시판", path: "/activityBoards" },
           { label: "상세보기", current: true },
         ]}
       />

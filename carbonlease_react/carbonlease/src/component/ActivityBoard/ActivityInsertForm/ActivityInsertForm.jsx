@@ -77,7 +77,7 @@ const ActivityInsertForm = () => {
         title="인증 게시글 작성"
         breadcrumbs={[
           { label: 'Home', path: '/'},
-          { label: '인증게시판', path: '/ActivityBoards'},
+          { label: '인증게시판', path: '/activityBoards'},
           { label: '인증 게시글 작성', current: true }
         ]}
         />
