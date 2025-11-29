@@ -5,11 +5,14 @@ import Sidebar from "../Sidebar/Sidebar";
 import { LayoutWrap, MainContent, PageWrapper } from "./Layout.styled";
 
 const Layout = () => {
-    const location = useLocation();
+    const { pathname } = useLocation();
 
     const showSidebar =
-        location.pathname.startsWith("/boards") ||
-        location.pathname.startsWith("/activityBoards");
+        pathname === "/boards" ||
+        /^\/boards\/\d+$/.test(pathname) ||
+
+        pathname === "/activityBoards" ||
+        /^\/activityBoards\/\d+$/.test(pathname);
 
     return (
         <LayoutWrap>
