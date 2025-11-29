@@ -41,8 +41,12 @@ export const fetchActivityBoards = (pageNo, filter, keyword) => {
   });
 };
 
-export const fetchActivityDetail = (activityNo) => {
-  return activityAPI.get(`/${activityNo}`);
+export const fetchActivityDetail = (activityNo, accessToken) => {
+  return activityAPI.get(`/${activityNo}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
 };
 
 

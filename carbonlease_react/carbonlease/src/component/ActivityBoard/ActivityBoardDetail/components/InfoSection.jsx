@@ -1,8 +1,15 @@
 import { InfoBox, InfoItem, InfoRow, Title, TitleRow, WriterIcon } from "../ActivityBoardDetail.styles";
 import LikeButton from "./LikeButton";
 
-const InfoSection = ({title, writer, createDate, views, likes, isLiked, likeCount, onLike }) => {
-  
+const InfoSection = ({
+  title,
+  writer,
+  createDate,
+  views,
+  likeCount,
+  isLiked,
+  onLike
+}) => {
   return (
     <>
       <TitleRow>
@@ -31,13 +38,14 @@ const InfoSection = ({title, writer, createDate, views, likes, isLiked, likeCoun
             <span>{views}</span>
             <span>·</span>
             <span>좋아요</span>
-            <span>{likes}</span>
+            <span>{likeCount}</span>
           </InfoItem>
         </InfoRow>
       </InfoBox>
     </>
   );
 };
+
 
 
 export default InfoSection;

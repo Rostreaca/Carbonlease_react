@@ -1,43 +1,33 @@
-import { useState } from "react";
-import activityStore from "../../../../store/activityStore";
+import { useState, useEffect } from "react";
 import { toggleLike } from "../../../../api/activity/activityAPI";
+import activityStore from "../../../../store/activityStore";
 
+export default function useLike(initialIsLiked, initialLikeCount, activityNo, toastFunc) {
 
-export default function useLike(initialLiked, initialCount, activityNo, showToastMessage){
-    const [isLiked, setIsLiked] = useState(initialLiked);
-    const [likeCount, setLikeCount] = useState(initialCount);
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
 
-     const handleToggleLike = async (accessToken) => {
-    if (!accessToken) {
-      showToastMessage("로그인 후 이용 가능합니다.", "error");
-      return;
-    }
+  useEffect(() => {
+    setIsLiked(initialIsLiked);
+    setLikeCount(initialLikeCount);
+  }, [initialIsLiked, initialLikeCount]);
 
+  const handleToggleLike = async () => {
     try {
-      await toggleLike(activityNo);
+      const res = await toggleLike(activityNo);
 
-      const newLikeStatus = !isLiked;
+      const liked = res.data.liked;
 
-      activityStore.setLike(activityNo, newLikeStatus);
+      setIsLiked(liked);
+      setLikeCount(prev => liked ? prev + 1 : prev - 1);
 
-      setIsLiked(newLikeStatus);
-      setLikeCount((prev) => (newLikeStatus ? prev + 1 : prev - 1));
+      activityStore.setLike(activityNo, liked);
 
-      showToastMessage(
-        newLikeStatus ? "이 활동에 공감해주셨어요!" : "공감을 취소했어요."
-      );
-
-    } catch (err) {
-      showToastMessage("좋아요 처리 중 오류가 발생했습니다.", "error");
-      console.error(err);
+      toastFunc(liked ? "좋아요!" : "취소됨", "success");
+    } catch (e) {
+      toastFunc("로그인 후 이용가능합니다!", "error");
     }
   };
 
-  return {
-    isLiked,
-    likeCount,
-    handleToggleLike,
-    setIsLiked,
-    setLikeCount
-  };
+  return { isLiked, likeCount, handleToggleLike };
 }
