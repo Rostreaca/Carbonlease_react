@@ -1,5 +1,5 @@
 import { FloatingLabel } from "react-bootstrap";
-import { Section } from "../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles";
+import { ReplyListBox } from "../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles";
 
 
 const BoardReply = ({ data = [] }) => {
@@ -9,11 +9,11 @@ const BoardReply = ({ data = [] }) => {
         
         { data.length === 0 ? (
             
-            <Section>
+            <ReplyListBox>
                 <div style={{ padding:"10px", textAlign:"center", color:"#777" }}>
                   아직 댓글이 없습니다. 첫 댓글을 남겨보세요! 💬
                 </div>
-            </Section> 
+            </ReplyListBox> 
         ) : (
             data.map((reply) => ( 
                 

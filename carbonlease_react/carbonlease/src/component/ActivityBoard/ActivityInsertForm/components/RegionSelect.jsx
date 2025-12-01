@@ -20,13 +20,8 @@ const REGIONS = [
   { no: 17, name: "제주특별자치도" }
 ];
 
-<<<<<<< HEAD
-
-const RegionSelect = ({value, onChange}) => {
-=======
 const RegionSelect = ({ value, onChange }) => {
   const selectedValue = value ? String(value) : "";
->>>>>>> 263eeae7c03ca483a59e1a4f0909aedd6bdbc97a
 
   return (
     <CategorySelectWrapper>

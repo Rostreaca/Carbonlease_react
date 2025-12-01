@@ -2,13 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
-<<<<<<< HEAD
-import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";
-import BoardInsertForm from "./component/Board/BoardInsert/BoardInsertForm";
-=======
 import ActivityInsertForm from './component/ActivityBoard/ActivityInsertForm/ActivityInsertForm';
 import ActivityUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityUpdateForm";
->>>>>>> 263eeae7c03ca483a59e1a4f0909aedd6bdbc97a
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
