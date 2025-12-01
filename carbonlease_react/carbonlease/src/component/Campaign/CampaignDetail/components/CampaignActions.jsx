@@ -1,5 +1,5 @@
-import { ActionButtons, BackButton } from '../CampaignDetail.styled';
 import LikeButton from '../../../Common/LikeButton/LikeButton';
+import { ActionButtons, BackButton } from './CampaignDetail.styled';
 
 
 // 캠페인 상세보기 액션 버튼 컴포넌트

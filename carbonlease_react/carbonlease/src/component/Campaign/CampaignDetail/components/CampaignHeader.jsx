@@ -1,4 +1,4 @@
-import { CampaignDetailHeader, CategoryBadge, Title } from '../CampaignDetail.styled';
+import { CampaignDetailHeader, CategoryBadge, Title } from './CampaignDetail.styled';
 
 // 캠페인 상세 헤더 컴포넌트
 const CampaignHeader = ({ campaign }) => (

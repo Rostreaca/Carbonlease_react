@@ -405,3 +405,22 @@ export const StatusBadge = styled.span`
         }
     }};
 `;
+
+export const ImagePreviewBox = styled.div`
+  margin-top: 0.75rem;
+
+  span {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+
+  img {
+    max-width: 240px;
+    max-height: 160px;
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
+    object-fit: cover;
+  }
+`;

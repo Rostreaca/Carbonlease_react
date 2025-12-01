@@ -73,6 +73,12 @@ const FormField = ({
                             <i className="fas fa-upload"></i>
                             {fileName || '파일 선택'}
                         </FileInputLabel>
+                        {/* 이미지 미리보기 */}
+                        {typeof imageUrl === 'string' && imageUrl && (
+                            <div style={{ marginTop: '0.5rem' }}>
+                                <img src={imageUrl} alt="미리보기" style={{ maxWidth: 180, maxHeight: 120, borderRadius: 8, border: '1px solid #eee' }} />
+                            </div>
+                        )}
                     </FileInputWrapper>
                 );
             

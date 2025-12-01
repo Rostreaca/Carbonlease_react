@@ -8,6 +8,7 @@ const DataTable = ({
     showIcon = true,
     icon = 'fas fa-table',
     onRowClick,
+    className = ""
 }) => {
 
     const tableRef = useRef(null);
@@ -20,7 +21,7 @@ const DataTable = ({
                     {title}
                 </TableCardHeader>
                 <TableCardBody>
-                    <table ref={tableRef}>
+                    <table ref={tableRef} className={className}>
                         <thead>
                             <tr>
                                 {columns.map((column, index) => (

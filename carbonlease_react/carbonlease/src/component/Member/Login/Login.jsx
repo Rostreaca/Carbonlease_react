@@ -51,7 +51,7 @@ const Login = () => {
             setAlertMsg("로그인에 성공하였습니다.");
             setAlertVariant('info');
             setShowAlert(true);
-            navi('/');
+            //navi('/');
 
         }).catch(error => {
             console.error(error);

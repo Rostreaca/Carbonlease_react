@@ -79,8 +79,7 @@ const Pagination = ({
             </PageButton>
 
             {pageNumbers.map(page => {
-                // 마지막 페이지 && 데이터가 없으면 버튼 숨김
-                if (page === pageInfo.totalPage && campaignsLength === 0) return null;
+                {/* [D: 20251127 : 조건문 삭제]*/}
                 return (
                     <PageButton
                         key={page}
@@ -91,16 +90,16 @@ const Pagination = ({
                     </PageButton>
                 );
             })}
-            
+            {/* [D: 20251127 : totalPage -1 삭제 및 pageInfo.totalPage === 0 삭제 ]*/}
             <PageButton 
                 onClick={handleNextPage} 
-                disabled={currentPage === pageInfo.totalPage || (currentPage === pageInfo.totalPage - 1 && campaignsLength === 0)}
+                disabled={currentPage === pageInfo.totalPage || (currentPage === pageInfo.totalPage && campaignsLength === 0)}
             >
                 <i className="bi bi-chevron-right"></i>
             </PageButton>
             <PageButton 
                 onClick={handleLastPage} 
-                disabled={currentPage === pageInfo.totalPage || campaignsLength === 0}
+                disabled={pageInfo.totalPage === 0 || currentPage === pageInfo.totalPage}
             >
                 <i className="bi bi-chevron-double-right"></i>
             </PageButton>
