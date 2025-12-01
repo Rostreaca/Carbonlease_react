@@ -4,6 +4,7 @@ import { fetchActivityBoards } from "../../../../api/activity/activityAPI";
 
 export const useActivityBoards = () => {
   const [activityBoards, setActivityBoards] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [keyword, setKeyword] = useState("");
   const [filter, setFilter] = useState("title");
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +16,7 @@ export const useActivityBoards = () => {
   });
 
   const loadBoards = (page = 1, f = filter, k = keyword ) => {
+    setLoading(true);
     fetchActivityBoards(page, f, k)
       .then((res) => {
         const list = res.data.activityListDTO || [];
@@ -26,7 +28,8 @@ export const useActivityBoards = () => {
           totalPage: res.data.pageInfo.maxPage
         });
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -48,5 +51,7 @@ export const useActivityBoards = () => {
     setCurrentPage,
     pageInfo,
     handleSearch,
+    loading,
+    setLoading
   };
 }

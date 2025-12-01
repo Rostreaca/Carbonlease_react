@@ -10,6 +10,7 @@ export const FormArea = styled.div`
   font-family: 'NanumSquare', sans-serif;
 `
 
+
 export const ActivityForm = styled.form`
   padding: 48px 48px 45px;
   display: flex;
@@ -47,37 +48,7 @@ export const ActivityForm = styled.form`
       box-shadow: 0 0 0 2px rgba(0,163,111,0.15) !important;
     }
   }
-
-  button {
-    height: 50px;
-    width: 120px;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-  }
-
-  button[type='submit'] {
-    background: #2ecc71;
-  }
-  button[type='submit']:hover {
-    background: #27ae60;
-  }
-
-  button[type="button"] {
-    background: #e0e0e0;
-    color: #333;
-  }
-  button[type='button']:hover {
-    background: #d0d0d0;
-  }
-`
+`;
 
 export const SelectRow = styled.div`
   display: flex;
@@ -108,6 +79,84 @@ export const ButtonSection = styled.div`
   gap: 8px;
   align-self: flex-end;
 `
+export const InputButton = styled.button`
+  height: 50px;
+  width: 120px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+
+  background: #81f1b0;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transition: 0.2s ease;
+
+  &:hover {
+    background: #34d399;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,163,111,0.25);
+  }
+`;
+
+export const CancelButton = styled.button`
+  height: 50px;
+  width: 120px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+
+  background: #e5e7eb;
+  color: #444;
+  font-size: 22px;
+  font-weight: 500;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: #d1d5db;
+    transform: translateY(-1px);
+  }
+`;
+
+export const SearchWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const SearchInput = styled.input`
+  
+`;
+
+export const SearchButton = styled.button`
+  height: 45px;
+  width: 100px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: none;
+
+  background: #81f1b0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transition: 0.2s ease;
+
+  &:hover {
+    background: #34d399;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
+  }
+`;
+
+
 
 export const SelectLabel = styled.label`
   font-weight: bold;

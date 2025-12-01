@@ -11,9 +11,13 @@ export const PaginationContainer = styled.div`
 export const PageButton = styled.button`
     min-width: 40px;
     height: 40px;
-    border: 1px solid ${props => props.$active ? 'var(--accent-color)' : '#dee2e6'};
-    background-color: ${props => props.$active ? 'var(--accent-color)' : 'white'};
-    color: ${props => props.$active ? 'white' : '#495057'};
+    border: 1px solid
+        ${props => props.$active ? '#34d399' : '#b6f2d0'};
+    background-color:
+        ${props => props.$active ? '#34d399' : '#fff'};
+    color:
+        ${props => props.$active ? 'white' : '#34a67f'};
+    
     border-radius: 6px;
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
     opacity: ${props => props.disabled ? '0.5' : '1'};
@@ -22,10 +26,15 @@ export const PageButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: ${props => props.$active ? 
+        '0 2px 6px rgba(0,0,0,0.15)' : 
+        '0 2px 6px rgba(0,0,0,0.08)'};
 
     &:hover:not(:disabled) {
-        background-color: ${props => props.$active ? 'var(--accent-color)' : '#e9ecef'};
-        border-color: ${props => props.$active ? 'var(--accent-color)' : '#adb5bd'};
+        background-color:
+            ${props => props.$active ? '#34d399' : '#e3fdf2'};
+        border-color:
+            ${props => props.$active ? '#34d399' : '#9eeac7'};
     }
 
     i {

@@ -6,17 +6,19 @@ import AddressSearchInput from "../ActivityInsertForm/components/AddressSearchIn
 import CategorySelect from "../ActivityInsertForm/components/CategorySelect";
 import RegionSelect from "../ActivityInsertForm/components/RegionSelect";
 import ImagePreviewBox from "../ActivityInsertForm/components/ImagePreviewBox";
-import { ActivityForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./ActivityUpdateForm.styles";
+import { ActivityForm, ButtonSection, CancelButton, FormArea, InputButton, SelectLabel, SelectRow } from "../../ActivityBoard/ActivityInsertForm/ActivityInsertForm.styles";
 import useToast from "../ActivityBoardDetail/hooks/useToast";
 import useUpdateFormState from "./hooks/useUpdateFormState";
 import useUpdateSubmit from "./hooks/useUpateSubmit";
 import Toast from "../../Common/Toast/Toast";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 const ActivityUpdateForm = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log("activityNo from params:", id);
+  const { auth } = useContext(AuthContext);
 
   const {
     toastMessage,
@@ -25,6 +27,24 @@ const ActivityUpdateForm = () => {
     showToastMessage,
     closeToast
   } = useToast();
+
+  useEffect(() => {
+    if (!auth.isAuthenticated) {
+      const timer = setTimeout(() => navigate("/login"), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [auth.isAuthenticated]);
+
+  if (!auth.isAuthenticated) {
+    return (
+      <Toast
+        message="로그인이 필요한 서비스입니다!"
+        isVisible={true}
+        variant="error"
+        onClose={() => {}}
+      />
+    );
+  }
 
   const {
     title, setTitle,
@@ -109,8 +129,8 @@ const ActivityUpdateForm = () => {
 
             <hr />
             <ButtonSection>
-              <button type="submit">수정</button>
-              <button type="button" onClick={() => window.history.back()}>취소</button>
+              <InputButton type="submit">수정</InputButton>
+              <CancelButton type="button" onClick={() => window.history.back()}>취소</CancelButton>
             </ButtonSection>
 
           </ActivityForm>

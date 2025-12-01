@@ -2,36 +2,33 @@ import { useEffect, useState } from "react";
 import { fetchActivityDetail, increaseViewCountAPI } from "../../../../api/activity/activityAPI";
 import activityStore from "../../../../store/activityStore";
 
+export default function useDetail(activityNo, memberId) {
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-export default function useDetail(id, accessToken, setIsLiked, setLikeCount) {
-    const [post, setPost] = useState(null);
-    const [loading, setLoading] = useState(true);
-    
-    const loadDetail = async () => {
-        try {
-            const res = await fetchActivityDetail(id, accessToken);
-            const data = res.data;
+  const loadDetail = async () => {
+    try {
+      const result = await fetchActivityDetail(activityNo, memberId);
+      const data = result.data;
 
-            const localLike = activityStore.getLike(id);
-
-            setPost({
-                ...data,
-                isLiked: localLike ?? data.isLiked
-            });
-
-            setIsLiked(localLike ?? data.isLiked);
-            setLikeCount(data.likeCount);
-        } catch (err) {
-            console.error("Detail 조회 실패", err);
-        } finally {
-            setLoading(false);
+      const storedLike = activityStore.getLike(activityNo);
+        if (storedLike !== undefined) {
+            data.isLiked = storedLike;
         }
-    };
 
-    useEffect(() => {
-        loadDetail();
-        increaseViewCountAPI(id);
-    }, [id]);
+      setPost(data);
+    } catch (error) {
+      console.error("Detail 조회 실패", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return { post, loading, loadDetail };
+  useEffect(() => {
+    loadDetail();
+    increaseViewCountAPI(activityNo);
+  }, [activityNo, memberId]);
+
+  return { post, loading };
 }
+

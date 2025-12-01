@@ -6,6 +6,7 @@ import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
 import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import Toast from "../../Common/Toast/Toast";
+import { Button, Dropdown } from "react-bootstrap";
 
 const AdminUsers = () => {
 
@@ -16,6 +17,10 @@ const AdminUsers = () => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [confirmVariant, setConfirmVariant] = useState('info');
     const [selectUser, setSelectUser] = useState(0);
+    const [dropDownName, setDropDownName] = useState('사용자 번호');
+    const [orderBy, setOrderBy] = useState('memberNo');
+
+    const [keyword,setKeyword] = useState('');
 
     // Toast 상태
     const [toast, setToast] = useState({
@@ -31,9 +36,9 @@ const AdminUsers = () => {
 
     useEffect(() => {
 
-        console.log(auth);
+        // console.log(auth);
 
-        axios.get("http://localhost/admin/members",{
+        axios.get(`http://localhost/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
             headers : {
                Authorization :  `Bearer ${auth.accessToken}`
             }
@@ -45,7 +50,7 @@ const AdminUsers = () => {
         })
 
         setIsEdited(false);
-    },[isEdited])
+    },[isEdited, orderBy])
 
 
 
@@ -72,7 +77,7 @@ const AdminUsers = () => {
                 Authorization : `Bearer ${auth.accessToken}`
             }
         }).then(result => {
-            showToastMessage('성공적으로 삭제되었습니다.', 'success');
+            showToastMessage('성공적으로 탈퇴되었습니다.', 'success');
         }).catch(err => {
             showToastMessage(err.response.data["error-message"]);
         })
@@ -114,8 +119,7 @@ const AdminUsers = () => {
         {
             header: '관리',
             field: 'memberNo' ,
-            render: (value) => (
-                console.log(data.find(item => item.memberNo === value)),
+            render: (value) => 
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                     
                     {data.find(item => item.memberNo === value).status === 'N'? 
@@ -128,23 +132,49 @@ const AdminUsers = () => {
                     </DeleteButton>
                     }
                 </div>
-            )
         }
     ];
 
     return (
         <div>
             <h1>회원 관리</h1>
-            <p>
+                {
+                data.length !== 0 ?
                 <DataTable
                     title="회원 목록"
                     columns={columns}
                     data={data}
                     icon="fas fa-leaf"
                     className="userTable"
-                />
-            </p>
-            
+                ></DataTable>
+                :
+                <p>
+                    데이터가 존재하지 않습니다.
+                    {keyword !== ''?
+                        <Button variant="dark" onClick={()=>{(setKeyword(''),setIsEdited(true))}}>회원 목록 조회</Button>
+                        :
+                        <></>
+                    }
+                </p>
+                }
+    <Dropdown className="userDropDown">
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+        {dropDownName}
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={(e) => (setOrderBy('memberNo'), setDropDownName(e.target.innerHTML))}>사용자 번호</Dropdown.Item>
+        <Dropdown.Item onClick={(e) => (setOrderBy('memberId'), setDropDownName(e.target.innerHTML))}>사용자 이름</Dropdown.Item>
+        <Dropdown.Item onClick={(e) => (setOrderBy('nickName'), setDropDownName(e.target.innerHTML))}>닉네임</Dropdown.Item>
+        <Dropdown.Item onClick={(e) => (setOrderBy('enrollDate'),setDropDownName(e.target.innerHTML))}>가입일</Dropdown.Item>
+      </Dropdown.Menu>
+
+    <div>
+    <input type="text" placeholder="사용자 닉네임 검색" onChange={(e) => setKeyword(e.target.value)}/>
+    <Button variant="primary" onClick={() => setIsEdited(true)}>검색</Button>
+    </div>
+    </Dropdown>
+
             <ConfirmDialog
                 show={showConfirm}
                 onClose={() => setShowConfirm(false)}
@@ -154,7 +184,7 @@ const AdminUsers = () => {
                 confirmText= {confirmVariant === 'info' ? '복구' : '탈퇴'}
                 cancelText="취소"
                 variant= {confirmVariant}
-                />
+            />
 
             <Toast
                 message={toast.message}

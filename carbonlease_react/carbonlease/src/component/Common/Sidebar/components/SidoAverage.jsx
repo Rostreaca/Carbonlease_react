@@ -1,30 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SidoInfoBox } from "../Sidebar.styles";
 import SkeletonBox from "./SkeletonBox";
 
 const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
-  const [slide, setSlide] = useState("");
+  const [anim, setAnim] = useState("");
+
+  const getGrade = (value) => {
+    if (value <= 15) return "좋음";
+    if (value <= 35) return "보통";
+    if (value <= 75) return "나쁨";
+    return "매우나쁨";
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setAnim("fade-slide-out");
+      setTimeout(() => {
+        onNext();
+        setAnim("fade-slide-in");
+      }, 300);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [onNext]);
 
   const handlePrev = () => {
-    setSlide("slide-right");
+    setAnim("fade-slide-out");
     setTimeout(() => {
       onPrev();
-      setSlide("slide-reset");
-    }, 200);
+      setAnim("fade-slide-in");
+    }, 300);
   };
 
   const handleNext = () => {
-    setSlide("slide-left");
+    setAnim("fade-slide-out");
     setTimeout(() => {
       onNext();
-      setSlide("slide-reset");
-    }, 200);
+      setAnim("fade-slide-in");
+    }, 300);
   };
 
   if (!sidoAvg) return <SkeletonBox />;
 
   return (
-    <SidoInfoBox className={slide}>
+    <SidoInfoBox className={anim}>
       <div className="nav">
         <button className="arrow" onClick={handlePrev}>&lt;</button>
         <div className="title">{sido} 평균</div>
@@ -32,7 +50,7 @@ const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
       </div>
 
       <div className="date">{sidoAvg.time} 기준</div>
-      <div className="value">{sidoAvg.value}㎍/㎥ 보통</div>
+      <div className="value">{sidoAvg.value}㎍/㎥ {getGrade(sidoAvg.value)}</div>
     </SidoInfoBox>
   );
 };

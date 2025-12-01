@@ -11,7 +11,7 @@ const CallToActionSection = () => {
                             <p>
                                 탄소중립 실천을 함께하고, 친환경 커뮤니티에 참여해보세요.
                             </p>
-                            <a className="btn btn-light btn-lg" href="#signup">
+                            <a className="btn btn-light btn-lg" href="/member/enrollForm">
                                 회원가입하기
                             </a>
                         </div>

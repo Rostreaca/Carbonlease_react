@@ -2,7 +2,7 @@ import PageTitle from "../../Common/Layout/PageTitle/PageTitle"
 import PageContent from "../../Common/PageContent/PageContent"
 import AddressSearchInput from "./components/AddressSearchInput";
 import ImagePreviewBox from "./components/ImagePreviewBox";
-import { ActivityForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./ActivityInsertForm.styles";
+import { ActivityForm, ButtonSection, CancelButton, FormArea, InputButton, SelectLabel, SelectRow } from "./ActivityInsertForm.styles";
 import RegionSelect from "./components/RegionSelect";
 import CategorySelect from "./components/CategorySelect";
 import TextInputSection from "./components/TextInputSection";
@@ -11,11 +11,14 @@ import useInsertFormState from "./hooks/useInsertFormState";
 import useInsertSubmit from "./hooks/useInsertSubmit";
 import useToast from "../ActivityBoardDetail/hooks/useToast";
 import Toast from "../../Common/Toast/Toast";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 
 const ActivityInsertForm = () => {
   
   const navigate = useNavigate();
+  const { auth } = useContext(AuthContext);
 
   const {
     toastMessage,
@@ -24,6 +27,27 @@ const ActivityInsertForm = () => {
     showToastMessage,
     closeToast
   } = useToast();
+
+  useEffect(() => {
+    if(!auth.isAuthenticated) {
+      showToastMessage("로그인이 필요한 서비스입니다!", "error");
+      
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  }, [auth.isAuthenticated]);
+
+  if (!auth.isAuthenticated) {
+    return (
+      <Toast 
+        message={toastMessage}
+        isVisible={showToast}
+        variant={toastVariant}
+        onClose={closeToast}
+      />
+    )
+  }
 
   const {
     title, setTitle,
@@ -53,7 +77,7 @@ const ActivityInsertForm = () => {
         title="인증 게시글 작성"
         breadcrumbs={[
           { label: 'Home', path: '/'},
-          { label: '인증게시판', path: '/ActivityBoards'},
+          { label: '인증게시판', path: '/activityBoards'},
           { label: '인증 게시글 작성', current: true }
         ]}
         />
@@ -98,8 +122,8 @@ const ActivityInsertForm = () => {
 
             <hr />
             <ButtonSection>
-            <button type="submit">등록</button>
-            <button type="button" onClick={() => window.history.back()}>취소</button>
+            <InputButton type="submit">등록</InputButton>
+            <CancelButton type="button" onClick={() => window.history.back()}>취소</CancelButton>
             </ButtonSection>
             </ActivityForm>
           </FormArea>

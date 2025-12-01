@@ -19,12 +19,6 @@ export default function useInsertSubmit({
 
         const accessToken = localStorage.getItem("accessToken");
 
-        if (!accessToken) {
-            showToastMessage("로그인이 필요한 서비스입니다!");
-            navigate("/login");
-            return;
-        }
-
         if (!title) return showToastMessage("제목을 입력해주세요!", "warning");
         if (!content) return showToastMessage("내용을 입력해주세요!", "warning");
         if (!address || !lat || !lng) return showToastMessage("주소를 입력해주세요!", "warning");

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const ListWrapper = styled.div`
-  width: 900px;
+  max-width: 900px;
+  widtn: 100%;
   margin: 0 auto;
   padding: 20px 0;
   font-family: 'NanumSquare', sans-serif;
@@ -13,7 +14,20 @@ export const BoardsRow = styled.div`
   padding: 20px 0;
   border-bottom: 1px solid #eaeaea;
   cursor: pointer;
+  border-radius: 6px;
+
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    border-left 0.25s ease;
+
+  &:hover {
+    background-color: #f7fffa; 
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    border-left: 8px solid #b6f2d0;
+  }
 `;
+
 
 export const BoardNo = styled.div`
   font-size: 14px;
@@ -38,7 +52,14 @@ export const Title = styled.div`
 export const Content = styled.div`
   font-size: 14px;
   color: #444;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 `;
+
 
 export const ETC = styled.div`
   font-size: 12px;
@@ -80,19 +101,25 @@ export const ButtonAndSearch = styled.div`
     width: 105px;
     padding: 12px;
     border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-size: 17px;          
+    font-weight: 500;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #2ecc71;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+    background: #81f1b0ff;
     color: #fff;
 
-    &:hover {
-      background: #27ae60;
-    }
+    transition: 0.2s ease;
+  }
+
+  button:hover {
+    background: #34d399;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    transform: translateY(-1px);
   }
 `;
 
@@ -127,11 +154,51 @@ export const SearchBox = styled.div`
   }
 
   button {
-    padding: 8px 12px;
-    background: #2ecc71;
+    height: 45px;
+    width: 105px;
+    padding: 12px;
     border: none;
-    color: #fff;
-    border-radius: 6px;
+    border-radius: 10px;
+    font-size: 17px;          
+    font-weight: 500;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+    background: #81f1b0ff;
+    color: #fff;
+
+    transition: 0.2s ease;
   }
+
+  button:hover {
+    background: #34d399;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    transform: translateY(-1px);
+  }
+`;
+
+export const EmptyWrapper = styled.div`
+  margin: 60px 0;
+  width: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EmptyMessage = styled.div`
+  font-size: 18px;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: #666;
+`;
+
+export const EmptySub = styled.div`
+  font-size: 14px;
+  margin-bottom: 50px;
+  color: #999;
 `;

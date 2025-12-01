@@ -1,12 +1,16 @@
 import { StyledButton } from "../ActivityBoardDetail.styles";
 
-const LikeButton = ({ isLiked, count, onClick }) => {
+const LikeButton = ({ isLiked, onClick }) => {
   return (
     <StyledButton $liked={isLiked} onClick={onClick}>
-      {isLiked ? "❤️ 공감 취소" : "🤍 공감하기"}
-      <span>({count})</span>
+      <img 
+        src="/images/Like-icon.png"
+        alt="like-icon"
+        className="like-icon"
+      />
     </StyledButton>
-  )
-}
+  );
+};
+
 
 export default LikeButton;
