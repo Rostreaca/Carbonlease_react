@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
         addressLine2 : null,
         role : null,
         isAuthenticated : false,
+        expiredDate : null
     });
 
     useEffect(() => {
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }) => {
         const addressLine1 = localStorage.getItem("addressLine1");
         const addressLine2 = localStorage.getItem("addressLine2");
         const role = localStorage.getItem("role");
+        const expiredDate = localStorage.getItem("expiredDate");
         //console.log(refreshToken);
 
         // 관리자는 자동로그인 불가
@@ -38,8 +40,14 @@ export const AuthProvider = ({ children }) => {
             return;
         }
 
+        console.log('토큰 만료 기간 : '+ expiredDate);
+
+        console.log(Date.now() - expiredDate);
+
+        console.log(1000*60*60*24);
+
         {
-            accessToken !== null ? 
+            expiredDate !== null && (Date.now() - expiredDate > 1000*60*60*24)? 
 
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
@@ -65,17 +73,25 @@ export const AuthProvider = ({ children }) => {
 
         }).catch(error => {
             console.log(error.response.data["error-message"]);
-            localStorage.removeItem("memberId");
-            localStorage.removeItem("nickName");
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
-            localStorage.removeItem("email");
-            localStorage.removeItem("addressLine1");
-            localStorage.removeItem("addressLine2");
-            localStorage.removeItem("role");
+            logout();
+        })
+        :
+        accessToken !==null
+        ?        
+        setAuth({
+                memberId,
+                nickName,
+                accessToken,
+                refreshToken,
+                email, 
+                addressLine1, 
+                addressLine2,
+                role,
+                isAuthenticated : true
         })
         :
         <></>
+
     }
 
 
@@ -91,7 +107,7 @@ export const AuthProvider = ({ children }) => {
             addressLine1, 
             addressLine2,
             role,
-            isAuthenticated : true,
+            isAuthenticated : true
         });
 
         localStorage.setItem("memberId",memberId);
@@ -102,6 +118,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("addressLine1",addressLine1);
         localStorage.setItem("addressLine2",addressLine2);
         localStorage.setItem("role",role);
+        localStorage.setItem("expiredDate",Date.now());
     }
 
     const logout = () => {
@@ -114,7 +131,7 @@ export const AuthProvider = ({ children }) => {
             addressLine1 : null, 
             addressLine2 : null,
             role : null,
-            isAuthenticated : false,
+            isAuthenticated : false
         });
 
         localStorage.removeItem("memberId");
@@ -125,6 +142,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("addressLine1");
         localStorage.removeItem("addressLine2");
         localStorage.removeItem("role");
+        localStorage.removeItem("expiredDate");
 
         //navi('/');
 

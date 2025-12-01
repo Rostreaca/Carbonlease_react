@@ -59,7 +59,7 @@ const RegionStatsMap = () => {
             <InfoBox>
                 <InfoIcon className="bi bi-geo-alt-fill" />
                 <InfoContent>
-                    <InfoTitle>지역별 탄소중립포인트 에너지 사용량 정보</InfoTitle>
+                    <InfoTitle>탄소중립포인트 에너지 사용량</InfoTitle>
                     <InfoDescription>
                         각 지역의 친환경 실천 활동을 통해 적립된 포인트를 확인하세요
                     </InfoDescription>

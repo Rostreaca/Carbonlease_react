@@ -22,9 +22,22 @@ const RegionStatsMap = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getRegionCarbonStats();
-                console.log('Region data:', data);
-                setRegionData(data);
+                const data = await getRegionParticipationStats();
+                // 최근 3개월 평균 참여율로 변환
+                const mapped = data.map(item => {
+                    const avgPtcpRt = Math.round(
+                        item.history.reduce((sum, h) => sum + h.ptcpRt, 0) / item.history.length
+                    );
+                    // 좌표 등은 기존 regionStatsApi.js의 좌표 매핑 참고
+                    const regionInfo = getDummyRegionStats().find(r => r.region === item.region);
+                    return {
+                        region: item.region,
+                        value: avgPtcpRt,
+                        lat: regionInfo?.lat,
+                        lng: regionInfo?.lng
+                    };
+                });
+                setRegionData(mapped);
             } catch (err) {
                 console.error('Failed to fetch region data:', err);
             } finally {
