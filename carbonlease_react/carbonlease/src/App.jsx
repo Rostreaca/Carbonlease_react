@@ -19,7 +19,6 @@ import { GlobalCommonStyles } from './styles/global.styled';
 import NotFound from './component/Common/NotFound/NotFound';
 
 // Admin Components
-import { useContext } from 'react';
 import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
 import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 import AdminHome from './component/Admin/AdminHome';
