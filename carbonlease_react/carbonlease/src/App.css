@@ -83,20 +83,6 @@ h6 {
   font-family: var(--heading-font);
 }
 
-#signUpContainer { 
-    margin:auto;
-}
-
-.regInvalidMsg {
-  font-size: 14px;
-  color: red;
-}
-
-.regValidMsg {
-  font-size: 14px;
-  color: rgb(7, 165, 7);
-}
-
 .userTable { 
   display: block;
   max-height: 500px;

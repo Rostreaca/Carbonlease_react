@@ -147,13 +147,14 @@ const EnrollForm = () => {
             />
             <PageContent>
                 <form onSubmit={handleSignUp}>
-                    <DemoContainer id="signUpContainer" style={{ maxWidth: '600px' }}>
+                    <DemoContainer className="signUpContainer">
                         <FieldGroup>
                             <FieldLabel>아이디</FieldLabel>
                             <FieldInput
                                 type="text"
                                 placeholder="아이디를 입력하세요"
                                 onChange={(e) => setMemberId(e.target.value)}
+                                className='userFormInput'
                                 required
                             />
                             <CheckIdDuplicate memberId = {memberId} checkId ={checkId} setCheckId = {setCheckId} setIdMsg = {setIdMsg}/>
@@ -165,6 +166,7 @@ const EnrollForm = () => {
                                 type="password"
                                 placeholder="비밀번호를 입력하세요"
                                 onChange={(e) => setMemberPwd(e.target.value)}
+                                className='userFormInput'
                                 required
                             />
                             <FormLabel className={checkPwd ? 'regValidMsg' : 'regInvalidMsg'}>{pwdMsg}</FormLabel>
@@ -175,6 +177,7 @@ const EnrollForm = () => {
                                 type="text"
                                 placeholder="닉네임을 입력하세요"
                                 onChange={(e) => setNickName(e.target.value)}
+                                className='userFormInput'
                                 required
                             />
                             <CheckNickNameDuplicate nickName = {nickName} checkNickName = {checkNickName} setCheckNickName = {setCheckNickName} setNickNameMsg = {setNickNameMsg}/>
@@ -186,14 +189,14 @@ const EnrollForm = () => {
                                 type="text"
                                 placeholder="이메일을 입력하세요"
                                 onChange={(e) => setEmail(e.target.value)}
+                                className='userFormInput'
                                 required
                             />
                             <CheckEmailDuplicate email = {email} checkEmail = {checkEmail} setCheckEmail = {setCheckEmail} setEmailMsg = {setEmailMsg}/>
                             <FormLabel className={checkEmail ? 'regValidMsg' : 'regInvalidMsg'}>{emailMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
-                            <Button variant='primary' type='button' onClick={findAddress}>주소지 검색</Button>
-                            <FieldLabel>기본주소</FieldLabel>
+                            <FieldLabel>기본주소 <Button className='rounded-pill' variant='primary' type='button' onClick={findAddress} size='sm'>주소지 검색</Button></FieldLabel>
                             <FieldInput
                                 type="text"
                                 placeholder="기본주소"
@@ -210,9 +213,9 @@ const EnrollForm = () => {
                                 onChange={(e) => setAddressLine2(e.target.value)}
                             />
                         </FieldGroup>
-                        <FieldGroup>
-                            <Button variant='success' type='submit'>회원가입</Button>
-                            <Button variant='outline-success' type='button' onClick={() => navi(-1)}>취소</Button>
+                        <FieldGroup className='userFormButtonGroup'>
+                            <Button className='userFormButton' variant='success' type='submit'>회원가입</Button>
+                            <Button className='userFormButton' variant='outline-success' type='button' onClick={() => navi(-1)}>취소</Button>
                         </FieldGroup>
                     </DemoContainer>
                 </form>
