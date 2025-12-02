@@ -13,10 +13,6 @@ const RegionInfo = ({ item, region }) => {
       <div className="time">{dataTime} 기준</div>
 
       <div className="row">
-        <span><strong>측정소</strong> {station}</span>
-      </div>
-
-      <div className="row">
         <span>초미세먼지(PM-2.5)</span>
         <span className="value">{item.pm25Value?._text} ㎍/㎥ · {item.pm25Grade?._text}</span>
       </div>

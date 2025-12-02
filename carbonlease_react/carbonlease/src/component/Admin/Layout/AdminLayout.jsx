@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
     Footer,
     LayoutSidenav,
@@ -16,7 +16,14 @@ const AdminLayout = () => {
     const [sidebarActive, setSidebarActive] = useState(false);
     const showUsersMenu = true; // 필요 시 false로 변경
 
-    const { logout } = useContext(AuthContext);
+    const navi = useNavigate();
+    const { auth, logout } = useContext(AuthContext);
+
+    useEffect(() => {
+        if(auth.role !== '[ROLE_ADMIN]'){
+          navi('/admin/login');
+        }
+    }, [])
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);

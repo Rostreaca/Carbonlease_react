@@ -1,10 +1,26 @@
-import { InfoBox, InfoItem, InfoRow, Title, WriterIcon } from "../ActivityBoardDetail.styles";
+import { InfoBox, InfoItem, InfoRow, Title, TitleRow, WriterIcon } from "../ActivityBoardDetail.styles";
+import LikeButton from "./LikeButton";
 
-const InfoSection = ({ title, writer, createDate, views, likes }) => {
+const InfoSection = ({
+  title,
+  writer,
+  createDate,
+  views,
+  likeCount,
+  isLiked,
+  onLike
+}) => {
   return (
     <>
-      {/* 제목 */}
-      <Title>{title}</Title>
+      <TitleRow>
+        <Title>{title}</Title>
+
+        <LikeButton 
+          isLiked={isLiked}
+          count={likeCount}
+          onClick={onLike}
+        />
+      </TitleRow>
 
       <hr />
 
@@ -21,13 +37,15 @@ const InfoSection = ({ title, writer, createDate, views, likes }) => {
             <span>조회</span>
             <span>{views}</span>
             <span>·</span>
-            <span> 좋아요</span>
-            <span>{likes}</span>
+            <span>좋아요</span>
+            <span>{likeCount}</span>
           </InfoItem>
         </InfoRow>
       </InfoBox>
     </>
   );
 };
+
+
 
 export default InfoSection;

@@ -1,18 +1,33 @@
-import { ProfilCardWrapper, ProfilText } from "../ActivityBoardDetail.styles";
-import ThermometerGauge from "./ThermometerGauge";
+import { ProfilCardWrapper, ProfilText, SeparatorLine } from "../ActivityBoardDetail.styles";
+import HorizontalGauge from "./HorizontalGauge";
 
-const ProfilCard = ({nickName, count, carbon}) => {
+const ProfilCard = ({ nickName, count, carbon }) => {
   return (
     <ProfilCardWrapper>
-      <ThermometerGauge value={carbon} />
 
+      {/* 게이지 */}
+      <HorizontalGauge value={carbon} />
+
+      {/* 세로 라인 */}
+      <SeparatorLine />
+
+      {/* 닉네임 */}
       <ProfilText>
         <div><strong>{nickName}</strong></div>
-        <div>인증 횟수: {count}회</div>
-        <div>탄소 절약: {carbon}g CO₂</div>
       </ProfilText>
+
+      {/* 세로 라인 */}
+      <SeparatorLine />
+
+      {/* 인증/탄소절약 */}
+      <ProfilText>
+        <div>인증 횟수: <strong>{count}</strong>회</div>
+        <div>탄소 절약: <strong>{carbon}</strong>g CO₂</div>
+      </ProfilText>
+
     </ProfilCardWrapper>
-  )
-}
+  );
+};
+
 
 export default ProfilCard;

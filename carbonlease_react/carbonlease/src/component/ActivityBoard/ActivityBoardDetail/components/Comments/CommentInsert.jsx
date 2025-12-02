@@ -2,16 +2,22 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { insertReplyAPI } from "../../../../../api/activity/activityAPI";
 import { ReplyInputSection, ReplyInput, ReplyInputButton } from "../../ActivityBoardDetail.styles";
+import useToast from "../../hooks/useToast";
 
 const CommentInsert = ({ boardNo, onSuccess }) => {
   const [content, setContent] = useState("");
   const { auth } = useContext(AuthContext);
+  const { showToastMessage } = useToast();
 
   const handleSubmit = async () => {
-    if (!content.trim()) return alert("댓글을 입력하세요!");
 
-    if (!auth.isAuthenticated) {
-      alert("로그인이 필요합니다.");
+    if(!auth.isAuthenticated) {
+      showToastMessage("로그인이 필요한 서비스입니다!", "error");
+      return;
+    }
+
+    if (!content.trim()) {
+      showToastMessage("댓글을 입력해주세요!", "warning");
       return;
     }
 
@@ -20,9 +26,12 @@ const CommentInsert = ({ boardNo, onSuccess }) => {
 
       setContent("");
       if (onSuccess) onSuccess();
+
+      showToastMessage("댓글 등록 완료!", "success");
+
     } catch (err) {
       console.error("댓글 등록 실패", err);
-      alert("댓글 등록 실패");
+      showToastMessage("댓글 등록 실패", "error");
     }
   };
 
@@ -31,7 +40,6 @@ const CommentInsert = ({ boardNo, onSuccess }) => {
       <ReplyInput
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        style={{ width: "100%", height: "80px" }}
       />
       <ReplyInputButton onClick={handleSubmit}>댓글 등록</ReplyInputButton>
     </ReplyInputSection>

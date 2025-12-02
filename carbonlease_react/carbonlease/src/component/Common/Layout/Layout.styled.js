@@ -6,9 +6,10 @@ export const LayoutWrap = styled.div`
 
 export const PageWrapper = styled.div`
   display: flex;
+  justify-content: center;
   max-width: 1400px;
   margin: 0 auto;
-  gap: ${props => (props.$showSidebar ? "40px" : "0px")};
+  gap: ${props => (props.$showSidebar ? "90px" : "0px")};
   padding: 40px 0;
   min-height: 800px;
 `;

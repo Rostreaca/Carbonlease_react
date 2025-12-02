@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 export const PaginationContainer = styled.div`
     width: 60%; 
-    margin: 30px auto 0 auto;
-    margin-bottom: 20px;
-    
+    margin: 30px auto 20px auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,30 +10,38 @@ export const PaginationContainer = styled.div`
 `;
 
 export const PageButton = styled.button`
-    min-width: 32px; 
+    min-width: 32px;
     height: 32px;
 
-    border: 1px solid ${props => props.$active ? 'var(--accent-color)' : '#dee2e6'};
-    background-color: ${props => props.$active ? 'var(--accent-color)' : 'white'};
-    color: ${props => props.$active ? 'white' : '#495057'};
-    
+    /* 기본 / active */
+    border: 1px solid 
+        ${props => props.$active ? '#34d399' : '#b6f2d0'};
+    background-color: 
+        ${props => props.$active ? '#34d399' : '#ffffff'};
+    color: 
+        ${props => props.$active ? '#ffffff' : '#34a67f'};
+
     border-radius: 6px;
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
     opacity: ${props => props.disabled ? '0.5' : '1'};
     transition: all 0.2s ease;
     font-weight: ${props => props.$active ? '600' : '400'};
-
     display: flex;
     align-items: center;
     justify-content: center;
 
+    /* hover */
     &:hover:not(:disabled) {
-        background-color: ${props => props.$active ? 'var(--accent-color)' : '#e9ecef'};
-        border-color: ${props => props.$active ? 'var(--accent-color)' : '#adb5bd'};
+        background-color: 
+            ${props => props.$active ? '#34d399' : '#e3fdf2'};
+        border-color: 
+            ${props => props.$active ? '#34d399' : '#9eeac7'};
     }
 
+    /* 아이콘 같은 경우 */
     i {
         font-size: 14px;
     }
 `;
+
 

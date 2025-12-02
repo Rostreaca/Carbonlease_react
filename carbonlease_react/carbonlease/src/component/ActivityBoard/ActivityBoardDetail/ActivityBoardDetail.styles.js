@@ -14,6 +14,14 @@ export const Title = styled.h2`
   color: #222;
 `;
 
+export const TitleRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0 10px 0;
+`;
+
+
 export const ActivityInfo = styled.div`
   padding-bottom: 15px;
   border-bottom: 1px solid #eee;
@@ -75,18 +83,20 @@ export const ImageBox = styled.div`
 export const ContentBox = styled.div`
   width: 100%;
   max-width: 830px;
-  margin: 24px auto;
-  padding: 28px;
+  min-height: 200px;
+  margin: 20px auto;
+  padding: 32px 34px;
 
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: 16px;
 
-  border: 1.5px solid #e3e3e8;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+  border: 1px solid #e8f5e9;   /* 연한 민트 느낌 */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 
-  font-size: 17px;
-  line-height: 1.8;
-  color: #1c1c1e;
+  font-size: 16px;
+  line-height: 2;
+  color: #2b2b2b;
+
   white-space: pre-line;
 `;
 
@@ -100,15 +110,6 @@ export const MapArea = styled.div`
   box-shadow: 0 0 1.2px; 
 `
 
-/* ====== 프로필 + 좋아요 ====== */
-export const ProfilAndLike = styled.div`
-  max-width: 830px;
-  margin: 30px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center; 
-  gap: 60px;                   
-`;
 
 /* 프로필 카드 */
 export const ProfilCardWrapper = styled.div`
@@ -116,126 +117,128 @@ export const ProfilCardWrapper = styled.div`
   align-items: center;
   justify-content: center; 
   gap: 18px;
-  margin-right: 100px;
+  margin: 20px auto;
+  width: 95%;
+  max-width: 900px;
 
   padding: 20px 26px;
-  background: #b2f2bb;
-  border-radius: 40px;
+  background: #fff;
+  border-radius: 20px;
   
-  border: 2px solid #b2f2bb;
+  border: 1px solid #b2f2bb;
   box-shadow: 0 4px 14px rgba(0,0,0,0.04);
 
   height: 100px;
-  min-width: 280px;
 `;
 
 /* 텍스트 */
 export const ProfilText = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
+  margin: 0 18px;
 
   strong {
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     color: #1c1c1e;   
   }
 
   div {
-    font-size: 14px;
+    font-size: 20px;
     color: #6e6e73;  
   }
 `;
 
-/* 게이지 컨테이너 */
-export const GaugeWrapper = styled.div`
-  position: relative; 
-  width: 40px;
-  height: 90px;
-  background: #f5f5f7;
-  border-radius: 15px;
-  border: 1px solid #e0e0e5;
-  overflow: hidden;
+  /* 가로 게이지 박스 */
+  export const GaugeBox = styled.div`
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+  `;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  /* 전체 트랙 */
+  export const GaugeTrack = styled.div`
+    width: 280px;
+    height: 30px;
+    background: #e9ecef;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #d1e7dd;
+  `;
+
+  /* 채워지는 바 */
+  export const GaugeBar = styled.div`
+    height: 100%;
+    background: #86e5ad;
+    transition: width 0.3s ease;
+    border-radius: 18px;
+  `;
+
+  /* % 텍스트 */
+  export const GaugeText = styled.div`
+    font-size: 20px;
+    font-weight: 600;
+    color: #2f2f2f;
+  `;
+
+
+export const SeparatorLine = styled.div`
+  width: 1px;
+  height: 60px;
+  background: #b2f2bb;
+  margin: 0 18px;
+  opacity: 0.8;
 `;
 
-/* 채워지는 액체 */
-export const GaugeFill = styled.div`
-  width: 100%;
-  background: linear-gradient(
-    180deg,
-    #ffa500 0%,
-    #ff7b00 100%
-  );
-  transition: height 0.3s ease;
-`;
-
-/* 4등분 라인 */
-export const GaugeLines = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 4px 0;
-
-  div {
-    width: 100%;
-    height: 1px;
-    background: rgba(0,0,0,0.15);
-  }
-`;
-
-/* % 텍스트 */
-export const GaugePercentText = styled.div`
-  position: absolute;
-  bottom: 50%; 
-  left: 50%;
-  transform: translate(-50%, 50%);
-
-  font-size: 12px;
-  font-weight: 600;
-  color: #333;
-  text-shadow: 0 0 2px white;
-`;
 
 /* ====== 좋아요 버튼 ====== */
-export const LikeButton = styled.button`
+export const StyledButton = styled.button`
+  width: 110px;
+  height: 50px;
+
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: center; 
-  gap: 10px;
-  height: 100px;
-  min-width: 220px;
+  
 
-  padding: 16px 38px;
-  font-size: 28px;
+  border-radius: 20px;
+  border: ${p => (p.$liked ? "1px solid #eb5252" : "1px solid #86e5ad")};
+  cursor: pointer;
 
-  background: ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
-  color: #fff;
-  border: 2px solid ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
+  background: ${p => (p.$liked ? "#ff6b6b" : "#fff")};
+  transition: 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 
-  border-radius: 40px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-
-  transition: all 0.2s ease;
-
-  i {
-    font-size: 30px;
+  img.like-icon {
+    width: 100px;
+    height: auto;
+    opacity: ${p => (p.$liked ? "1" : "0.9")};
+    filter: ${p => (p.$liked ? "invert(1)" : "none")};
+    transition: 0.2s ease;
   }
 
   &:hover {
-    background: ${p => p.$liked ? '#ff3b30' : '#b2f2bb'};
+    background: ${p => (p.$liked ? "#ff8787" : "#eafff1")};
+    border-color: ${p => (p.$liked ? "#ff8787" : "#86e5ad")};
+    transform: translateY(-2px);
+  }
+
+
+  &:active {
+    transform: scale(0.97);
   }
 `;
+
+const mint = {
+  base: "#81f1b0",      // 기본 민트
+  hover: "#34d399",     // hover 민트
+  text: "#ffffff",      // 텍스트 white
+  shadow: "0 2px 6px rgba(0,0,0,0.12)",
+  shadowHover: "0 4px 10px rgba(0,0,0,0.18)"
+};
 
 
 /* ====== 수정/삭제 버튼 ====== */
@@ -246,23 +249,39 @@ export const ButtonSection = styled.div`
   margin: 25px 0;
 
   .update-btn {
-    background: #27ae60;
-    color: #fff;
+    background: ${mint.base};
+    color: ${mint.text};
     padding: 10px 22px;
-    border-radius: 8px;
+    border-radius: 10px;
     border: none;
     font-size: 15px;
     cursor: pointer;
+    box-shadow: ${mint.shadow};
+    transition: 0.2s ease;
+  }
+
+  .update-btn:hover {
+    background: ${mint.hover};
+    box-shadow: ${mint.shadowHover};
+    transform: translateY(-1px);
   }
 
   .delete-btn {
-    background: #e74c3c;
+    background: #ff7675;
     color: #fff;
     padding: 10px 22px;
-    border-radius: 8px;
+    border-radius: 10px;
     border: none;
     font-size: 15px;
     cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    transition: 0.2s ease;
+  }
+
+  .delete-btn:hover {
+    background: #ff6b6b;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
   }
 `;
 
@@ -282,7 +301,7 @@ export const ReplyListBox = styled.div`
 
 export const ReplyInputSection = styled.div`
   display: flex;
-`
+`;
 
 export const ReplyInput = styled.textarea`
   flex: 0.85;
@@ -299,17 +318,50 @@ export const ReplyInput = styled.textarea`
     border: 1px solid #3cb371;
     box-shadow: 0 0 0 2px rgba(60,179,113,0.2);
   }
-`
+`;
+
+export const ReplyEditInput = styled.textarea`
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #3cb371;
+    box-shadow: 0 0 0 2px rgba(60,179,113,0.2);
+  }
+`;
+
+export const NoReplyText = styled.div`
+  padding: 20px 0;
+  color: #777;
+  text-align: center;
+  font-size: 14px;
+`;
+
+
 export const ReplyInputButton = styled.button`
   flex: 0.15;
   padding: 10px 0;
-  background: #4caf50;
-  color: #fff;
-  border-radius: 8px;
+  background: ${mint.base};
+  color: white;
+  min-width: 120px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   font-weight: 600;
-`
+  box-shadow: ${mint.shadow};
+  transition: 0.2s ease;
+
+  &:hover {
+    background: ${mint.hover};
+    box-shadow: ${mint.shadowHover};
+    transform: translateY(-1px);
+  }
+`;
 
 export const Reply = styled.div`
   padding: 16px 0;
@@ -383,15 +435,23 @@ export const ModalBox = styled.div`
 `;
 
 export const BackButton = styled.button`
-  background: #27ae60;
-  margin-top: 15px;
-  color: #fff;
+  background: ${mint.base};
+  color: white;
   padding: 10px 22px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   font-size: 15px;
   cursor: pointer;
-`
+  box-shadow: ${mint.shadow};
+  transition: 0.2s ease;
+  margin-top: 15px;
+
+  &:hover {
+    background: ${mint.hover};
+    box-shadow: ${mint.shadowHover};
+    transform: translateY(-1px);
+  }
+`;
 
 
 

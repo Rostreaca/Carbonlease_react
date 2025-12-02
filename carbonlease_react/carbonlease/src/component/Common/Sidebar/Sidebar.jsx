@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { SidebarWrapper, BottomArea } from "./Sidebar.styles";
+import { SidebarWrapper } from "./Sidebar.styles";
 import RegionInfo from "./components/RegionInfo";
-import ForecastInfo from "./components/ForecastInfo";
 import SidoAverage from "./components/SidoAverage";
 
 import { useAir } from "./hooks/useAir";
-import { useForecast } from "./hooks/useForecast";
 import { useSidoAverage } from "./hooks/useSidoAverage";
 import regionStationMap from "./components/regionStationMap";
 
@@ -23,20 +21,11 @@ const Sidebar = () => {
   const sidoAvg = useSidoAverage(sido);
 
   const air = useAir(regionStationMap[region]);
-  const forecast = useForecast();
 
   const itemList = air?.response?.body?.items?.item;
   const item = Array.isArray(itemList)
-    ? itemList.find(i => i.stationName._text === regionStationMap[region])
-    : itemList;
-  const frc = forecast?.response?.body?.items?.item;
-
-  const getSeoulForecastGrade = (text) =>
-    text?.match(/서울\s*:\s*(좋음|보통|나쁨|매우나쁨)/)?.[1] ?? null;
-
-  const grade = frc?.informGrade?._text
-    ? getSeoulForecastGrade(frc.informGrade._text)
-    : null;
+      ? itemList.find(i => (i.stationName?._text || "").trim() === regionStationMap[region])
+      : itemList;
 
   const nextSido = () => setSidoIndex((prev) => (prev + 1) % sidoList.length);
   const prevSido = () =>
@@ -45,6 +34,7 @@ const Sidebar = () => {
   return (
     <SidebarWrapper>
 
+      {/* 지역 선택 */}
       <div className="region-select-box">
         <select
           className="region-select"
@@ -57,12 +47,10 @@ const Sidebar = () => {
         </select>
       </div>
 
+      {/* 지역 대기질 */}
       <RegionInfo item={item} region={region} />
 
-      <BottomArea>
-        <ForecastInfo frc={frc} grade={grade} />
-      </BottomArea>
-
+      {/* 시도 평균 */}
       <SidoAverage
         sido={sido}
         sidoAvg={sidoAvg}

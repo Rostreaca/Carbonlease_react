@@ -131,6 +131,12 @@ const CampaignDetail = () => {
                         handleBack={handleBack}
                         handleLikeToggle={handleLikeToggle}
                         onShowToast={handleShowToast}
+                /* ---------------------------------------------
+                |   [D: 20251129]                              |
+                |   좋아요 상태 연동을 위해 추가된 props       |
+                ---------------------------------------------- */
+                        isLiked={campaign.isLiked}
+                        likeCount={campaign.likeCount}
                     />
                 </CampaignDetailContainer>
             </PageContent>

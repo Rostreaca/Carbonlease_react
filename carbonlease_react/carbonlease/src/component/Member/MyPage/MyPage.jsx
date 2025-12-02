@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
@@ -14,9 +14,12 @@ import { AuthContext } from "../../Context/AuthContext";
 const MyPage = () => {
 
     const navi = useNavigate();
-    
+
     const { auth, logout } = useContext(AuthContext);
-    const [memberPwd , setMemberPwd] = useState("");
+    const [memberPwd, setMemberPwd] = useState("");
+
+    const [boardData, setBoardData] = useState([]);
+    const [activityData, setActivityData] = useState([]);
 
     const [showConfirm, setShowConfirm] = useState(false);
 
@@ -26,6 +29,43 @@ const MyPage = () => {
         variant: 'success'
     });
 
+
+    useEffect(() => {
+
+        {
+            auth.memberId !== null ?
+                (
+                    axios.get(`http://localhost/members/boards`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${auth.accessToken}`
+                            }
+                        }
+                    )
+                        .then(result => {
+                            console.log(result);
+                            setBoardData([...result.data]);
+                        }).catch(err => {
+                            console.error(err.response.data['error-message']);
+                        }),
+                    axios.get("http://localhost/members/activityBoards",
+                        {
+                            headers: {
+                                Authorization: `Bearer ${auth.accessToken}`
+                            }
+                        }
+                    ).then(result => {
+                        setActivityData([...result.data]);
+                    }).catch(err => {
+                        console.error(err.response.data["error-message"]);
+                    })
+                )
+                :
+
+                <></>
+        }
+
+    }, [auth])
 
 
     const showToastMessage = (message, variant) => {
@@ -40,7 +80,7 @@ const MyPage = () => {
         },
         {
             header: '게시글 제목',
-            field: 'campaignTitle',
+            field: 'boardTitle',
             render: (value) => <strong>{value}</strong>
         },
         {
@@ -50,46 +90,20 @@ const MyPage = () => {
         }
     ];
 
-    const boardData = [
-        {
-            boardNo: 1,
-            campaignTitle: '가자 에버그레이스',
-            enrollDate: '2025-11-20'
-        },
-        {
-            boardNo: 2,
-            campaignTitle: '탄소중립 실천',
-            enrollDate: '2025-11-20'
-        }
-    ];
-
-    const ActivityColumns = [
+    const activityColumns = [
         {
             header: 'NO',
-            field: 'boardNo'
+            field: 'activityNo'
         },
         {
             header: '게시글 제목',
-            field: 'campaignTitle',
+            field: 'activityTitle',
             render: (value) => <strong>{value}</strong>
         },
         {
             header: '작성일',
             field: 'enrollDate',
             render: (value) => <strong>{value}</strong>
-        }
-    ];
-
-    const ActivityData = [
-        {
-            boardNo: 1,
-            campaignTitle: '친환경 캠페인',
-            enrollDate: '2025-11-20'
-        },
-        {
-            boardNo: 2,
-            campaignTitle: '탄소중립 실천',
-            enrollDate: '2025-11-20'
         }
     ];
 
@@ -97,26 +111,37 @@ const MyPage = () => {
         console.log('aa');
 
         axios.delete("http://localhost/members", {
-            headers : {
-                    Authorization : `Bearer ${auth.accessToken}`,
-                },
-                data : {
-                  memberPwd,  
-                },
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+            },
+            data: {
+                memberPwd,
+            },
         }).then(result => {
             console.log(result);
             showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
             setTimeout(() => {
                 logout();
                 navi('/');
-            },1000);
-        }).catch(err =>{
+            }, 1000);
+        }).catch(err => {
             showToastMessage(err.response.data["error-message"], 'error');
         })
 
     }
 
+    const handleBoardClick = (e) => {
+        // console.log(e.boardNo);
+        navi(`/boards/${e.boardNo}`);
+    }
+
+    const handleAcitivtyClick = (e) => {
+        // console.log(e);
+        navi(`/activityBoards/${e.activityNo}`)
+    }
+
     return (
+            auth.memberId !== null ?
         <>
             <PageTitle
                 title="마이페이지"
@@ -126,7 +151,8 @@ const MyPage = () => {
                 ]}
             />
             <PageContent>
-                <DemoContainer id="signUpContainer" style={{ maxWidth: '600px' }}>
+                <div className="myPageContainer">
+                <DemoContainer className="myPageChildernContainer">
                     <FieldGroup>
                         <FieldLabel>아이디</FieldLabel>
                         <FieldInput
@@ -155,13 +181,13 @@ const MyPage = () => {
                         />
                     </FieldGroup>
                     <FieldGroup>
-                        
+
                         <FieldLabel>기본주소</FieldLabel>
                         <FieldInput
                             type="text"
                             name="addressLine1"
                             placeholder="주소가 없습니다."
-                            value={auth.addressLine1}
+                            value={ auth.addressLine1 === 'null' ? '' : auth.addressLine1 }
                             readOnly
                         />
                     </FieldGroup>
@@ -171,56 +197,62 @@ const MyPage = () => {
                             type="text"
                             name="addressLine2"
                             placeholder="주소가 없습니다."
-                            value={auth.addressLine2}
+                            value={ auth.addressLine2 === 'null' ? '' : auth.addressLine2}
                             readOnly
                         />
                     </FieldGroup>
 
+                    <FieldGroup className="userFormButtonGroup">
+                        <Button className="userFormButton" variant='success' type='button' onClick={() => navi('/myPage/update')}>정보 수정</Button>
+                        <Button className="userFormButton" variant='danger' type='button' onClick={() => setShowConfirm(true)}>회원 탈퇴</Button>
+                    </FieldGroup>
 
+                </DemoContainer>                
+                
+                <DemoContainer className="myPageChildernContainer" >
                     <DataTable
                         title="일반게시판 최근 작성글"
                         columns={boardColumns}
-                        data={boardData}
+                        data={boardData.length !== 0 ? boardData:[{boardNo: '', boardTitle : '게시글이 존재하지 않습니다.', enrollDate:''}]}
                         icon="fas fa-leaf"
+                        onRowClick={boardData.length !== 0 ?handleBoardClick : false }
                     />
 
                     <DataTable
                         title="인증게시판 최근 작성글"
-                        columns={ActivityColumns}
-                        data={ActivityData}
+                        columns={activityColumns}
+                        data={activityData.length !== 0 ? activityData:[{activityNo:'', activityTitle : '게시글이 존재하지 않습니다.', enrollDate:''}]}
                         icon="fas fa-leaf"
+                        onRowClick={activityData.length !== 0 ? handleAcitivtyClick : false}
                     />
-
-                    <FieldGroup>
-                        <Button variant='success' type='button' onClick={() => navi('/myPage/updateForm')}>정보 수정</Button>
-                        <Button variant='outline-success' type='button' onClick={() => navi(-1)}>이전으로</Button>
-                        <Button variant='danger' type='button' onClick={() => setShowConfirm(true)}>회원 탈퇴</Button>
-                    </FieldGroup>
                 </DemoContainer>
+                </div>
 
                 <ConfirmDialog
-                show={showConfirm}
-                onClose={() => setShowConfirm(false)}
-                onConfirm={signOut}
-                title='탈퇴 확인'
-                message= '회원을 탈퇴하시려면 비밀번호를 입력해 주십시오'
-                content={
-                    <input type="password" onChange={(e) => setMemberPwd(e.target.value)}></input>
-                }
-                confirmText= '탈퇴'
-                cancelText="취소"
-                variant= 'danger'
+                    show={showConfirm}
+                    onClose={() => setShowConfirm(false)}
+                    onConfirm={signOut}
+                    title='탈퇴 확인'
+                    message='회원을 탈퇴하시려면 비밀번호를 입력해 주십시오'
+                    content={
+                        <input type="password" onChange={(e) => setMemberPwd(e.target.value)}></input>
+                    }
+                    confirmText='탈퇴'
+                    cancelText="취소"
+                    variant='danger'
                 />
 
-            <Toast
-                message={toast.message}
-                isVisible={toast.isVisible}
-                onClose={() => setToast({ ...toast, isVisible: false })}
-                variant={toast.variant}
-            />
+                <Toast
+                    message={toast.message}
+                    isVisible={toast.isVisible}
+                    onClose={() => setToast({ ...toast, isVisible: false })}
+                    variant={toast.variant}
+                />
 
             </PageContent>
         </>
+        :
+        <></>
     )
 }
 

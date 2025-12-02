@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { fetchActivityDetail } from "../../../../api/activity/activityAPI";
 
 export default function useUpdateFormState(id) {
-
-    const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -20,13 +17,6 @@ export default function useUpdateFormState(id) {
     const [originImage, setOriginImage] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-            alert("로그인 후 이용해주세요!");
-            navigate("/login");
-            return;
-        }
-
         fetchActivityDetail(id)
             .then(res => {
                 console.log("activity detail data:", res.data);
@@ -49,7 +39,7 @@ export default function useUpdateFormState(id) {
                 }
             })
             .catch(err => console.error(err));
-    }, [navigate, id]);
+    }, [id]);
 
     return {
         activityNo: id,
