@@ -1,3 +1,51 @@
+import { ComposableMap as BaseComposableMap, Geographies as BaseGeographies, Geography as BaseGeography } from 'react-simple-maps';
+
+export const StyledComposableMap = styled(BaseComposableMap)`
+    width: 100%;
+    height: auto;
+`;
+
+export const StyledGeographies = styled(BaseGeographies)``;
+
+export const StyledGeography = styled(BaseGeography)`
+    fill: #e8f0f3ff;
+    stroke: #a1d4e6ff;
+    stroke-width: 1.5;
+    & path {
+        outline: none;
+    }
+    &:hover {
+        fill: #aad3e2ff;
+        outline: none;
+    }
+`;
+// 버블 마커 스타일
+export const BubbleMarkerGroup = styled.g`
+    cursor: pointer;
+`;
+
+export const BubbleCircle = styled.circle`
+    fill: #34ade5b8;
+    stroke: #34ade5b8;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    fill-opacity: ${({ $hovered }) => ($hovered ? 0.95 : 0.85)};
+`;
+
+export const BubbleRegionText = styled.text`
+    fill: #333333;
+    font-size: ${({ $hovered }) => ($hovered ? '22px' : '20px')};
+    font-weight: bold;
+    pointer-events: none;
+`;
+
+export const BubbleValueText = styled.text`
+    fill: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    pointer-events: none;
+`;
 import styled from 'styled-components';
 
 export const MapContainer = styled.div`
