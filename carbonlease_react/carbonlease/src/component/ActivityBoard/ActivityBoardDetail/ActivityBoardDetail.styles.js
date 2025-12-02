@@ -304,10 +304,10 @@ export const ReplyInputSection = styled.div`
 `;
 
 export const ReplyInput = styled.textarea`
-  flex: 0.85;
   width: 100%;
   height: 100px;
-  min-height: 100px;
+  min-height: 105px;
+  margin: 6px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -344,11 +344,15 @@ export const NoReplyText = styled.div`
 
 
 export const ReplyInputButton = styled.button`
-  flex: 0.15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px;
   padding: 10px 0;
   background: ${mint.base};
   color: white;
-  min-width: 120px;
+  min-width: 100px;
+  height: 100px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
@@ -442,14 +446,12 @@ export const BackButton = styled.button`
   border: none;
   font-size: 15px;
   cursor: pointer;
-  box-shadow: ${mint.shadow};
   transition: 0.2s ease;
   margin-top: 15px;
 
   &:hover {
     background: ${mint.hover};
-    box-shadow: ${mint.shadowHover};
-    transform: translateY(-1px);
+                                                                                                    transform: translateY(-1px);
   }
 `;
 
