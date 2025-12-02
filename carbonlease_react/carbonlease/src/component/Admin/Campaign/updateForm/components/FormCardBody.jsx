@@ -12,7 +12,7 @@ import FormField from '../../../../Common/Form/FormField';
 import useUpdateForm from '../useUpdateForm';
 
 
-const FormCardBodyComponent = ({ onShowToast, auth }) => {
+const FormCardBodyComponent = ({onShowToast, $campaign, auth}) => {
     const {
         formData,
         fileNames,

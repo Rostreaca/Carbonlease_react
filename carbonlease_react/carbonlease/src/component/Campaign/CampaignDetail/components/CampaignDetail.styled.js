@@ -6,13 +6,13 @@ export const CampaignDetailContainer = styled.div`
     padding: 40px 20px;
 `;
 
-
 export const CampaignDetailHeader = styled.div`
     display:flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    boarder-bottom: 1px solid #e0e0e0;  
+    padding-bottom:20px;
+    border-bottom: 1px solid #e0e0e0;
 `;
 
 
@@ -73,6 +73,8 @@ export const MetaItem = styled.div`
 `;
 
 export const ImageWrapper = styled.div`
+    display:flex;
+    justify-content: center;
     width: 100%;
     margin-bottom: 40px;
     border-radius: 12px;
@@ -80,9 +82,11 @@ export const ImageWrapper = styled.div`
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     img {
+        max-width:400px;
         width: 100%;
         height: auto;
         display: block;
+        object-fit: contain;
     }
 `;
 
@@ -104,7 +108,6 @@ export const ActionButtons = styled.div`
     gap: 12px;
     justify-content: center;
     padding: 40px 0;
-    border-top: 1px solid #e0e0e0;
 `;
 
 export const LikeButton = styled.button`

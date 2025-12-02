@@ -1,5 +1,5 @@
 
-import { ImageWrapper } from './CampaignDetail.styled';
+import { ImageWrapper } from './CampaignDetail.styled.js';
 
 // 캠페인 이미지 컴포넌트
 const CampaignImage = ({ campaign }) => {

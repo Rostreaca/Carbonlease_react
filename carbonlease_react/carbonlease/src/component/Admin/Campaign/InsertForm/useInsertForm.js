@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getCategories, save } from '../../../../api/campaign/adminCampaignApi';
 
 // 어드민 캠페인 등록 폼 관리 커스텀 훅
-const useInsertForm = (onShowToast, auth) => {
+const useInsertForm = (onShowToast) => {
+
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
         
@@ -110,15 +111,12 @@ const useInsertForm = (onShowToast, auth) => {
 
     // 폼 제출 처리
 	const handleSubmit = (e) => {
+		
 		e.preventDefault();
 		if (!validate()) {
 			return;
 		}
-		// 인증 여부 확인
-		if (auth && !auth.isAuthenticated) {
-			onShowToast && onShowToast('로그인이 필요합니다.', 'error');
-			return;
-		}
+		// 인증 체크 
 		const campaign = {
 			campaignTitle: formData.campaignTitle,
 			categoryNo: formData.categoryNo,
@@ -135,16 +133,23 @@ const useInsertForm = (onShowToast, auth) => {
 			.then((result) => {
 				if (result && result.status === 201) {
 					onShowToast && onShowToast('게시글 등록이 완료되었습니다!', 'success');
-					navigate('/admin/campaigns');
-				} else {
-					onShowToast && onShowToast('등록에 실패했습니다.', 'error');
-				}
+					setTimeout(() => {
+						navigate('/admin/campaigns');
+					}, 800); // 0.8초 후 이동
+				} 
 			})
 			.catch((error) => {
-                onShowToast && onShowToast(
-                    error?.response?.data?.["error-message"] || '등록에 실패했습니다.',
-                    'error'
-                );
+                if (error?.response?.status === 401) {
+					onShowToast && onShowToast('로그인이 필요합니다.', 'error');
+					// 필요시 로그인 페이지로 이동
+				} else if (error?.response?.status === 403) {
+					onShowToast && onShowToast('권한이 없습니다.', 'error');
+				} else {
+					onShowToast && onShowToast(
+					error?.response?.data?.["error-message"] || '등록에 실패했습니다.',
+					'error'
+					);
+				}
             });
 	};
 

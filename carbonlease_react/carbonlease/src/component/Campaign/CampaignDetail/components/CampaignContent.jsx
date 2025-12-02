@@ -1,4 +1,4 @@
-import { Content } from './CampaignDetail.styled';
+import { Content } from './CampaignDetail.styled.js';
 
 // 캠페인 상세 내용 컴포넌트
 const CampaignContent = ({ campaign }) => (

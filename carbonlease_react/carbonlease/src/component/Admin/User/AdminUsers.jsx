@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { CategoryBadge, SignOutBadge } from "../../Campaign/CampaignDetail/CampaignDetail.styled";
+import { CategoryBadge, SignOutBadge } from "../../Campaign/CampaignDetail/components/CampaignDetail.styled.js";
 import DataTable from "../../Common/DataTable/DataTable";
 import { DeleteButton, EditButton, StatusBadge } from "../../Common/DataTable/DataTable.styled";
 import axios from "axios";

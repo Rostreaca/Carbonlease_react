@@ -1,4 +1,4 @@
-import { MetaInfo, MetaItem } from './CampaignDetail.styled';
+import { MetaInfo, MetaItem } from './CampaignDetail.styled.js';
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
