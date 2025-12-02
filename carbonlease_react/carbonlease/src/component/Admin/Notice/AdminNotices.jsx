@@ -13,7 +13,8 @@ import {
 } from '../../Common/DataTable/DataTable.styled';
 import Pagination from '../../Common/Pagination/Pagination';
 import Toast from '../../Common/Toast/Toast';
-import { AuthContext } from '../../Context/AuthContext'
+import { AuthContext } from '../../Context/AuthContext';
+
 
 const AdminNotices = () => {
     const navigate = useNavigate();
