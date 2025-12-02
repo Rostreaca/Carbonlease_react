@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { SidebarWrapper } from "./Sidebar.styles";
 import RegionInfo from "./components/RegionInfo";
 import SidoAverage from "./components/SidoAverage";
 
 import { useAir } from "./hooks/useAir";
-import { useSidoAverage } from "./hooks/useSidoAverage";
 import regionStationMap from "./components/regionStationMap";
+import { useSidoAverage } from "./hooks/useSidoAverage";
 
 const sidoList = [
   "서울", "경기", "강원", "충북", "충남",
@@ -15,26 +15,25 @@ const sidoList = [
 
 const Sidebar = () => {
   const [region, setRegion] = useState("중구");
-
   const [sidoIndex, setSidoIndex] = useState(0);
+
   const sido = sidoList[sidoIndex];
   const sidoAvg = useSidoAverage(sido);
 
   const air = useAir(regionStationMap[region]);
 
-  const itemList = air?.response?.body?.items?.item;
-  const item = Array.isArray(itemList)
-      ? itemList.find(i => (i.stationName?._text || "").trim() === regionStationMap[region])
-      : itemList;
+  const item = air;
 
-  const nextSido = () => setSidoIndex((prev) => (prev + 1) % sidoList.length);
-  const prevSido = () =>
+  const nextSido = useCallback(() => {
+    setSidoIndex((prev) => (prev + 1) % sidoList.length);
+  }, []);
+
+  const prevSido = useCallback(() => {
     setSidoIndex((prev) => (prev - 1 + sidoList.length) % sidoList.length);
+  }, []);
 
   return (
     <SidebarWrapper>
-
-      {/* 지역 선택 */}
       <div className="region-select-box">
         <select
           className="region-select"
@@ -42,22 +41,21 @@ const Sidebar = () => {
           onChange={(e) => setRegion(e.target.value)}
         >
           {Object.keys(regionStationMap).map((r) => (
-            <option key={r} value={r}>{r}</option>
+            <option key={r} value={r}>
+              {r}
+            </option>
           ))}
         </select>
       </div>
 
-      {/* 지역 대기질 */}
       <RegionInfo item={item} region={region} />
 
-      {/* 시도 평균 */}
       <SidoAverage
         sido={sido}
         sidoAvg={sidoAvg}
         onPrev={prevSido}
         onNext={nextSido}
       />
-
     </SidebarWrapper>
   );
 };

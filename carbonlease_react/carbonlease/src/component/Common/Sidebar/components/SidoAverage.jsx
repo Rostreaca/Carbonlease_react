@@ -20,37 +20,28 @@ const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
         setAnim("fade-slide-in");
       }, 300);
     }, 5000);
+
     return () => clearInterval(timer);
-  }, [onNext]);
-
-  const handlePrev = () => {
-    setAnim("fade-slide-out");
-    setTimeout(() => {
-      onPrev();
-      setAnim("fade-slide-in");
-    }, 300);
-  };
-
-  const handleNext = () => {
-    setAnim("fade-slide-out");
-    setTimeout(() => {
-      onNext();
-      setAnim("fade-slide-in");
-    }, 300);
-  };
+  }, []);
 
   if (!sidoAvg) return <SkeletonBox />;
 
   return (
     <SidoInfoBox className={anim}>
       <div className="nav">
-        <button className="arrow" onClick={handlePrev}>&lt;</button>
+        <button className="arrow" onClick={onPrev}>
+          &lt;
+        </button>
         <div className="title">{sido} 평균</div>
-        <button className="arrow" onClick={handleNext}>&gt;</button>
+        <button className="arrow" onClick={onNext}>
+          &gt;
+        </button>
       </div>
 
       <div className="date">{sidoAvg.time} 기준</div>
-      <div className="value">{sidoAvg.value}㎍/㎥ {getGrade(sidoAvg.value)}</div>
+      <div className="value">
+        {sidoAvg.value}㎍/㎥ {getGrade(sidoAvg.value)}
+      </div>
     </SidoInfoBox>
   );
 };

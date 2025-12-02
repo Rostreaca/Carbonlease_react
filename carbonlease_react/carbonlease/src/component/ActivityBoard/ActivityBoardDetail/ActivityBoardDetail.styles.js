@@ -90,7 +90,7 @@ export const ContentBox = styled.div`
   background: #ffffff;
   border-radius: 16px;
 
-  border: 1px solid #e8f5e9;   /* 연한 민트 느낌 */
+  border: 1px solid #e8f5e9; 
   box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 
   font-size: 16px;
@@ -139,13 +139,13 @@ export const ProfilText = styled.div`
   margin: 0 18px;
 
   strong {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 600;
     color: #1c1c1e;   
   }
 
   div {
-    font-size: 20px;
+    font-size: 14px;
     color: #6e6e73;  
   }
 `;
@@ -161,7 +161,7 @@ export const ProfilText = styled.div`
 
   /* 전체 트랙 */
   export const GaugeTrack = styled.div`
-    width: 280px;
+    width: 230px;
     height: 30px;
     background: #e9ecef;
     border-radius: 18px;
@@ -179,7 +179,7 @@ export const ProfilText = styled.div`
 
   /* % 텍스트 */
   export const GaugeText = styled.div`
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: #2f2f2f;
   `;
@@ -304,10 +304,10 @@ export const ReplyInputSection = styled.div`
 `;
 
 export const ReplyInput = styled.textarea`
-  flex: 0.85;
   width: 100%;
   height: 100px;
-  min-height: 100px;
+  min-height: 105px;
+  margin: 6px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -344,11 +344,15 @@ export const NoReplyText = styled.div`
 
 
 export const ReplyInputButton = styled.button`
-  flex: 0.15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px;
   padding: 10px 0;
   background: ${mint.base};
   color: white;
-  min-width: 120px;
+  min-width: 100px;
+  height: 100px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
@@ -442,14 +446,12 @@ export const BackButton = styled.button`
   border: none;
   font-size: 15px;
   cursor: pointer;
-  box-shadow: ${mint.shadow};
   transition: 0.2s ease;
   margin-top: 15px;
 
   &:hover {
     background: ${mint.hover};
-    box-shadow: ${mint.shadowHover};
-    transform: translateY(-1px);
+                                                                                                    transform: translateY(-1px);
   }
 `;
 

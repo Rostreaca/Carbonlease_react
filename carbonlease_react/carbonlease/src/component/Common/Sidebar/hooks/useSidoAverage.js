@@ -1,35 +1,42 @@
 import { useEffect, useState } from "react";
-import { fetchSidoAPI } from "../../../../api/sidebar/sidoAPI";
+import { fetchSidoAverage } from "../../../../api/sidebar/sidoAPI";
 
 export const useSidoAverage = (sido) => {
   const [avg, setAvg] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     const load = async () => {
       try {
-        const data = await fetchSidoAPI(sido);
-
-        const items = data?.response?.body?.items?.item;
-        if (!items) return;
-
-        const pm25Values = items
-          .map((i) => Number(i.pm25Value?._text || 0))
-          .filter((v) => !isNaN(v) && v > 0);
-
-        const avgValue =
-          Math.round(
-            pm25Values.reduce((a, b) => a + b, 0) / pm25Values.length
-          ) || 0;
-
-        const time = items[0].dataTime._text;
-
-        setAvg({ value: avgValue, time });
-      } catch (err) {
-        console.error("시도 평균 실패:", err);
+        setError(null);
+        const data = await fetchSidoAverage(sido);
+        if (!cancelled) {
+          if (data.error) {
+            setError(data.error);
+            setAvg(null);
+          } else {
+            setAvg({
+              value: data.value,
+              time: data.time,
+            });
+          }
+        }
+      } catch (e) {
+        console.error("시/도 평균 조회 실패", e);
+        if (!cancelled) {
+          setError("조회 실패");
+          setAvg(null);
+        }
       }
     };
 
     load();
+
+    return () => {
+      cancelled = true;
+    };
   }, [sido]);
 
   return avg;
