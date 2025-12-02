@@ -5,6 +5,7 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL;
 // 1. API에서 데이터 받아오기
 export const getRegionCarbonStats = async () => {
   const res = await axios.get(`${API_BASE}/api/region/map`);
+  console.log('[regionStatsApi] getRegionCarbonStats 응답:', res.data);
   return res.data; // [{ region, lat, lng, value }, ...]
 };
 
