@@ -166,20 +166,25 @@ const UpdateForm = (onShowToast, auth) => {
         // 캠페인 수정 API 호출
         update(id, [safeThumbnail, safeDetail], formData)
             .then((result) => {
-                if (result && (result.status === 201 || result.status === 200)) {
+                if (result && result.status === 201) {
                     onShowToast && onShowToast('게시글 수정이 완료되었습니다!', 'success');
                     setTimeout(() => {
                         navigate('/admin/campaigns');
                     }, 800); // 0.8초 후 이동
-                } else {
-                    onShowToast && onShowToast('게시글 수정에 실패했습니다.', 'error');
-                }
+                } 
             })
             .catch((error) => {
-                onShowToast && onShowToast(
-                    error?.response?.data?.["error-message"] || '수정에 실패했습니다.',
-                    'error'
-                );
+                if (error?.response?.status === 401) {
+					onShowToast && onShowToast('로그인이 필요합니다.', 'error');
+					// 필요시 로그인 페이지로 이동
+				} else if (error?.response?.status === 403) {
+					onShowToast && onShowToast('권한이 없습니다.', 'error');
+				} else {
+					onShowToast && onShowToast(
+					error?.response?.data?.["error-message"] || '수정에 실패했습니다.',
+					'error'
+					);
+				}
             });
     };
 

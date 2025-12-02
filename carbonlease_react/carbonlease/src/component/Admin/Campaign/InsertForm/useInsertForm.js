@@ -131,14 +131,12 @@ const useInsertForm = (onShowToast) => {
         // 캠페인 등록 API 호출
 		save(campaign, files)
 			.then((result) => {
-				if (result && (result.status === 201 || result.status === 200)) {
+				if (result && result.status === 201) {
 					onShowToast && onShowToast('게시글 등록이 완료되었습니다!', 'success');
 					setTimeout(() => {
 						navigate('/admin/campaigns');
 					}, 800); // 0.8초 후 이동
-				} else {
-				onShowToast && onShowToast('등록에 실패했습니다.', 'error');
-				}
+				} 
 			})
 			.catch((error) => {
                 if (error?.response?.status === 401) {
