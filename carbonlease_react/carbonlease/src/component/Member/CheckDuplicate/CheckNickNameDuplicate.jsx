@@ -17,7 +17,7 @@ const CheckNickNameDuplicate = (props) => {
         setCheckAlertMsg("중복된 닉네임이 없습니다.");
         setShowCheckAlert(true);
         props.setCheckNickName(true);
-        props.setNickNameMsg("사용 가능한 닉네임입니다.")
+        props.setNickNameMsg("사용가능한 닉네임입니다.")
     }
 
     const handleCheckNickName = () => {

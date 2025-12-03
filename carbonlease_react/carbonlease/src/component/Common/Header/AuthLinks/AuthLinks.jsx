@@ -22,7 +22,7 @@ const AuthLinks = ({ onClick }) => {
             </NavLink>
             <span style={{margin: '0 8px'}}>|</span>
             <NavLink 
-            to="/member/enrollForm" 
+            to="/signUp" 
             onClick={onClick}
             style={{padding: 0, flex: 'none', width: 'auto'}}
             >회원가입</NavLink>

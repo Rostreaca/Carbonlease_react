@@ -4,7 +4,6 @@ import axios from 'axios';
 import ConfirmDialog from '../../Common/ConfirmDialog/ConfirmDialog';
 import DataTable from '../../Common/DataTable/DataTable';
 import {
-    CategoryBadge,
     CreateButton,
     DeleteButton,
     EditButton,
@@ -35,7 +34,7 @@ const AdminNotices = () => {
     useEffect (()=>{
         getNotices(currentPage);
         //console.log(auth)
-    }, [currentPage, auth])
+    }, [currentPage])
 
     const getNotices = (page) => {
         if(auth.accessToken){
@@ -61,18 +60,33 @@ const AdminNotices = () => {
         }
     }
 
-    const handleEdit = (id) => {
-        navigate(`/admin/notices/update/${id}`);
+    const handleEdit = (noticeNo) => {
+        navigate(`/admin/notices/update/${noticeNo}`);
     };
 
-    const handleDelete = (id) => {
-        setSelectedId(id);
+    const handleDelete = (noticeNo) => {
+        setSelectedId(noticeNo);
         setShowConfirm(true);
     };
 
     const confirmDelete = () => {
         console.log('삭제 확정:', selectedId);
-        // TODO: 삭제 API 호출
+
+        axios.put(`http://localhost/admin/notices/delete/${selectedId}`,{}, {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+            },
+        })
+        .then((res) => {
+            console.log(res);
+
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("삭제 실패");
+            console.log(auth.accessToken);
+        });
+        
         setShowConfirm(false);
         setToast({ show: true, message: '삭제되었습니다!', variant: 'success' });
         setSelectedId(null);
@@ -133,17 +147,17 @@ const AdminNotices = () => {
         {
             header: '관리',
             field: 'id',
-            render: (value) => (
+            render: (value, row) => (
                 <ButtonGroup>
                     <EditButton onClick={(e) => {
                                                 e.stopPropagation();
-                                                handleEdit(value);
+                                                handleEdit(row.noticeNo);
                     }}>
                         수정
                     </EditButton>
                     <DeleteButton onClick={(e) => {
                         e.stopPropagation();
-                        handleDelete(value)
+                        handleDelete(row.noticeNo)
                     }}>
                         삭제
                     </DeleteButton>

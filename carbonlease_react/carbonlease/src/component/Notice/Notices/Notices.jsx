@@ -14,7 +14,7 @@ const Notices = () => {
                 ]} 
             />
             <PageContent>
-                {/* <NoticeCalendar /> */}
+                <NoticeCalendar />
                <NoticesList />
             </PageContent>
         </>

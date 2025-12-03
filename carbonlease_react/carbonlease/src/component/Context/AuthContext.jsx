@@ -37,10 +37,10 @@ export const AuthProvider = ({ children }) => {
         //console.log(refreshToken);
 
         // 관리자는 자동로그인 불가
-        if(role === '[ROLE_ADMIN]'){
-            logout();
-            return;
-        }
+        // if(role === '[ROLE_ADMIN]'){
+        //     logout();
+        //     return;
+        // }
 
         // 자동 로그인 상태일 때 좋아요 데이터 초기화 (중요)
         if (accessToken !== null && memberId) {

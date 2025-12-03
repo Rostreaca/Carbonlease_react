@@ -12,19 +12,19 @@ const NoticeCalendar = () => {
     fetchEvents();
   }, []);
 
-  const fetchEvents = async () => {
-    axios.get('http://localhost/api/events')
-      .then((res) => {
-        const converted = res.data.map(ev => ({
-          title: ev.title,
-          start: ev.startDate,
-          end: ev.endDate,
-        }));
+const fetchEvents = async () => {
+  const { data } = await axios.get('http://localhost/notices/api');
 
-        console.log(converted);
-        setEvents(converted);
-      });
-  };
+  const converted = data.events.map(ev => ({
+    title: ev.title,
+    start: ev.startDate,
+    end: ev.endDate,
+  }));
+
+  console.log(converted);
+  setEvents(converted);
+};
+
 
   return (
     <>
@@ -33,7 +33,9 @@ const NoticeCalendar = () => {
         initialView="dayGridMonth"
         plugins={[dayGridPlugin]}
         events={events}
-        height={"auto"}
+        height={400}
+        contentHeight={"auto"}
+
       />
     </StyleWrapper>
     </>

@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../Common/Alert/Alert';
 import { FieldGroup, FieldInput, FieldLabel } from '../../Common/Form/FormField.styled';
+import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
 
 
 const Login = () => {
@@ -72,6 +73,7 @@ const Login = () => {
                 ]}
             />
             <PageContent>
+                <DemoContainer className='loginContainer'>
                 <form onSubmit={handleLogin}>
                     <FieldGroup>
                         <FieldInput
@@ -95,8 +97,9 @@ const Login = () => {
                         />
                         <FormLabel className={'regInvalidMsg'}>{pwdMsg}</FormLabel>
                     </FieldGroup>
-                    <Button variant='success' type='submit'>로그인</Button>
-                    <Button variant='dark' type='button' onClick={() => navi('/member/enrollForm')}>회원가입</Button>
+                    <div className='d-grid gap-2'>
+                    <Button aria-setsize={6} variant='success' type='submit'>로그인</Button>
+                    </div>
                 </form>
                 <Alert
                     show={showAlert}
@@ -105,6 +108,7 @@ const Login = () => {
                     message={alertMsg}
                     variant={alertVariant}
                 />
+                </DemoContainer>
             </PageContent>
         </>
     )
