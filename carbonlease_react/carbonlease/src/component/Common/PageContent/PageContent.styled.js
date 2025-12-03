@@ -53,7 +53,11 @@ export const PageContentWrap = styled.section`
 
     .loginContainer {
         margin : auto;
-        width : 440px;
+        width : 360px;
+    }
+
+    #kakaoLoginBtn:hover {
+        cursor : pointer;
     }
 
     @media (max-width: 1199px) {

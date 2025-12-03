@@ -93,7 +93,7 @@ const AdminLogin = () => {
                                                 />
                                                 <label htmlFor="adminId">ID</label>
                                             </FormFloating>
-                                            <FormLabel className={'regInvalidMsg'}>{idMsg}</FormLabel>
+                                            <FormLabel className={'regInValidMsg'}>{idMsg}</FormLabel>
                                             <FormFloating>
                                                 <input
                                                     id="adminPwd"
@@ -105,7 +105,7 @@ const AdminLogin = () => {
                                                 />
                                                 <label htmlFor="adminPwd">Password</label>
                                             </FormFloating>
-                                            <FormLabel className={'regInvalidMsg'}>{pwdMsg}</FormLabel>
+                                            <FormLabel className={'regInValidMsg'}>{pwdMsg}</FormLabel>
 
                                             <ButtonGroup>
                                                 {/* <a className="small-link" href="/admin/password">Forgot Password?</a> */}
