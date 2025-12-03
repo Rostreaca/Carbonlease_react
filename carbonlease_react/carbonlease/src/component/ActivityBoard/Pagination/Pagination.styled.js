@@ -11,8 +11,7 @@ export const PaginationContainer = styled.div`
 export const PageButton = styled.button`
     min-width: 40px;
     height: 40px;
-    border: 1px solid
-        ${props => props.$active ? '#00A34A' : '#b6f2d0'};
+    border: 1px solid #00A34A;
     background-color:
         ${props => props.$active ? '#00A34A' : '#fff'};
     color:

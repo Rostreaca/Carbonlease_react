@@ -14,8 +14,7 @@ export const PageButton = styled.button`
     height: 32px;
 
     /* 기본 / active */
-    border: 1px solid 
-        ${props => props.$active ? '#00A34A;' : '#b6f2d0'};
+    border: 1px solid #00A34A;
     background-color: 
         ${props => props.$active ? '#00A34A' : '#ffffff'};
     color: 
@@ -35,7 +34,7 @@ export const PageButton = styled.button`
         background-color: 
             ${props => props.$active ? '#00833bff' : '#e3fdf2'};
         border-color: 
-            ${props => props.$active ? '#00833bff' : '#9eeac7'};
+            ${props => props.$active ? '#00833bff' : '#00833bff'};
     }
 
     /* 아이콘 같은 경우 */

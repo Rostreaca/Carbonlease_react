@@ -196,21 +196,20 @@ export const SeparatorLine = styled.div`
 
 /* ====== 좋아요 버튼 ====== */
 export const StyledButton = styled.button`
-  width: 110px;
-  height: 50px;
+  width: 120px;
+  height: 54px;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  padding-right: 4px;
 
-  border-radius: 20px;
-  border: ${p => (p.$liked ? "1px solid #eb5252" : "1px solid #86e5ad")};
+  border-radius: 25px;
+  border: ${p => (p.$liked ? "1px solid #ff6b6b" : "1px solid #86e5ad")};
   cursor: pointer;
 
   background: ${p => (p.$liked ? "#ff6b6b" : "#fff")};
   transition: 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 
   img.like-icon {
     width: 100px;
@@ -221,8 +220,8 @@ export const StyledButton = styled.button`
   }
 
   &:hover {
-    background: ${p => (p.$liked ? "#ff8787" : "#eafff1")};
-    border-color: ${p => (p.$liked ? "#ff8787" : "#86e5ad")};
+    background: ${p => (p.$liked ? "#ff6b6b" : "#eafff1")};
+    border-color: ${p => (p.$liked ? "#ff6b6b" : "#86e5ad")};
     transform: translateY(-2px);
   }
 
@@ -451,7 +450,7 @@ export const BackButton = styled.button`
 
   &:hover {
     background: ${mint.hover};
-                                                                                                    transform: translateY(-1px);
+    transform: translateY(-1px);
   }
 `;
 
