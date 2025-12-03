@@ -1,6 +1,6 @@
 import PageTitle from "../Layout/PageTitle/PageTitle";
 import PageContent from "../PageContent/PageContent";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   EmptyWrapper,
@@ -26,11 +26,19 @@ import {
 const NotFound = ({
   title = "페이지를 찾을 수 없습니다.",          // 기본 제목
   description = "요청하신 페이지가 존재하지 않습니다.", // 기본 설명
-  backPath = "/",                                  // 기본 버튼 이동 경로
+  backPath = null,                                  // null이면 뒤로가기 실행
   backText = "돌아가기",                           // 기본 버튼 문자
   image = "/images/empty.png",                     // 기본 이미지
   breadcrumbs = [],                                // 기본 breadcrumb
 }) => {
+
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    if (backPath) navigate(backPath);
+    else navigate(-1);
+  };
+
   return (
     <>
       {/* 상단 breadcrumb + 페이지 타이틀 */}
@@ -52,9 +60,9 @@ const NotFound = ({
             <EmptyText>{description}</EmptyText>
 
             {/* 버튼 */}
-            <Link to={backPath}>
-              <BackButton>{backText}</BackButton>
-            </Link>
+              <BackButton onClick={handleBack}>
+                {backText}
+              </BackButton>
 
           </EmptyCard>
         </EmptyWrapper>
