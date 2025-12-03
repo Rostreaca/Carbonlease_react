@@ -35,16 +35,30 @@ export const SidebarWrapper = styled.div`
 
   .region-select {
     width: 98%;
-    padding: 10px;
+    padding: 10px 35px 10px 15px;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg fill='black' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 12px center;
     border-radius: 10px;
     border: 1px solid rgba(35,165,91,0.4);
-    background: #fefefc;
 
     font-size: 14px;
     font-weight: 600;
     color: #1a6b3e;
   }
 `;
+
+export const RegionSelect = styled.select`
+  width: 98%;
+    padding: 10px 35px 10px 15px;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg fill='black' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 12px center;
+    border-radius: 10px;
+    border: 1px solid rgba(35,165,91,0.4);
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a6b3e;
+`
 
 export const RegionBox = styled.div`
   background: #ffffff;

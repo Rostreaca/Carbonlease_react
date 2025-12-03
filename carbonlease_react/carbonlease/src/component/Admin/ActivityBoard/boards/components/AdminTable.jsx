@@ -17,7 +17,9 @@ const AdminTable = ({ boards, onEdit, onHide, onRestore, onDelete }) => {
       header: "상태",
       field: "status",
       render: (v) => (
-        <StatusBadge $status={v}>{v === "Y" ? "정상" : "숨김"}</StatusBadge>
+        <StatusBadge $status={v === "Y" ? "진행중" : "삭제"}>
+            {v === "Y" ? "정상" : "숨김"}
+        </StatusBadge>
       )
     },
     { header: "작성일", field: "enrollDate" },

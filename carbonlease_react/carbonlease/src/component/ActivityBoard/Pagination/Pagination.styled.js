@@ -11,12 +11,11 @@ export const PaginationContainer = styled.div`
 export const PageButton = styled.button`
     min-width: 40px;
     height: 40px;
-    border: 1px solid
-        ${props => props.$active ? '#34d399' : '#b6f2d0'};
+    border: 1px solid #00A34A;
     background-color:
-        ${props => props.$active ? '#34d399' : '#fff'};
+        ${props => props.$active ? '#00A34A' : '#fff'};
     color:
-        ${props => props.$active ? 'white' : '#34a67f'};
+        ${props => props.$active ? 'white' : '#00A34A'};
     
     border-radius: 6px;
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
@@ -32,9 +31,9 @@ export const PageButton = styled.button`
 
     &:hover:not(:disabled) {
         background-color:
-            ${props => props.$active ? '#34d399' : '#e3fdf2'};
+            ${props => props.$active ? '#00833bff' : '#e3fdf2'};
         border-color:
-            ${props => props.$active ? '#34d399' : '#9eeac7'};
+            ${props => props.$active ? '#00833bff' : '#9eeac7'};
     }
 
     i {
