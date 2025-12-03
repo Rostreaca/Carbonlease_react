@@ -6,8 +6,8 @@ export const SidebarWrapper = styled.div`
   top: 220px;
   align-self: flex-start;
 
-  width: 200px;
-  min-width:200px;
+  width: 210px;
+  min-width:210px;
   flex-shrink: 0;
 
   padding: 11px;
@@ -67,6 +67,11 @@ export const RegionBox = styled.div`
   margin: 2px;
   border-radius: 12px;
   margin-bottom: 9px;
+  margin-top: 9px;
+  height: 325px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
   .title {
     font-weight: 700;
@@ -90,6 +95,49 @@ export const RegionBox = styled.div`
   .value {
     font-weight: 700;
     color: #28a745;
+  }
+`;
+
+export const RegionSkeletonBox = styled.div`
+  background: #ffffff;
+  border: 1px solid rgba(35,165,91,0.4);
+  padding: 15px;
+  margin: 2px;
+  border-radius: 12px;
+  margin-bottom: 9px;
+  height: 180px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .bar {
+    height: 12px;
+    border-radius: 8px;
+    background: #eaeaea;
+  }
+
+  .bar.short {
+    width: 50%;
+  }
+  .bar.medium {
+    width: 70%;
+  }
+  .bar.long {
+    width: 100%;
+  }
+`;
+
+export const RegionNullBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  height: 320px;
+
+  img {
+    width: 160px;
+    opacity: 0.7;
   }
 `;
 
