@@ -90,7 +90,7 @@ export const ContentBox = styled.div`
   background: #ffffff;
   border-radius: 16px;
 
-  border: 1px solid #e8f5e9;   /* 연한 민트 느낌 */
+  border: 1px solid #e8f5e9; 
   box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 
   font-size: 16px;
@@ -125,7 +125,7 @@ export const ProfilCardWrapper = styled.div`
   background: #fff;
   border-radius: 20px;
   
-  border: 1px solid #b2f2bb;
+  border: 1px solid #00A34A;
   box-shadow: 0 4px 14px rgba(0,0,0,0.04);
 
   height: 100px;
@@ -139,13 +139,13 @@ export const ProfilText = styled.div`
   margin: 0 18px;
 
   strong {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 600;
     color: #1c1c1e;   
   }
 
   div {
-    font-size: 20px;
+    font-size: 14px;
     color: #6e6e73;  
   }
 `;
@@ -161,7 +161,7 @@ export const ProfilText = styled.div`
 
   /* 전체 트랙 */
   export const GaugeTrack = styled.div`
-    width: 280px;
+    width: 230px;
     height: 30px;
     background: #e9ecef;
     border-radius: 18px;
@@ -172,14 +172,14 @@ export const ProfilText = styled.div`
   /* 채워지는 바 */
   export const GaugeBar = styled.div`
     height: 100%;
-    background: #86e5ad;
+    background: #00A34A;
     transition: width 0.3s ease;
     border-radius: 18px;
   `;
 
   /* % 텍스트 */
   export const GaugeText = styled.div`
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: #2f2f2f;
   `;
@@ -188,7 +188,7 @@ export const ProfilText = styled.div`
 export const SeparatorLine = styled.div`
   width: 1px;
   height: 60px;
-  background: #b2f2bb;
+  background: #00A34A;
   margin: 0 18px;
   opacity: 0.8;
 `;
@@ -196,21 +196,20 @@ export const SeparatorLine = styled.div`
 
 /* ====== 좋아요 버튼 ====== */
 export const StyledButton = styled.button`
-  width: 110px;
-  height: 50px;
+  width: 120px;
+  height: 54px;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  padding-right: 4px;
 
-  border-radius: 20px;
-  border: ${p => (p.$liked ? "1px solid #eb5252" : "1px solid #86e5ad")};
+  border-radius: 25px;
+  border: ${p => (p.$liked ? "1px solid #ff6b6b" : "1px solid #86e5ad")};
   cursor: pointer;
 
   background: ${p => (p.$liked ? "#ff6b6b" : "#fff")};
   transition: 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 
   img.like-icon {
     width: 100px;
@@ -221,8 +220,8 @@ export const StyledButton = styled.button`
   }
 
   &:hover {
-    background: ${p => (p.$liked ? "#ff8787" : "#eafff1")};
-    border-color: ${p => (p.$liked ? "#ff8787" : "#86e5ad")};
+    background: ${p => (p.$liked ? "#ff6b6b" : "#eafff1")};
+    border-color: ${p => (p.$liked ? "#ff6b6b" : "#86e5ad")};
     transform: translateY(-2px);
   }
 
@@ -233,9 +232,9 @@ export const StyledButton = styled.button`
 `;
 
 const mint = {
-  base: "#81f1b0",      // 기본 민트
-  hover: "#34d399",     // hover 민트
-  text: "#ffffff",      // 텍스트 white
+  base: "#00A34A",
+  hover: "#00833bff",
+  text: "#ffffff",
   shadow: "0 2px 6px rgba(0,0,0,0.12)",
   shadowHover: "0 4px 10px rgba(0,0,0,0.18)"
 };
@@ -267,7 +266,7 @@ export const ButtonSection = styled.div`
   }
 
   .delete-btn {
-    background: #ff7675;
+    background: #fd3333ff;
     color: #fff;
     padding: 10px 22px;
     border-radius: 10px;
@@ -279,7 +278,7 @@ export const ButtonSection = styled.div`
   }
 
   .delete-btn:hover {
-    background: #ff6b6b;
+    background: #d63232ff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.18);
     transform: translateY(-1px);
   }
@@ -304,10 +303,10 @@ export const ReplyInputSection = styled.div`
 `;
 
 export const ReplyInput = styled.textarea`
-  flex: 0.85;
   width: 100%;
   height: 100px;
-  min-height: 100px;
+  min-height: 105px;
+  margin: 6px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -344,11 +343,15 @@ export const NoReplyText = styled.div`
 
 
 export const ReplyInputButton = styled.button`
-  flex: 0.15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px;
   padding: 10px 0;
   background: ${mint.base};
   color: white;
-  min-width: 120px;
+  min-width: 100px;
+  height: 100px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
@@ -442,13 +445,11 @@ export const BackButton = styled.button`
   border: none;
   font-size: 15px;
   cursor: pointer;
-  box-shadow: ${mint.shadow};
   transition: 0.2s ease;
   margin-top: 15px;
 
   &:hover {
     background: ${mint.hover};
-    box-shadow: ${mint.shadowHover};
     transform: translateY(-1px);
   }
 `;

@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:80';
 
 const adminActivityAPI = axios.create({
-  baseURL: `${API_BASE_URL}/admin`,
+  baseURL: `${API_BASE_URL}/admin/`,
   timeout: 10000,
   withCredentials: true,
   headers: {
@@ -42,5 +42,5 @@ export const restoreBoard = (id) =>
   adminActivityAPI.patch(`/activityBoards/restore/${id}`);
 
 export const deleteBoard = (id) =>
-  adminActivityAPI.delete(`/activityBoards/${id}`);
+  adminActivityAPI.delete(`/activityBoards/delete/${id}`);
 

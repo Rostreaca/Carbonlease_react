@@ -14,12 +14,11 @@ export const PageButton = styled.button`
     height: 32px;
 
     /* 기본 / active */
-    border: 1px solid 
-        ${props => props.$active ? '#34d399' : '#b6f2d0'};
+    border: 1px solid #00A34A;
     background-color: 
-        ${props => props.$active ? '#34d399' : '#ffffff'};
+        ${props => props.$active ? '#00A34A' : '#ffffff'};
     color: 
-        ${props => props.$active ? '#ffffff' : '#34a67f'};
+        ${props => props.$active ? '#ffffff' : '#00A34A'};
 
     border-radius: 6px;
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
@@ -33,9 +32,9 @@ export const PageButton = styled.button`
     /* hover */
     &:hover:not(:disabled) {
         background-color: 
-            ${props => props.$active ? '#34d399' : '#e3fdf2'};
+            ${props => props.$active ? '#00833bff' : '#e3fdf2'};
         border-color: 
-            ${props => props.$active ? '#34d399' : '#9eeac7'};
+            ${props => props.$active ? '#00833bff' : '#00833bff'};
     }
 
     /* 아이콘 같은 경우 */

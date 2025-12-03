@@ -1,65 +1,42 @@
 import { useState } from "react";
-import { SidebarWrapper } from "./Sidebar.styles";
-import RegionInfo from "./components/RegionInfo";
-import SidoAverage from "./components/SidoAverage";
-
 import { useAir } from "./hooks/useAir";
 import { useSidoAverage } from "./hooks/useSidoAverage";
 import regionStationMap from "./components/regionStationMap";
+import RegionInfo from "./components/RegionInfo";
+import SidoAverage from "./components/SidoAverage"
+import { RegionSelect, SidebarWrapper } from "./Sidebar.styles";
 
 const sidoList = [
-  "서울", "경기", "강원", "충북", "충남",
-  "전북", "전남", "경북", "경남", "부산",
-  "대구", "광주", "대전", "울산", "인천", "제주"
+  "서울", "부산", "대구", "인천",
+  "광주", "대전", "울산", "경기",
+  "강원", "충북", "충남", "전북",
+  "전남", "경북", "경남", "제주"
 ];
 
-const Sidebar = () => {
+export default function Sidebar() {
   const [region, setRegion] = useState("중구");
+  const [idx, setIdx] = useState(0);
 
-  const [sidoIndex, setSidoIndex] = useState(0);
-  const sido = sidoList[sidoIndex];
-  const sidoAvg = useSidoAverage(sido);
-
-  const air = useAir(regionStationMap[region]);
-
-  const itemList = air?.response?.body?.items?.item;
-  const item = Array.isArray(itemList)
-      ? itemList.find(i => (i.stationName?._text || "").trim() === regionStationMap[region])
-      : itemList;
-
-  const nextSido = () => setSidoIndex((prev) => (prev + 1) % sidoList.length);
-  const prevSido = () =>
-    setSidoIndex((prev) => (prev - 1 + sidoList.length) % sidoList.length);
+  const station = regionStationMap[region];
+  const air = useAir(station);
+  const avg = useSidoAverage(sidoList[idx]);
 
   return (
     <SidebarWrapper>
+      <RegionSelect value={region} onChange={(e) => setRegion(e.target.value)}>
+        {Object.keys(regionStationMap).map((r) => (
+          <option key={r}>{r}</option>
+        ))}
+      </RegionSelect>
 
-      {/* 지역 선택 */}
-      <div className="region-select-box">
-        <select
-          className="region-select"
-          value={region}
-          onChange={(e) => setRegion(e.target.value)}
-        >
-          {Object.keys(regionStationMap).map((r) => (
-            <option key={r} value={r}>{r}</option>
-          ))}
-        </select>
-      </div>
+      <RegionInfo item={air} region={region} />
 
-      {/* 지역 대기질 */}
-      <RegionInfo item={item} region={region} />
-
-      {/* 시도 평균 */}
       <SidoAverage
-        sido={sido}
-        sidoAvg={sidoAvg}
-        onPrev={prevSido}
-        onNext={nextSido}
+        sido={sidoList[idx]}
+        sidoAvg={avg}
+        onPrev={() => setIdx((idx - 1 + sidoList.length) % sidoList.length)}
+        onNext={() => setIdx((idx + 1) % sidoList.length)}
       />
-
     </SidebarWrapper>
   );
-};
-
-export default Sidebar;
+}

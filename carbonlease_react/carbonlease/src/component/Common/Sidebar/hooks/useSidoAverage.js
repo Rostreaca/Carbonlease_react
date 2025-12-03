@@ -1,36 +1,20 @@
 import { useEffect, useState } from "react";
-import { fetchSidoAPI } from "../../../../api/sidebar/sidoAPI";
+import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export const useSidoAverage = (sido) => {
-  const [avg, setAvg] = useState(null);
+  const [data, setData] = useState(null);
+
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await fetchSidoAPI(sido);
+    if (!sido) return;
 
-        const items = data?.response?.body?.items?.item;
-        if (!items) return;
-
-        const pm25Values = items
-          .map((i) => Number(i.pm25Value?._text || 0))
-          .filter((v) => !isNaN(v) && v > 0);
-
-        const avgValue =
-          Math.round(
-            pm25Values.reduce((a, b) => a + b, 0) / pm25Values.length
-          ) || 0;
-
-        const time = items[0].dataTime._text;
-
-        setAvg({ value: avgValue, time });
-      } catch (err) {
-        console.error("시도 평균 실패:", err);
-      }
-    };
-
-    load();
+    axios
+      .get(`${API_BASE}/api/air/sido`, { params: { name: sido } })
+      .then((res) => setData(res.data))
+      .catch(console.error);
   }, [sido]);
 
-  return avg;
+  return data;
 };
