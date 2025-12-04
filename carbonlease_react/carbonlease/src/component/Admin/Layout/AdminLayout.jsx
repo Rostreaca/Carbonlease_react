@@ -1,16 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Context/AuthContext';
 import {
     Footer,
     LayoutSidenav,
     MainContent,
+    Overlay,
     PageContent,
     SidenavContent,
     SidenavFooter,
     SidenavMenu,
     Topnav
 } from './AdminLayout.styled';
-import { AuthContext } from '../../Context/AuthContext';
 
 const AdminLayout = () => {
     const [sidebarActive, setSidebarActive] = useState(false);
@@ -31,8 +32,20 @@ const AdminLayout = () => {
 
     return (
         <LayoutSidenav>
+            {/* 모바일 오버레이 */}
+            {sidebarActive && (
+                <Overlay onClick={toggleSidebar} />
+            )}
             {/* Sidebar */}
             <SidenavContent className={sidebarActive ? 'active' : ''}>
+                {/* 모바일 닫기(X) 버튼 */}
+                <button
+                    className="sidebar-close"
+                    onClick={toggleSidebar}
+                    aria-label="사이드바 닫기"
+                >
+                    <span className="sidebar-close-icon">×</span>
+                </button>
                 <SidenavMenu>
                     <div className="sb-sidenav-menu-heading">Core</div>
                     <NavLink className="nav-link" to="/admin/home">
@@ -81,12 +94,22 @@ const AdminLayout = () => {
                 <SidenavFooter>
                     Logged in as: Admin
                 </SidenavFooter>
+
             </SidenavContent>
+
 
             {/* Main Content */}
             <MainContent>
                 {/* Top Navigation */}
                 <Topnav>
+                    {/* 햄버거 버튼: 모바일에서만 보임 */}
+                    <button
+                        className="sidebar-toggle"
+                        onClick={toggleSidebar}
+                        aria-label="사이드바 열기"
+                    >
+                        <i className="fas fa-bars"></i>
+                    </button>
                     <NavLink className="navbar-brand" to="/admin/home">Carbonlease Admin</NavLink>
                     <ul className="navbar-nav">
                         <li className="nav-item">

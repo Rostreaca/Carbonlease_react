@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { findAll } from '../../../../api/campaign/adminCampaignApi';
+import { findAll, deleteById } from '../../../../api/campaign/adminCampaignApi';
 
 // 어드민 캠페인 목록/페이지네이션 관리 커스텀 훅
 const useAdminCampaign = (onShowToast) => {
@@ -39,13 +39,34 @@ const useAdminCampaign = (onShowToast) => {
                         endPage: pageInfo.endPage,
                         totalPage: pageInfo.maxPage
                     });
-                } else {
-                    onShowToast && onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');
-                }
+
+                } 
             })
             .catch((error) => {
-                onShowToast && onShowToast(
+                onShowToast(
                     error?.response?.data?.["error-message"] || '캠페인 목록을 불러오지 못했습니다.',
+                    'error'
+                );
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    // 삭제 함수 추가
+    const deleteCampaign = (id, callback) => {
+        setLoading(true);
+        deleteById(id)
+            .then((result) => {
+                if (result && result.status === 200) {
+                    getCampaigns(currentPage); // 목록 새로고침
+                    onShowToast('삭제되었습니다!', 'success');
+                    if (callback) callback();
+                } 
+            })
+            .catch((error) => {
+                onShowToast(
+                    error?.response?.data?.["error-message"] || '삭제에 실패했습니다.',
                     'error'
                 );
             })
@@ -60,6 +81,7 @@ const useAdminCampaign = (onShowToast) => {
         setCurrentPage,
         loading,
         pageInfo,
+        deleteCampaign,
     };
 };
 

@@ -14,8 +14,25 @@ const AdminCampaigns = () => {
 
     const navigate = useNavigate();
     const [showConfirm, setShowConfirm] = useState(false);
-    const [toast, setToast] = useState({ show: false, message: '', variant: 'success' });
     const [selectedId, setSelectedId] = useState(null);
+
+    // Toast 상태 관리
+    const [toastMessage, setToastMessage] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const [toastVariant, setToastVariant] = useState('success');
+
+    // 토스트 메시지 표시
+    const handleShowToast = (message, variant = 'success') => {
+        console.log('토스트 호출:', message, variant);
+        setToastMessage(message);
+        setToastVariant(variant);
+        setShowToast(true);
+    };
+
+    // 토스트 메시지 닫기
+    const handleCloseToast = () => {
+        setShowToast(false);
+    };
 
     // 캠페인 목록 훅 사용
     const {
@@ -24,7 +41,12 @@ const AdminCampaigns = () => {
         setCurrentPage,
         loading,
         pageInfo,
-    } = useAdminCampaign(setToast);
+        deleteCampaign,
+    } = useAdminCampaign(handleShowToast);
+
+    useEffect(() => {
+        setCurrentPage(1); // mount 시 무조건 1페이지로 리셋
+    }, []);
 
     console.log('currentPage:', currentPage);
     console.log('pageInfo:', pageInfo);
@@ -32,10 +54,6 @@ const AdminCampaigns = () => {
     console.log('캠페인 총 개수(전체):', pageInfo.listCount);
     console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
     
-    useEffect(() => {
-        setCurrentPage(1); // mount 시 무조건 1페이지로 리셋
-        // eslint-disable-next-line
-    }, []);
 
     const handleEdit = (campaign) => {
         navigate(`/admin/campaigns/update/${campaign.campaignNo}`, { state: campaign });
@@ -47,12 +65,8 @@ const AdminCampaigns = () => {
     };
 
     const confirmDelete = () => {
-        console.log('삭제 확정:', selectedId);
-        // TODO: 삭제 API 호출
-        // API 호출 성공 후:
-        setShowConfirm(false);
-        setToast({ show: true, message: '삭제되었습니다!', variant: 'success' });
-        setSelectedId(null);
+        if (!selectedId) return;
+        deleteCampaign(selectedId, cancelDelete);
     };
 
     const cancelDelete = () => {
@@ -79,6 +93,7 @@ const AdminCampaigns = () => {
                 campaigns={campaigns}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
+                onShowToast={handleShowToast}
             />
 
             <Pagination
@@ -100,10 +115,10 @@ const AdminCampaigns = () => {
             />
             
             <Toast
-                isVisible={toast.show}
-                message={toast.message}
-                variant={toast.variant}
-                onClose={() => setToast({ ...toast, show: false })}
+                message={toastMessage}
+                isVisible={showToast}
+                onClose={handleCloseToast}
+                variant={toastVariant}
             />
         </div>
     );

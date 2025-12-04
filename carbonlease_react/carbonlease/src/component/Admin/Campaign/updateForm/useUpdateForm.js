@@ -153,7 +153,7 @@ const UpdateForm = (onShowToast, auth) => {
 
         // 인증 여부 확인
 		if (auth && !auth.isAuthenticated) {
-			onShowToast && onShowToast('로그인이 필요합니다.', 'error');
+			onShowToast('로그인이 필요합니다.', 'error');
 			return;
 		}
 
@@ -167,20 +167,19 @@ const UpdateForm = (onShowToast, auth) => {
         update(id, [safeThumbnail, safeDetail], formData)
             .then((result) => {
                 if (result && result.status === 201) {
-                    onShowToast && onShowToast('게시글 수정이 완료되었습니다!', 'success');
+                    onShowToast('게시글 수정이 완료되었습니다!', 'success');
                     setTimeout(() => {
                         navigate('/admin/campaigns');
-                    }, 800); // 0.8초 후 이동
+                    }, 800);
                 } 
             })
             .catch((error) => {
                 if (error?.response?.status === 401) {
-					onShowToast && onShowToast('로그인이 필요합니다.', 'error');
-					// 필요시 로그인 페이지로 이동
+					onShowToast('로그인이 필요합니다.', 'error');
 				} else if (error?.response?.status === 403) {
-					onShowToast && onShowToast('권한이 없습니다.', 'error');
+					onShowToast('권한이 없습니다.', 'error');
 				} else {
-					onShowToast && onShowToast(
+					onShowToast(
 					error?.response?.data?.["error-message"] || '수정에 실패했습니다.',
 					'error'
 					);

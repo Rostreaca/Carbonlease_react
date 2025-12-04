@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const PageHeader = styled.div`
-    padding: 1.5rem;
+    padding-top: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -90,7 +90,7 @@ export const DeleteButton = styled.button`
 `;
 
 export const DataTableContainer = styled.div`
-    padding: 1.5rem;
+    padding-top: 1.5rem;
 `;
 
 export const TableCard = styled.div`
@@ -112,11 +112,20 @@ export const TableCardHeader = styled.div`
     }
 `;
 
+
 export const TableCardBody = styled.div`
+
     padding: 1.25rem;
+
+    /* 반응형: 테이블이 화면보다 넓어지면 가로 스크롤, 위아래 깨짐 방지 */
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    white-space: nowrap;
 
     table {
         width: 100%;
+        min-width: 600px;
         margin-bottom: 1rem;
         color: #212529;
         border-collapse: collapse;
@@ -273,7 +282,7 @@ export const TableCardBody = styled.div`
 
 // Form Styles
 export const FormContainer = styled.div`
-    padding: 1.5rem;
+    ${'' /* padding: 1.5rem; */}
 `;
 
 export const FormCard = styled.div`
@@ -298,7 +307,7 @@ export const FormCardHeader = styled.div`
 `;
 
 export const FormCardBody = styled.div`
-    padding: 1.5rem;
+    padding:1.15rem 1rem;
 `;
 
 export const FormButtonGroup = styled.div`
@@ -383,11 +392,12 @@ export const StatusBadge = styled.span`
             case '진행중':
                 return '#d4edda';
             case '종료':
+                return '#dddddd'; 
             case '삭제':
                 return '#f8d7da';
             case '대기':
                 return '#fff3cd';
-            default:
+            default:    
                 return '#e9ecef';
         }
     }};
@@ -396,6 +406,7 @@ export const StatusBadge = styled.span`
             case '진행중':
                 return '#155724';
             case '종료':
+                return '#222222';
             case '삭제':
                 return '#721c24';
             case '대기':

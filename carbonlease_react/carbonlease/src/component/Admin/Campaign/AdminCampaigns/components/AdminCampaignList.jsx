@@ -48,7 +48,7 @@ const AdminCampaignList = ({ campaigns, onEdit, onDelete }) => {
             render: (value, row) => (
                 <ButtonGroup>
                     <EditButton onClick={() => onEdit(row)}>수정</EditButton>
-                    <DeleteButton onClick={() => onDelete(value)}>삭제</DeleteButton>
+                    {row.displayStatus !== "삭제" && <DeleteButton onClick={() => onDelete(value)}>삭제</DeleteButton>}
                 </ButtonGroup>
             )
         }

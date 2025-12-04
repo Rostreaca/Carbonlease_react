@@ -36,9 +36,10 @@ const RegionStatsMap = () => {
 
     // 버블 크기 계산 (value가 %면 그대로, 실제 값이면 변환)
     const getBubbleSize = (value) => {
-        const minSize = 20;
-        const maxSize = 60;
-        const maxValue = Math.max(...regionData.map(r => r.value));
+        const minSize = 30;
+        const maxSize = 50;
+        // usagePercent 기준으로 maxValue 계산
+        const maxValue = Math.max(...regionData.map(r => r.usagePercent));
         return minSize + ((value / maxValue) * (maxSize - minSize));
     };
 
@@ -74,17 +75,18 @@ const RegionStatsMap = () => {
 
                     {/* 버블 마커 */}
                     {regionData.map((region) => {
-                        const size = getBubbleSize(region.value);
-                        const isHovered = hoveredRegion === region.region;
+                        // 백엔드에서 key를 '지역명-위도-경도-평균값'으로 생성함
+                        const size = getBubbleSize(region.usagePercent);
+                        const isHovered = hoveredRegion === region.topRegionName;
                         return (
-                            <Marker key={region.region} coordinates={[region.lng, region.lat]}>
+                            <Marker key={region.key} coordinates={[region.longitude, region.latitude]}>
                                 <BubbleMarker
                                     region={region}
                                     size={size}
                                     isHovered={isHovered}
                                     onMouseEnter={() => {
-                                        setHoveredRegion(region.region);
-                                        setTooltipContent(`${region.region}: ${region.value.toLocaleString()} 포인트`);
+                                        setHoveredRegion(region.topRegionName);
+                                        setTooltipContent(`${region.topRegionName}: ${region.avgUseQnt}kWh (${region.usagePercent.toFixed(1)}%)`);
                                     }}
                                     onMouseLeave={() => {
                                         setHoveredRegion(null);

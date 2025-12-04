@@ -8,6 +8,11 @@ export const AuthProvider = ({ children }) => {
 
     const navi = useNavigate();
 
+    const [kakaoInfo, setKakaoInfo] = useState({
+        memberId : null,
+        memberPwd : null
+    });
+
     const [auth, setAuth] = useState({
         memberId : null,
         nickName : null,
@@ -150,7 +155,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-    <AuthContext.Provider value={{auth, login, logout}}>
+    <AuthContext.Provider value={{auth, kakaoInfo, setKakaoInfo, login, logout}}>
         {children}
     </AuthContext.Provider>
     )
