@@ -158,7 +158,7 @@ const EnrollForm = () => {
                                 required
                             />
                             <CheckIdDuplicate memberId = {memberId} checkId ={checkId} setCheckId = {setCheckId} setIdMsg = {setIdMsg}/>
-                            <FormLabel className={checkId ? 'regValidMsg' : 'regInvalidMsg'}>{idMsg}</FormLabel>
+                            <FormLabel className={checkId ? 'regValidMsg' : 'regInValidMsg'}>{idMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>비밀번호</FieldLabel>
@@ -169,7 +169,7 @@ const EnrollForm = () => {
                                 className='userFormInput'
                                 required
                             />
-                            <FormLabel className={checkPwd ? 'regValidMsg' : 'regInvalidMsg'}>{pwdMsg}</FormLabel>
+                            <FormLabel className={checkPwd ? 'regValidMsg' : 'regInValidMsg'}>{pwdMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>닉네임</FieldLabel>
@@ -181,7 +181,7 @@ const EnrollForm = () => {
                                 required
                             />
                             <CheckNickNameDuplicate nickName = {nickName} checkNickName = {checkNickName} setCheckNickName = {setCheckNickName} setNickNameMsg = {setNickNameMsg}/>
-                            <FormLabel className={checkNickName ? 'regValidMsg' : 'regInvalidMsg'}>{nickNameMsg}</FormLabel>
+                            <FormLabel className={checkNickName ? 'regValidMsg' : 'regInValidMsg'}>{nickNameMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>이메일</FieldLabel>
@@ -193,7 +193,7 @@ const EnrollForm = () => {
                                 required
                             />
                             <CheckEmailDuplicate email = {email} checkEmail = {checkEmail} setCheckEmail = {setCheckEmail} setEmailMsg = {setEmailMsg}/>
-                            <FormLabel className={checkEmail ? 'regValidMsg' : 'regInvalidMsg'}>{emailMsg}</FormLabel>
+                            <FormLabel className={checkEmail ? 'regValidMsg' : 'regInValidMsg'}>{emailMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
                             <FieldLabel>기본주소 <Button className='rounded-pill' variant='primary' type='button' onClick={findAddress} size='sm'>주소지 검색</Button></FieldLabel>

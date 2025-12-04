@@ -1,4 +1,3 @@
-// hooks/useAdminBoards.js
 import { useState, useEffect } from "react";
 import {
   fetchAdminBoards,
@@ -19,7 +18,15 @@ export default function useAdminBoards() {
   const [loading, setLoading] = useState(true);
 
   const loadBoards = (page = 1) => {
-  setLoading(true);
+  
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      console.warn("토큰 없음. 목록 요청 중단");
+      return;
+    }
+  
+    setLoading(true);
 
   fetchAdminBoards(page)
     .then((res) => {

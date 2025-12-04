@@ -1,19 +1,18 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
 import { AuthContext } from '../../Context/AuthContext';
-import FormField from '../../Common/Form/FormField';
-import SuccessButton from '../../Sample/Buttons/SuccessButton';
 import { Button, FormLabel } from 'react-bootstrap';
-import OutlineWarningButton from '../../Sample/Outlinebuttons/OutlineWarningButton';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../Common/Alert/Alert';
-import { FieldGroup, FieldInput, FieldLabel } from '../../Common/Form/FormField.styled';
+import { FieldGroup, FieldInput } from '../../Common/Form/FormField.styled';
 import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
 
 
 const Login = () => {
+
+    const { VITE_KAKAO_CLIENT_ID, VITE_KAKAO_REDIRECT_URI } = import.meta.env; 
 
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState('info');
@@ -24,6 +23,14 @@ const Login = () => {
     const [pwdMsg, setPwdMsg] = useState("");
     const { login } = useContext(AuthContext);
     const navi = useNavigate();
+
+    const handleKakaoLoginBtn = () => {
+
+        window.location.href = "https://kauth.kakao.com/oauth/authorize?"
+                + `client_id=${VITE_KAKAO_CLIENT_ID}` 
+                + `&redirect_uri=${VITE_KAKAO_REDIRECT_URI}`
+                + "&response_type=code";;
+    }
 
 
     const handleLogin = (e) => {
@@ -47,8 +54,8 @@ const Login = () => {
             memberId, memberPwd
         }).then(result => {
             //console.log(result);
-            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role } = result.data;
-            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role);
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate } = result.data;
+            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate);
             setAlertMsg("로그인에 성공하였습니다.");
             setAlertVariant('info');
             setShowAlert(true);
@@ -84,7 +91,7 @@ const Login = () => {
                             onChange={(e) => setMemberId(e.target.value)}
                             required
                         />
-                        <FormLabel className={'regInvalidMsg'}>{idMsg}</FormLabel>
+                        <FormLabel className={'regInValidMsg'}>{idMsg}</FormLabel>
                     </FieldGroup>
                     <FieldGroup>
                         <FieldInput
@@ -95,10 +102,11 @@ const Login = () => {
                             onChange={(e) => setMemberPwd(e.target.value)}
                             required
                         />
-                        <FormLabel className={'regInvalidMsg'}>{pwdMsg}</FormLabel>
+                        <FormLabel className={'regInValidMsg'}>{pwdMsg}</FormLabel>
                     </FieldGroup>
                     <div className='d-grid gap-2'>
-                    <Button aria-setsize={6} variant='success' type='submit'>로그인</Button>
+                    <Button variant='success' type='submit'>로그인</Button>
+                    <img id='kakaoLoginBtn' onClick={handleKakaoLoginBtn} src='/src/assets/images/login/kakao_login_medium_wide.png' />
                     </div>
                 </form>
                 <Alert

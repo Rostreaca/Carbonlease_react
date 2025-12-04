@@ -6,8 +6,8 @@ export const SidebarWrapper = styled.div`
   top: 220px;
   align-self: flex-start;
 
-  width: 200px;
-  min-width:200px;
+  width: 210px;
+  min-width:210px;
   flex-shrink: 0;
 
   padding: 11px;
@@ -35,16 +35,30 @@ export const SidebarWrapper = styled.div`
 
   .region-select {
     width: 98%;
-    padding: 10px;
+    padding: 10px 35px 10px 15px;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg fill='black' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 12px center;
     border-radius: 10px;
     border: 1px solid rgba(35,165,91,0.4);
-    background: #fefefc;
 
     font-size: 14px;
     font-weight: 600;
     color: #1a6b3e;
   }
 `;
+
+export const RegionSelect = styled.select`
+  width: 98%;
+    padding: 10px 35px 10px 15px;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg fill='black' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 12px center;
+    border-radius: 10px;
+    border: 1px solid rgba(35,165,91,0.4);
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a6b3e;
+`
 
 export const RegionBox = styled.div`
   background: #ffffff;
@@ -53,6 +67,11 @@ export const RegionBox = styled.div`
   margin: 2px;
   border-radius: 12px;
   margin-bottom: 9px;
+  margin-top: 9px;
+  height: 325px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
   .title {
     font-weight: 700;
@@ -79,6 +98,49 @@ export const RegionBox = styled.div`
   }
 `;
 
+export const RegionSkeletonBox = styled.div`
+  background: #ffffff;
+  border: 1px solid rgba(35,165,91,0.4);
+  padding: 15px;
+  margin: 2px;
+  border-radius: 12px;
+  margin-bottom: 9px;
+  height: 180px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .bar {
+    height: 12px;
+    border-radius: 8px;
+    background: #eaeaea;
+  }
+
+  .bar.short {
+    width: 50%;
+  }
+  .bar.medium {
+    width: 70%;
+  }
+  .bar.long {
+    width: 100%;
+  }
+`;
+
+export const RegionNullBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  height: 320px;
+
+  img {
+    width: 160px;
+    opacity: 0.7;
+  }
+`;
+
 export const SidoInfoBox = styled.div`
   background: #f6fff9;
   padding: 15px;
@@ -88,30 +150,6 @@ export const SidoInfoBox = styled.div`
   height: 120px;
   transition: opacity 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
             transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1);
-
-  /* 왼쪽으로 사라짐 */
-  &.fade-slide-out-left {
-    opacity: 0;
-    transform: translateX(-8%);
-  }
-
-  /* 오른쪽으로 사라짐 */
-  &.fade-slide-out-right {
-    opacity: 0;
-    transform: translateX(8%);
-  }
-
-  /* 자동 슬라이드는 왼쪽 방향 */
-  &.fade-slide-out {
-    opacity: 0;
-    transform: translateX(-8%);
-  }
-
-  /* 나타나는 애니메이션 */
-  &.fade-slide-in {
-    opacity: 1;
-    transform: translateX(0);
-  }
 
   .nav {
     display: flex;
@@ -149,3 +187,9 @@ export const SidoInfoBox = styled.div`
   }
 `;
 
+
+export const SidoNullBox = styled.div`
+  margin-top: 8px;
+  font-size: 12px;
+  color: #777;
+`;

@@ -29,7 +29,6 @@ const useCampaignDetail = (id, onShowToast, auth) => {
                 if (result && result.status === 200) {
                     const campaignData = result.data;
                     const storedLike = campaignStore.getLike(campaignNo);
-
                     setCampaign({
                         ...campaignData,
                         isLiked: storedLike !== undefined ? storedLike : campaignData.isLiked

@@ -176,7 +176,6 @@ const UpdateForm = (onShowToast, auth) => {
             .catch((error) => {
                 if (error?.response?.status === 401) {
 					onShowToast('로그인이 필요합니다.', 'error');
-					// 필요시 로그인 페이지로 이동
 				} else if (error?.response?.status === 403) {
 					onShowToast('권한이 없습니다.', 'error');
 				} else {

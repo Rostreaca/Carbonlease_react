@@ -1,7 +1,7 @@
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
 import NoticesList from './NoticesList';
-import NoticeCalendar from './NoticeCalendar';
+import NoticeCalendar from '../Calendar/NoticeCalendar';
 
 const Notices = () => {
     return(
@@ -14,7 +14,7 @@ const Notices = () => {
                 ]} 
             />
             <PageContent>
-                {/* <NoticeCalendar /> */}
+               <NoticeCalendar />
                <NoticesList />
             </PageContent>
         </>

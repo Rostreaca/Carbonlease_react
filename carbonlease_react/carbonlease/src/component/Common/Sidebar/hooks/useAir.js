@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
-import { fetchAirAPI } from "../../../../api/sidebar/airAPI";
+import axios from "axios";
 
-export const useAir = (region) => {
-  const [air, setAir] = useState(null);
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
+export const useAir = (station) => {
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await fetchAirAPI(region);
-        setAir(data);
-      } catch (err) {
-        console.error("대기 정보 불러오기 실패:", err);
-      }
-    };
+    if (!station) return;
 
-    load();
-  }, [region]);
+    axios
+      .get(`${API_BASE}/api/air/station`, { params: { name: station } })
+      .then((res) => setData(res.data))
+      .catch(console.error);
+  }, [station]);
 
-  return air;
+  return data;
 };

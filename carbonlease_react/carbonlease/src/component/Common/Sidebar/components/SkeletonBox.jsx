@@ -1,42 +1,28 @@
 import styled from "styled-components";
 
-const SkeletonWrapper = styled.div`
-  background: #ffffff;
-  border: 1px solid #e5e5e5;
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 16px;
+const Wrap = styled.div`
+  background:#fff;
+  border:1px solid #eee;
+  padding:16px;
+  border-radius:12px;
 `;
 
-const SkeletonLine = styled.div`
-  height: ${(props) => props.height || "14px"};
-  width: ${(props) => props.width || "100%"};
-  background: linear-gradient(90deg, #ececec 25%, #f4f4f4 50%, #ececec 75%);
-  background-size: 200% 100%;
-  border-radius: 6px;
-  animation: loading 1.2s infinite;
-
-  @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-
-  margin-bottom: 10px;
+const Line = styled.div`
+  height:${p => p.h || "14px"};
+  width:${p => p.w || "100%"};
+  background:#eee;
+  border-radius:6px;
+  margin-bottom:8px;
 `;
 
-
-const SkeletonBox = () => {
+export default function SkeletonBox() {
   return (
-    <SkeletonWrapper>
-      <SkeletonLine width="60%" height="16px" />
-      <SkeletonLine width="40%" height="12px" />
-      <SkeletonLine />
-      <SkeletonLine />
-      <SkeletonLine />
-      <SkeletonLine />
-      <SkeletonLine />
-    </SkeletonWrapper>
+    <Wrap>
+      <Line w="60%" h="16px"/>
+      <Line w="40%" h="12px"/>
+      <Line/>
+      <Line/>
+      <Line/>
+    </Wrap>
   );
-};
-
-export default SkeletonBox;
+}

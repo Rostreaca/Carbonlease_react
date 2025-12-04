@@ -4,7 +4,6 @@ import axios from 'axios';
 import ConfirmDialog from '../../Common/ConfirmDialog/ConfirmDialog';
 import DataTable from '../../Common/DataTable/DataTable';
 import {
-    CategoryBadge,
     CreateButton,
     DeleteButton,
     EditButton,
@@ -14,13 +13,19 @@ import {
 } from '../../Common/DataTable/DataTable.styled';
 import Pagination from '../../Common/Pagination/Pagination';
 import Toast from '../../Common/Toast/Toast';
-import { AuthContext } from '../../Context/AuthContext'
+import { AuthContext } from '../../Context/AuthContext';
+import NoticeCalendar from './AdminCalendar/NoticeCalendar';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
+
 
 const AdminNotices = () => {
     const navigate = useNavigate();
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [toast, setToast] = useState({ show: false, message: '', variant: 'success' });
+    const [key, setKey] = useState('notice');
     const { auth } = useContext(AuthContext);
     
     // Pagination 상태 (Spring Boot에서 받아올 데이터)
@@ -34,13 +39,10 @@ const AdminNotices = () => {
 
     useEffect (()=>{
         getNotices(currentPage);
-        //console.log(auth)
-    }, [currentPage, auth])
+    }, [currentPage])
 
     const getNotices = (page) => {
         if(auth.accessToken){
-            // console.log('너안감?');
-            // console.log(auth.accessToken); 이제 감
             axios
                 .get(`http://localhost/admin/notices?pageNo=${page}`, {
                     headers: {
@@ -61,18 +63,31 @@ const AdminNotices = () => {
         }
     }
 
-    const handleEdit = (id) => {
-        navigate(`/admin/notices/update/${id}`);
+    const handleEdit = (noticeNo) => {
+        navigate(`/admin/notices/update/${noticeNo}`);
     };
 
-    const handleDelete = (id) => {
-        setSelectedId(id);
+    const handleDelete = (noticeNo) => {
+        setSelectedId(noticeNo);
         setShowConfirm(true);
     };
 
     const confirmDelete = () => {
         console.log('삭제 확정:', selectedId);
-        // TODO: 삭제 API 호출
+
+        axios.put(`http://localhost/admin/notices/delete/${selectedId}`,{}, {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+            },
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("삭제 실패");
+        });
+        
         setShowConfirm(false);
         setToast({ show: true, message: '삭제되었습니다!', variant: 'success' });
         setSelectedId(null);
@@ -84,7 +99,7 @@ const AdminNotices = () => {
     };
 
     const handleRowClick = (row) => {
-        navigate(`/notices/${row.noticeNo}`)
+        navigate(`/admin/notices/${row.noticeNo}`)
     }
 
     // 테이블 컬럼 정의
@@ -133,17 +148,17 @@ const AdminNotices = () => {
         {
             header: '관리',
             field: 'id',
-            render: (value) => (
+            render: (value, row) => (
                 <ButtonGroup>
                     <EditButton onClick={(e) => {
                                                 e.stopPropagation();
-                                                handleEdit(value);
+                                                handleEdit(row.noticeNo);
                     }}>
                         수정
                     </EditButton>
                     <DeleteButton onClick={(e) => {
                         e.stopPropagation();
-                        handleDelete(value)
+                        handleDelete(row.noticeNo)
                     }}>
                         삭제
                     </DeleteButton>
@@ -162,20 +177,34 @@ const AdminNotices = () => {
                 </CreateButton>
             </PageHeader>
 
-            <DataTable 
-                title="공지사항 목록"
-                columns={columns}
-                data={notice}
-                onRowClick={handleRowClick}
-            />
+            <Tabs
+                id="controlled-tab-notice"
+                activeKey={key}
+                onSelect={(k) => setKey(k)}
+                className="mb-3"
+            > 
 
-            <Pagination
-            currentPage={currentPage} 
-            setCurrentPage={setCurrentPage}
-            pageInfo={pageInfo}
-            
-            />
-            
+                <Tab eventKey="notice" title="공지사항">
+                    <DataTable 
+                        title="공지사항 목록"
+                        columns={columns}
+                        data={notice}
+                        onRowClick={handleRowClick}
+                    />
+
+                    <Pagination
+                    currentPage={currentPage} 
+                    setCurrentPage={setCurrentPage}
+                    pageInfo={pageInfo}
+                    />
+                </Tab>
+
+                <Tab eventKey="calendar" title="일정">
+                    <NoticeCalendar key={key === "calendar" ? "calendar-active" : "calendar"} />
+                </Tab>
+
+            </Tabs>
+
             <ConfirmDialog
                 show={showConfirm}
                 onClose={cancelDelete}

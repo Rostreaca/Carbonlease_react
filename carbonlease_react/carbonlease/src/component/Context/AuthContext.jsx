@@ -1,8 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import authLikeManager from "../../utils/authLikeManager";           // <- 인증게시판 좋아요 토글문제로 추가
-import campaignLikeManager from "../../utils/campaignLikeManager";   // <- 캠페인게시판 좋아요 토글문제로 추가
 
 export const AuthContext = createContext();
 
@@ -37,25 +35,17 @@ export const AuthProvider = ({ children }) => {
         //console.log(refreshToken);
 
         // 관리자는 자동로그인 불가
-        if(role === '[ROLE_ADMIN]'){
-            logout();
-            return;
-        }
-
-        // 자동 로그인 상태일 때 좋아요 데이터 초기화 (중요)
-        if (accessToken !== null && memberId) {
-            authLikeManager.onAutoLogin(memberId);
-            campaignLikeManager.onAutoLogin(memberId);
-        }
+        // if(role === '[ROLE_ADMIN]'){
+        //     logout();
+        //     return;
+        // }
 
         console.log('토큰 만료 기간 : '+ expiredDate);
 
-        console.log(Date.now() - expiredDate);
-
-        console.log(1000*60*60*24);
+        console.log(Date.now());
 
         {
-            expiredDate !== null && (Date.now() - expiredDate > 1000*60*60*24)? 
+            expiredDate !== null && (Date.now() > expiredDate)? 
 
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
@@ -76,11 +66,8 @@ export const AuthProvider = ({ children }) => {
                 addressLine2,
                 role,
                 isAuthenticated : true,
+                expiredDate
             });
-
-            // 자동로그인(갱신) 시 좋아요 데이터도 최신 계정으로 초기화
-            authLikeManager.onAutoLogin(memberId);
-            campaignLikeManager.onAutoLogin(memberId);
 
         }).catch(error => {
             console.log(error.response.data["error-message"]);
@@ -98,7 +85,8 @@ export const AuthProvider = ({ children }) => {
                 addressLine1, 
                 addressLine2,
                 role,
-                isAuthenticated : true
+                isAuthenticated : true,
+                expiredDate
         })
         :
         <></>
@@ -108,7 +96,7 @@ export const AuthProvider = ({ children }) => {
 
     },[]);
 
-    const login = (memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role) => {
+    const login = (memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate) => {
         setAuth({
             memberId,
             nickName,
@@ -118,7 +106,8 @@ export const AuthProvider = ({ children }) => {
             addressLine1, 
             addressLine2,
             role,
-            isAuthenticated : true
+            isAuthenticated : true,
+            expiredDate
         });
 
         localStorage.setItem("memberId",memberId);
@@ -129,16 +118,10 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("addressLine1",addressLine1);
         localStorage.setItem("addressLine2",addressLine2);
         localStorage.setItem("role",role);
-        localStorage.setItem("expiredDate",Date.now());
-
-        // 로그인 직후 좋아요 저장소 초기화
-        authLikeManager.onLogin(memberId);
-        campaignLikeManager.onLogin(memberId);
-
+        localStorage.setItem("expiredDate",expiredDate);
     }
 
     const logout = () => {
-
         setAuth({
             memberId : null,
             nickName : null,
@@ -148,6 +131,7 @@ export const AuthProvider = ({ children }) => {
             addressLine1 : null, 
             addressLine2 : null,
             role : null,
+            expiredDate : null,
             isAuthenticated : false
         });
 

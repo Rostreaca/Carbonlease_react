@@ -77,10 +77,13 @@ const useCampaignList = (onShowToast, auth) => {
         toggleLike(campaignNo)
             .then((result) => {
                 if (result && result.status === 200) {
+                    
                     // 좋아요 상태 토글 성공
                     const newLikeStatus = !currentLikeStatus;
+
                     // 좋아요 상태 저장
                     campaignStore.setLike(campaignNo, newLikeStatus);
+
                     // 캠페인 목록에서 좋아요 상태 업데이트
                     setCampaigns(prevCampaigns =>
                         prevCampaigns.map(campaign =>
@@ -89,6 +92,7 @@ const useCampaignList = (onShowToast, auth) => {
                                 : campaign
                         )
                     );
+
                     // 토스트 메시지 표시
                     if (!currentLikeStatus) {
                         onShowToast('이 캠페인에 공감해주셨어요!');

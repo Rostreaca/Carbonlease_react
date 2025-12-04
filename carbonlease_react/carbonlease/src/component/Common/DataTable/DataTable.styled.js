@@ -307,7 +307,7 @@ export const FormCardHeader = styled.div`
 `;
 
 export const FormCardBody = styled.div`
-    ${'' /* padding: 1.5rem; */}
+    padding:1.15rem 1rem;
 `;
 
 export const FormButtonGroup = styled.div`
@@ -392,11 +392,12 @@ export const StatusBadge = styled.span`
             case '진행중':
                 return '#d4edda';
             case '종료':
+                return '#dddddd'; 
             case '삭제':
                 return '#f8d7da';
             case '대기':
                 return '#fff3cd';
-            default:
+            default:    
                 return '#e9ecef';
         }
     }};
@@ -405,6 +406,7 @@ export const StatusBadge = styled.span`
             case '진행중':
                 return '#155724';
             case '종료':
+                return '#222222';
             case '삭제':
                 return '#721c24';
             case '대기':

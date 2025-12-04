@@ -50,3 +50,60 @@ export const Thumbnail = styled.div`
     font-size: 12px;
   }
 `;
+
+export const SearchBox = styled.div`
+  display: flex;
+  gap: 7px;
+  align-items: center;
+
+  input {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    &:focus {
+      outline: none;
+      border-color: #00a36f !important;
+      box-shadow: 0 0 0 2px rgba(0,163,111,0.15) !important;
+    }
+  }
+
+  select {
+    border-radius: 10px !important;
+    border: 1px solid #dcdcdc !important;
+    padding: 10px;
+
+    &:focus {
+      outline: none;
+      border-color: #00a36f !important;
+      box-shadow: 0 0 0 2px rgba(0,163,111,0.15) !important;
+    }
+  }
+
+  button {
+    height: 45px;
+    width: 105px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;          
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+    background: #81f1b0ff;
+    color: #fff;
+
+    transition: 0.2s ease;
+  }
+
+  button:hover {
+    background: #34d399;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    transform: translateY(-1px);
+  }
+`;

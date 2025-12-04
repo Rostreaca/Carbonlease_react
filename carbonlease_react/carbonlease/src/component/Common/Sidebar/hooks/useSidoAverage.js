@@ -1,36 +1,44 @@
 import { useEffect, useState } from "react";
-import { fetchSidoAPI } from "../../../../api/sidebar/sidoAPI";
+import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export const useSidoAverage = (sido) => {
-  const [avg, setAvg] = useState(null);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await fetchSidoAPI(sido);
+    if (!sido) return;
 
-        const items = data?.response?.body?.items?.item;
-        if (!items) return;
+    setLoading(true);
 
-        const pm25Values = items
-          .map((i) => Number(i.pm25Value?._text || 0))
-          .filter((v) => !isNaN(v) && v > 0);
+    axios
+      .get(`${API_BASE}/api/air/sido`, { params: { name: sido } })
+      .then((res) => {
+        setData(res.data);
+        // 성공하면 캐싱 처리
+        localStorage.setItem(
+          `sido-${sido}`,
+          JSON.stringify({
+            time: Date.now(),
+            data: res.data
+          })
+        );
+      })
+      .catch((err) => {
+        console.error(err);
 
-        const avgValue =
-          Math.round(
-            pm25Values.reduce((a, b) => a + b, 0) / pm25Values.length
-          ) || 0;
+        // 실패하면 캐싱된 데이터 fallBack
+        const cached = localStorage.getItem(`sido-${sido}`);
+        if(cached) {
+          const parsed = JSON.parse(cached);
+          setData(parsed.data);
+        } else {
+          setData(null);
+        }
+      })
+      .finally(() => setLoading(false));
+    }, [sido]);
 
-        const time = items[0].dataTime._text;
-
-        setAvg({ value: avgValue, time });
-      } catch (err) {
-        console.error("시도 평균 실패:", err);
-      }
-    };
-
-    load();
-  }, [sido]);
-
-  return avg;
+  return { data, loading };
 };

@@ -37,7 +37,7 @@ export const SidenavContent = styled.div`
                 right: 12px;
                 width: 44px;
                 height: 44px;
-                background: rgba(0,0,0,0.3);
+                background: #212529;
                 border: none;
                 border-radius: 50%;
                 color: #fff;
@@ -48,11 +48,7 @@ export const SidenavContent = styled.div`
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
                 transition: background 0.2s;
-            }
-            .sidebar-close:hover {
-                background: rgba(0,0,0,0.5);
             }
             .sidebar-close-icon {
                 font-size: 2.2rem;

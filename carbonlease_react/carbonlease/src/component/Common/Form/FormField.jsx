@@ -68,6 +68,7 @@ const FormField = ({
                             name={name}
                             onChange={onChange}
                             accept={accept}
+                            multiple={true}
                         />
                         <FileInputLabel htmlFor={name} $error={!!error}>
                             <i className="fas fa-upload"></i>

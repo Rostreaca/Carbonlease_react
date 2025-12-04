@@ -61,7 +61,7 @@ export const getCategories = () => {
 
 
 // 캠페인 게시글 수정
-export const update = (campaignNo, files, campaign) => {
+export const update = (id, files, campaign) => {
     const formData = new FormData();
 
     // 서버가 받지 않는 필드 제외
@@ -70,6 +70,7 @@ export const update = (campaignNo, files, campaign) => {
         'attachments', // 첨부파일 배열도 제외
     ];
 
+    // 캠페인 데이터 추가
     Object.entries(campaign).forEach(([key, value]) => {
         if (excludeFields.includes(key)) return;
         // undefined, null, object(파일 제외)는 추가하지 않음
@@ -84,5 +85,11 @@ export const update = (campaignNo, files, campaign) => {
         if (files[1]) formData.append("detailImage", files[1]);
     }
 
-    return adminCampaignApi.put(`/${campaignNo}`, formData);
+    return adminCampaignApi.put(`/${id}`, formData);
 }
+
+
+// 캠페인 게시글 삭제
+export const deleteById = (id) => {
+    return adminCampaignApi.delete(`/${id}`);
+};

@@ -10,19 +10,18 @@ export const EmptyWrapper = styled.div`
 
 export const EmptyCard = styled.div`
   min-width: 800px;
-  height: 550px;
-  padding: 40px 32px 32px;
+  height: 600px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
   text-align: center;
 `;
 
 export const EmptyImage = styled.img`
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 350px;
   object-fit: contain;
-  margin-bottom: 5px;
   filter: drop-shadow(0 10px 6px rgba(0, 0, 0, 0.15));
+  opacity: 0.85;
 `;
 
 export const EmptyTitle = styled.h2`
@@ -38,7 +37,7 @@ export const EmptyText = styled.p`
 `;
 
 export const BackButton = styled.button`
-  padding: 11px 24px;
+  padding: 12px 24px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
