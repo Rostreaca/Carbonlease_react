@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
-import { SidoInfoBox } from "../Sidebar.styles";
+import { SidoInfoBox, SidoNullBox } from "../Sidebar.styles";
 import SkeletonBox from "./SkeletonBox";
 
-const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
-  const [anim, setAnim] = useState("");
-
+const SidoAverage = ({ sido, sidoAvg, isLoading, onPrev, onNext }) => {
   const getGrade = (value) => {
     if (value <= 15) return "좋음";
     if (value <= 35) return "보통";
@@ -12,22 +9,36 @@ const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
     return "매우나쁨";
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setAnim("fade-slide-out");
-      setTimeout(() => {
-        onNext();
-        setAnim("fade-slide-in");
-      }, 300);
-    }, 5000);
+  if (isLoading) {
+    return <SkeletonBox />;
+  }
 
-    return () => clearInterval(timer);
-  }, [onNext]);
+  const isEmpty =
+    !sidoAvg ||
+    typeof sidoAvg !== "object" ||
+    !("value" in sidoAvg) ||
+    sidoAvg.value === undefined ||
+    sidoAvg.value === null;
 
-  if (!sidoAvg) return <SkeletonBox />;
+  if (isEmpty) {
+    return (
+      <SidoInfoBox>
+        <div className="nav">
+          <button className="arrow" onClick={onPrev}>
+            &lt;
+          </button>
+          <div className="title">{sido} 평균</div>
+          <button className="arrow" onClick={onNext}>
+            &gt;
+          </button>
+        </div>
+        <SidoNullBox>현재 제공되는 대기 정보가 없습니다.</SidoNullBox>
+      </SidoInfoBox>
+    );
+  }
 
   return (
-    <SidoInfoBox className={anim}>
+    <SidoInfoBox>
       <div className="nav">
         <button className="arrow" onClick={onPrev}>
           &lt;

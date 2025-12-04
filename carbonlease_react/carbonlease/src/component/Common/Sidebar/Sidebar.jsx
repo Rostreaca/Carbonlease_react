@@ -19,7 +19,8 @@ export default function Sidebar() {
 
   const station = regionStationMap[region];
   const air = useAir(station);
-  const avg = useSidoAverage(sidoList[idx]);
+
+  const { data: avg, loading: avgLoading } = useSidoAverage(sidoList[idx]);
 
   return (
     <SidebarWrapper>
@@ -34,6 +35,7 @@ export default function Sidebar() {
       <SidoAverage
         sido={sidoList[idx]}
         sidoAvg={avg}
+        isLoading={avgLoading}
         onPrev={() => setIdx((idx - 1 + sidoList.length) % sidoList.length)}
         onNext={() => setIdx((idx + 1) % sidoList.length)}
       />
