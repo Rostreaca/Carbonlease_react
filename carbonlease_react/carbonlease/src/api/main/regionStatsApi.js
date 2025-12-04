@@ -12,12 +12,12 @@ export const getRegionStats = async () => {
 
 // 2. 지도/차트에서 쓸 수 있게 포맷
 export const formatRegionStatsForMap = (list) =>
-  list.map((item) => ({
-    localName: item.localName,
-    topRegionName: item.topRegionName,
-    year: item.year,
-    avgUseQnt: item.avgUseQnt,
-    usagePercent: item.usagePercent,
-    latitude: Number(item.latitude),
-    longitude: Number(item.longitude)
-  }));
+  list.map((items) => ({
+    localName: items.localName,
+    topRegionName: items.topRegionName,
+    year: items.year,
+    avgUseQnt: items.avgUseQnt,
+    usagePercent: items.usagePercent,
+    latitude: Number(items.latitude),
+    longitude: Number(items.longitude)
+}));
