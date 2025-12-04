@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { formatRegionStatsForMap, getRegionCarbonStats } from '../../../../api/main/regionStatsApi';
+import { formatRegionStatsForMap, getRegionStats } from '../../../../api/main/regionStatsApi';
 
 export default function useRegionStatsMap() {
     const [regionData, setRegionData] = useState([]);
@@ -11,9 +11,9 @@ export default function useRegionStatsMap() {
     useEffect(() => {
         const fetchRegionStats = async () => {
             try {
-                const apiData = await getRegionCarbonStats();
-                const formatted = formatRegionStatsForMap(apiData);
-                setRegionData(formatted);
+                const apiData = await getRegionStats();
+                                const formatted = formatRegionStatsForMap(apiData);
+                                setRegionData(formatted);
             } catch (err) {
                 console.error('지도 데이터 로딩 실패:', err);
             } finally {
