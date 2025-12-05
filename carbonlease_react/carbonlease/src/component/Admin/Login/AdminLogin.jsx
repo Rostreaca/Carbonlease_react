@@ -51,8 +51,8 @@ const AdminLogin = () => {
     memberId, memberPwd
 }).then(result => {
             //console.log(result);
-            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role } = result.data;
-            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role);
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate , isSocialLogin } = result.data;
+            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role,expiredDate ,isSocialLogin);
             setAlertMsg("로그인에 성공하였습니다.");
             setAlertVariant('info');
             setShowAlert(true);

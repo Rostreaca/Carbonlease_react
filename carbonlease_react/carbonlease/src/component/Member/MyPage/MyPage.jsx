@@ -43,7 +43,7 @@ const MyPage = () => {
                         }
                     )
                         .then(result => {
-                            console.log(result);
+                            // console.log(result);
                             setBoardData([...result.data]);
                         }).catch(err => {
                             console.error(err.response.data['error-message']);
@@ -107,8 +107,27 @@ const MyPage = () => {
         }
     ];
 
+    const kakaoSignOut = () => {
+
+       axios.delete("http://localhost/members/kakao", {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+            }
+        }).then(result => {
+            console.log(result);
+            showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
+            setTimeout(() => {
+                logout();
+                navi('/');
+            }, 800);
+        }).catch(err => {
+            showToastMessage(err.response.data["error-message"], 'error');
+        })
+
+
+    }
+
     const signOut = () => {
-        console.log('aa');
 
         axios.delete("http://localhost/members", {
             headers: {
@@ -123,7 +142,7 @@ const MyPage = () => {
             setTimeout(() => {
                 logout();
                 navi('/');
-            }, 1000);
+            }, 800);
         }).catch(err => {
             showToastMessage(err.response.data["error-message"], 'error');
         })
@@ -231,11 +250,11 @@ const MyPage = () => {
                 <ConfirmDialog
                     show={showConfirm}
                     onClose={() => setShowConfirm(false)}
-                    onConfirm={signOut}
+                    onConfirm={auth.isSocialLogin !== 'Y' ? signOut : kakaoSignOut}
                     title='탈퇴 확인'
-                    message='회원을 탈퇴하시려면 비밀번호를 입력해 주십시오'
-                    content={
-                        <input type="password" onChange={(e) => setMemberPwd(e.target.value)}></input>
+                    message={ auth.isSocialLogin !== 'Y' ? '회원을 탈퇴하시려면 비밀번호를 입력해 주십시오' : '회원을 탈퇴하시겠습니까?' }
+                    content={ auth.isSocialLogin !== 'Y' ?
+                        <input type="password" onChange={(e) => setMemberPwd(e.target.value)}></input> : <></>
                     }
                     confirmText='탈퇴'
                     cancelText="취소"

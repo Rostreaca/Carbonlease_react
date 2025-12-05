@@ -102,8 +102,8 @@ const KakaoEnrollForm = () => {
         axios.post("http://localhost/auth/login", {
             memberId, memberPwd
         }).then(result => {
-            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate } = result.data;
-            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate);
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;
+            login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin);
         }).catch(err => {
             console.error(err);
         })

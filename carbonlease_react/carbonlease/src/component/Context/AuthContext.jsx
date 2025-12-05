@@ -23,7 +23,8 @@ export const AuthProvider = ({ children }) => {
         addressLine2 : null,
         role : null,
         isAuthenticated : false,
-        expiredDate : null
+        expiredDate : null,
+        isSocialLogin : null
     });
 
     useEffect(() => {
@@ -37,6 +38,7 @@ export const AuthProvider = ({ children }) => {
         const addressLine2 = localStorage.getItem("addressLine2");
         const role = localStorage.getItem("role");
         const expiredDate = localStorage.getItem("expiredDate");
+        const isSocialLogin = localStorage.getItem("isSocialLogin");
         //console.log(refreshToken);
 
         // 관리자는 자동로그인 불가
@@ -71,7 +73,8 @@ export const AuthProvider = ({ children }) => {
                 addressLine2,
                 role,
                 isAuthenticated : true,
-                expiredDate
+                expiredDate,
+                isSocialLogin
             });
 
         }).catch(error => {
@@ -91,7 +94,8 @@ export const AuthProvider = ({ children }) => {
                 addressLine2,
                 role,
                 isAuthenticated : true,
-                expiredDate
+                expiredDate,
+                isSocialLogin
         })
         :
         <></>
@@ -101,7 +105,7 @@ export const AuthProvider = ({ children }) => {
 
     },[]);
 
-    const login = (memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate) => {
+    const login = (memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin) => {
         setAuth({
             memberId,
             nickName,
@@ -112,7 +116,8 @@ export const AuthProvider = ({ children }) => {
             addressLine2,
             role,
             isAuthenticated : true,
-            expiredDate
+            expiredDate,
+            isSocialLogin
         });
 
         localStorage.setItem("memberId",memberId);
@@ -124,6 +129,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("addressLine2",addressLine2);
         localStorage.setItem("role",role);
         localStorage.setItem("expiredDate",expiredDate);
+        localStorage.setItem("isSocialLogin",isSocialLogin);
     }
 
     const logout = () => {
@@ -136,8 +142,9 @@ export const AuthProvider = ({ children }) => {
             addressLine1 : null, 
             addressLine2 : null,
             role : null,
+            isAuthenticated : false,
             expiredDate : null,
-            isAuthenticated : false
+            isSocialLogin : null
         });
 
         localStorage.removeItem("memberId");
@@ -149,6 +156,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("addressLine2");
         localStorage.removeItem("role");
         localStorage.removeItem("expiredDate");
+        localStorage.removeItem("isSocialLogin");
 
         //navi('/');
 

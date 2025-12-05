@@ -111,9 +111,9 @@ const AdminUsers = () => {
             field: 'status',
             render: (value) => (
                 value === 'Y' ? 
-                    <CategoryBadge>가입</CategoryBadge> 
+                    <StatusBadge $status={'진행중'}>가입</StatusBadge> 
                     :
-                    <SignOutBadge>탈퇴</SignOutBadge>
+                    <StatusBadge $status={'삭제'}>탈퇴</StatusBadge>
             )
         },
         {

@@ -123,9 +123,36 @@ const MemberUpdateForm = () => {
 
     }
 
+    const kakaoUpdateMember = () => {
+        {
+            checkNickName && checkEmail ?
+                axios.put("http://localhost/members/kakao", {
+                    memberId: auth.memberId , nickName, email, addressLine1, addressLine2
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${auth.accessToken}`
+                    }
+                }).then(result => {
+                    setUpdateAlertVariant('info');
+                    setUpdateAlertMsg("정보수정에 성공하였습니다.");
+                    setShowUpdateAlert(true);
+                }).catch(error => {
+                    setUpdateAlertVariant('warning');
+                    setUpdateAlertMsg(error.response.data["error-message"]);
+                    setShowUpdateAlert(true);
+                }) : (
+                    setUpdateAlertMsg("중복확인을 먼저 진행해 주십시오."),
+                    setUpdateAlertVariant('warning'),
+                    setShowUpdateAlert(true)
+                )
+        }
+        
+
+    }
+
     const confirmUpdate = () => {
 
-        login(auth.memberId, nickName, auth.accessToken, auth.refreshToken, email, addressLine1, addressLine2, auth.role);
+        login(auth.memberId, nickName, auth.accessToken, auth.refreshToken, email, addressLine1, addressLine2, auth.role, auth.expiredDate, auth.isSocialLogin);
         navi('/myPage');
 
     }
@@ -141,7 +168,7 @@ const MemberUpdateForm = () => {
                 ]}
             />
             <PageContent>
-                <form onSubmit={(e) => (e.preventDefault(), setShowConfirm(true))}>
+                <form onSubmit={(e) => (e.preventDefault(), auth.isSocialLogin === 'Y' ? kakaoUpdateMember() : setShowConfirm(true))}>
                     <DemoContainer className="signUpContainer">
                         <FieldGroup>
                             <FieldLabel>아이디</FieldLabel>

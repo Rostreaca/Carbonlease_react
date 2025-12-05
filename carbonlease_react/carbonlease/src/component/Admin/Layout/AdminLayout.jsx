@@ -19,12 +19,17 @@ const AdminLayout = () => {
 
     const navi = useNavigate();
     const { auth, logout } = useContext(AuthContext);
+    const [currentPage, setCurrentPage] = useState('');
 
     useEffect(() => {
-        if(auth.role !== '[ROLE_ADMIN]'){
-          navi('/admin/login');
+
+        // console.log(window.location.pathname);
+        
+        {
+            auth.role !== '[ROLE_ADMIN]' ? ( setCurrentPage(window.location.pathname) ,navi('/admin/login')) : navi(currentPage);
         }
-    }, [])
+
+    }, [auth.role])
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
