@@ -215,5 +215,22 @@ export const ReplyButton = styled.span`
   }
 `;
 
+/* 검색 바 */
+export const SearchBox = styled.div`
+  display: flex;
+  gap: 7px;
+  align-items: center;
 
+  input {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    &:focus {
+      outline: none;
+      border-color: #00a36f !important;
+      box-shadow: 0 0 0 2px rgba(0,163,111,0.15) !important;
+    }
+  }`;
 
