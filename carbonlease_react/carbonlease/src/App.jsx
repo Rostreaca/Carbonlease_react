@@ -24,7 +24,8 @@ import BoardUpdateForm from './component/Board/BoardUpdate/BoardUpdateForm';
 import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
 import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 import AdminHome from './component/Admin/AdminHome';
-import AdminBoards from './component/Admin/Board/AdminBoards';
+import AdminBoards from './component/Admin/Board/boards/AdminBoards';
+import AdminBoardsUpdate from './component/Admin/Board/update/AdminBoardsUpdate';
 import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns/AdminCampaigns';
 import InsertForm from './component/Admin/Campaign/InsertForm/InsertForm';
 import UpdateForm from './component/Admin/Campaign/updateForm/UpdateForm';
@@ -91,6 +92,7 @@ function App() {
 				<Route path="campaigns/insert" element={<InsertForm />} />
 				<Route path="campaigns/update/:id" element={<UpdateForm />} />
 				<Route path="boards" element={<AdminBoards />} />
+				<Route path="boards/update/:id" element={<AdminBoardsUpdate />} />
 				<Route path="activityBoards" element={<AdminActivityBoards />} />
 				<Route path="activityBoards/update/:id" element={<AdminActivityBoardUpdate />} />
 			</Route>

@@ -8,7 +8,8 @@ const DataTable = ({
     showIcon = true,
     icon = 'fas fa-table',
     onRowClick,
-    className = ""
+    className = "",
+    searchComponent = null
 }) => {
 
     const tableRef = useRef(null);
@@ -16,9 +17,16 @@ const DataTable = ({
     return (
         <DataTableContainer>
             <TableCard>
-                <TableCardHeader>
-                    {showIcon && <i className={`${icon} me-1`}></i>}
-                    {title}
+                <TableCardHeader style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                    <div>
+                      {showIcon && <i className={`${icon} me-1`}></i>}
+                      {title}
+                    </div>
+                    {searchComponent && (
+                      <div>
+                        {searchComponent}
+                      </div>
+                    )}
                 </TableCardHeader>
                 <TableCardBody>
                     <table ref={tableRef} className={className}>

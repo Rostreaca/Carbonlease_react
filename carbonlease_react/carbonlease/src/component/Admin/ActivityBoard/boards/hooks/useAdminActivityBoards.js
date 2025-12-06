@@ -17,30 +17,26 @@ export default function useAdminBoards() {
 
   const [loading, setLoading] = useState(true);
 
-  const loadBoards = (page = 1) => {
-  
-    const token = localStorage.getItem("accessToken");
+  const loadBoards = async (page = 1, status = "", keyword = "") => {
+  setLoading(true);
 
-    if (!token) {
-      console.warn("토큰 없음. 목록 요청 중단");
-      return;
-    }
-  
-    setLoading(true);
+  try {
+    const res = await fetchAdminBoards(page, status, keyword);
 
-  fetchAdminBoards(page)
-    .then((res) => {
-
-      setBoards(res.data.list);
-      setPageInfo({
-        currentPage: page,
-        totalPage: res.data.pageInfo.maxPage,
-        startPage: res.data.pageInfo.startPage,
-        endPage: res.data.pageInfo.endPage,
-      });
-    })
-    .finally(() => setLoading(false));
+    setBoards(res.data.list);
+    setPageInfo({
+      currentPage: page,
+      totalPage: res.data.pageInfo.maxPage,
+      startPage: res.data.pageInfo.startPage,
+      endPage: res.data.pageInfo.endPage,
+    });
+  } catch (err) {
+    console.error("목록 조회 실패", err);
+  } finally {
+    setLoading(false);
+  }
 };
+
 
   const handleHide = (id) => hideBoard(id).then(() => loadBoards(pageInfo.currentPage));
   const handleRestore = (id) => restoreBoard(id).then(() => loadBoards(pageInfo.currentPage));

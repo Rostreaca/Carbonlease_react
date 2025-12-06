@@ -1,14 +1,11 @@
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
-import { Wrapper, ActivityInfo, ButtonSection, CommentSection, BackButton } from "./ActivityBoardDetail.styles.js";
-import CommentInsert from "./components/Comments/CommentInsert.jsx";
-import Comments from "./components/Comments/Comments.jsx";
+import { Wrapper, ActivityInfo, ButtonSection, BackButton } from "./ActivityBoardDetail.styles.js";
 import ImageSection from "./components/ImageSection.jsx";
 import InfoSection from "./components/InfoSection.jsx";
 import MapSection from "./components/MapSection.jsx";
 import ProfilCard from "./components/ProfilCard.jsx";
 import ContentSection from "./components/ContentSection.jsx";
-import CommentsPagination from "./components/Comments/CommentsPagination.jsx";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
@@ -16,13 +13,19 @@ import { deleteActivityBoard } from "../../../api/activity/activityAPI.js";
 import { AuthContext } from "../../Context/AuthContext.jsx";
 import Toast from "../../Common/Toast/Toast.jsx";
 
-import useReplies from "./hooks/useReplies.js";
 import useToast from "./hooks/useToast.js";
 import useLike from "./hooks/useLike.js";
 import useDetail from "./hooks/useDetail.js";
 import activityStore from "../../../store/activityStore.js";
 import ActivityDetailSkeleton from "./components/Skeleton/ActivityDetailSkeleton.jsx";
 import NotFound from "../../Common/NotFound/NotFound.jsx";
+
+import { fetchRepliesAPI, 
+         insertReplyAPI,
+         updateReplyAPI, 
+         deleteReplyAPI 
+} from "../../../api/activity/activityAPI.js";
+import CommentBox from "../../Common/Comments/CommentBox.jsx";
 
 const ActivityBoardDetail = () => {
 
@@ -56,18 +59,13 @@ const ActivityBoardDetail = () => {
     showToastMessage
   );
 
-  // 댓글 훅
-  const {
-    replies,
-    pageInfo,
-    currentPage,
-    setCurrentPage,
-    editReplyId,
-    setEditReplyId,
-    fetchReplies,
-    updateReply,
-    deleteReply
-  } = useReplies(id, auth.accessToken);
+  // 댓글
+  const activityCommentMap = {
+    id: "replyNo",
+    writer: "writer",
+    content: "replyContent",
+    date: "enrollDate"
+  };
   
 
   if (loading) return <ActivityDetailSkeleton />;
@@ -152,44 +150,15 @@ const ActivityBoardDetail = () => {
             </ButtonSection>
           )}
 
-          <CommentSection>
-            <Comments
-              comments={replies}
-              onUpdate={(replyNo, content, stopEdit) =>
-                updateReply(
-                  replyNo,
-                  content,
-                  stopEdit,
-                  () => showToastMessage("댓글 수정 완료", "success"),
-                  () => showToastMessage("댓글 수정 실패", "error")
-                )
-              }
-              onDelete={(replyNo) =>
-                deleteReply(
-                  replyNo,
-                  () => showToastMessage("댓글 삭제 완료", "success"),
-                  () => showToastMessage("댓글 삭제 실패", "error")
-                )
-              }
-              auth={auth}
-              editReplyId={editReplyId}
-              stopEditing={() => setEditReplyId(null)}
-            />
-
-            <CommentsPagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              pageInfo={pageInfo}
-            />
-
-            <CommentInsert
-              boardNo={id}
-              onSuccess={() => {
-                fetchReplies();
-                showToastMessage("댓글 등록 완료", "success");
-              }}
-            />
-          </CommentSection>
+          <CommentBox
+            boardId={id}
+            auth={auth}
+            fetchAPI={fetchRepliesAPI}
+            insertAPI={insertReplyAPI}
+            updateAPI={updateReplyAPI}
+            deleteAPI={deleteReplyAPI}
+            mapping={activityCommentMap}
+          />
 
           <BackButton onClick={() => navigate("/activityBoards")}>
             목록으로

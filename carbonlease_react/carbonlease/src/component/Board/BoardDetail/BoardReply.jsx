@@ -1,5 +1,5 @@
 import { FloatingLabel } from "react-bootstrap";
-import { ReplyListBox } from "../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles";
+import { ReplyListBox } from "../../Common/Comments/Comment.styled";
 
 
 const BoardReply = ({ data = [] }) => {

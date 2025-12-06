@@ -17,8 +17,14 @@ adminActivityAPI.interceptors.request.use(config => {
   return config;
 });
 
-export const fetchAdminBoards = (page) =>
-  adminActivityAPI.get(`/activityBoards`, { params: { page } });
+export const fetchAdminBoards = (page, status, keyword) =>
+  adminActivityAPI.get(`/activityBoards`, {
+    params: { 
+      page,
+      status,
+      keyword
+    }
+  });
 
 export const fetchAdminBoardDetail = (id) =>
   adminActivityAPI.get(`/activityBoards/${id}`).then(res => {
