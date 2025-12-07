@@ -29,17 +29,17 @@ export const DashboardTitle = styled.h5`
 
 export const DashboardRow = styled.div`
     display: flex;
-    gap: 32px;
+    gap: 20px;
     margin-top: 24px;
     flex-wrap: wrap;
 `;
 
 export const DashboardWideSection = styled.section`
-    min-width: 720px;
+    min-width: 600px;
 `;
 
 export const DashboardSection = styled.section`
-    min-width: 600px;
+    min-width: 500px;
 `;
 
 export const DashboardSubTitle = styled.h6`

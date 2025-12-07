@@ -51,10 +51,10 @@ const options = {
     scales: {
         y: {
             beginAtZero: true,
-            max: 400,
+            max: 300,
             ticks: {
                 font: { size: 14 },
-                stepSize: 40
+                stepSize: 20
             }
         },
         x: {
@@ -66,7 +66,7 @@ const options = {
 const Top5RankingList = ({ data }) => {
     return (
         <ChartContainer>
-            <Bar data={dummyData} options={options} plugins={[ChartDataLabels]} height={300} />
+            <Bar data={dummyData} options={options} plugins={[ChartDataLabels]} height={310} />
         </ChartContainer>
     );
 };
