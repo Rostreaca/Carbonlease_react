@@ -89,7 +89,18 @@ export const update = (id, files, campaign) => {
 }
 
 
-// 캠페인 게시글 삭제
+// 캠페인 게시글 숨김 처리 (상태값 N으로 변경)
+export const hideById = (id) => {
+    return adminCampaignApi.post(`/${id}`);
+};
+
+// 캠페인 게시글 복구
+export const restoreById = (id) => {
+    return adminCampaignApi.post(`/${id}/restore`);
+};
+
+// 캠페인 게시글 완전 삭제
 export const deleteById = (id) => {
     return adminCampaignApi.delete(`/${id}`);
 };
+

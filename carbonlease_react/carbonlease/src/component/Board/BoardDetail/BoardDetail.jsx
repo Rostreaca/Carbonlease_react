@@ -24,6 +24,7 @@ const BoardDetail = () => {
     const [regionNo, setRegionNo] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const {auth} = useContext(AuthContext);
+    const [replyNo, setReplyNo] = useState([]);
 
 
     const handleUpdate = () => {
@@ -41,9 +42,7 @@ const BoardDetail = () => {
         navigate("/boards");
   };
 
-  const handlereply = () => {
-      alert("댓글 수정!!");
-  }; 
+
 
     // 좋아요
   const handleLikeToggle = () => {
@@ -94,7 +93,7 @@ const BoardDetail = () => {
                     boardNo: response.boardDetail.boardNo,
                     memberId: response.boardDetail.memberId,
                 });
-                console.log("댓글데이터 : ", response.replyList.length);
+                console.log("댓글데이터 : ", response.replyList);
                 setReply([
                     ...response.replyList]);
             })
@@ -128,6 +127,7 @@ const BoardDetail = () => {
 
       const ReplyInsertVO = {
          memberNo : auth.memberNo,
+         memberId : auth.memberId,
          nickname : auth.nickname,
          boardNo : board.boardNo,
          replyContent : replyTextarea.current.value,
@@ -217,6 +217,67 @@ const BoardDetail = () => {
        
     }
 
+    // 댓글 수정
+    const handleUpdateReply = async (replyNo, newContent) => {
+    if (!auth) {
+        alert("로그인이 필요한 서비스입니다!");
+        navigate("/login");
+        return;
+    }
+
+        if (newContent.trim() === "") {
+            alert("댓글 내용을 입력하세요.");
+            return;
+        }
+        try {
+            const updateVo = {
+                replyNo: replyNo,
+                replyContent: newContent,
+                memberId: auth.memberId, // 현재 로그인한 사용자 memberNo 전달 (선택)
+            };
+            
+            await axios.post(`http://localhost/boards/detail/replyUpdate`, updateVo, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    "Content-Type": "application/json",
+                }
+            });
+            
+            alert("댓글이 수정되었습니다.");
+            fetchReplies(); // 목록 새로고침
+        } catch (error) {
+            console.error("댓글 수정 실패:", error);
+            alert("댓글 수정 중 오류가 발생했습니다.");
+        }
+    };
+
+    const handleDeleteReply = async (replyNo) => {
+        if (!auth) {
+            alert("로그인이 필요한 서비스입니다!");
+            navigate("/login");
+            return;
+        }
+
+        if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+          console.log("삭제할 댓글 번호:", replyNo);
+            try {
+                // 서버로 삭제 요청 보내기 (POST 요청으로 replyNo 전달)
+                await axios.delete(`http://localhost/boards/detail/replyDelete/${replyNo}`,{ // 서버에서 replyNo로 받도록 수정
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                alert("댓글이 삭제되었습니다.");
+                fetchReplies(); // 목록 새로고침
+            } catch (error) {
+                console.error("댓글 삭제 실패:", error);
+                alert("댓글 삭제 중 오류가 발생했습니다.");
+            }
+        }
+    };
+
     return(
         <>
            
@@ -261,11 +322,14 @@ const BoardDetail = () => {
               <RegionSelect value={board.regionNo} onChange={setRegionNo} />
               
 
-              {/* {댓글 리스트} */}
-            <BoardReply data={reply}/> 
+            {/* {댓글 리스트} */}
+            {/* onUpdate와 onDelete props로 함수 전달 */}
+            <BoardReply 
+                data={reply} 
+                onUpdate={handleUpdateReply} 
+                onDelete={handleDeleteReply} 
+            /> 
             <ReplyPagination currentPage={1} totalPages={board.replyCount} />  
-
-            {/* <ReplyButton onClick={handlereply}> 수정 </ReplyButton> | <ReplyButton> 삭제 </ReplyButton>   */}
             
               {/* {댓글 등록} */}
             <Form.Label><strong>댓글</strong></Form.Label>

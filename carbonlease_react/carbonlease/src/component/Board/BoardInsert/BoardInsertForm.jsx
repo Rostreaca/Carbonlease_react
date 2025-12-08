@@ -38,7 +38,7 @@ const BoardInsertForm = () => {
 
     if(!title) return alert("제목을 입력해주세요!");
     if(!content) return alert("내용을 입력해주세요!");
-    if(!regionNo || !category) return alert("지역 or 탄소절감 카테고리를 선택해주세요!");
+    if(!regionNo) return alert("지역 카테고리를 선택해주세요!");
 
     
 

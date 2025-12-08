@@ -27,8 +27,8 @@ const Campaigns = () => {
 
     return(
         <>
-            <PageTitle 
-                title="캠페인" 
+            <PageTitle
+                title="캠페인"
                 breadcrumbs={[
                     { label: 'Home', path: '/' },
                     { label: '캠페인', current: true }

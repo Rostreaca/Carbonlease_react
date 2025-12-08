@@ -55,23 +55,16 @@ const useCampaignDetail = (id, onShowToast, auth) => {
             return;
         }
 
+        const newLikeStatus = !currentLikeStatus;
+
         toggleLike(campaignNo)
             .then((result) => {
                 if (result && result.status === 200) {
-
-                    // 좋아요 상태 토글 성공
-                    const newLikeStatus = !currentLikeStatus;
-
-                    // 좋아요 상태 저장
                     campaignStore.setLike(campaignNo, newLikeStatus);
-
-                     // 캠페인 목록에서 좋아요 상태 업데이트
-                    setCampaign(prevCampaign =>
-                        prevCampaign ? { ...prevCampaign, isLiked: newLikeStatus } : prevCampaign
+                    setCampaign(prev =>
+                        prev ? { ...prev, isLiked: newLikeStatus } : prev
                     );
-
-                    // 토스트 메시지 표시
-                    if (!currentLikeStatus) {
+                    if (newLikeStatus) {
                         onShowToast('이 캠페인에 공감해주셨어요!');
                     } else {
                         onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');

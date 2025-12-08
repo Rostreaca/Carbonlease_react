@@ -1,21 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../../Common/Loading/Loading';
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
+import {
+    CreateButton,
+    PageHeader,
+} from '../../../Common/DataTable/DataTable.styled';
 import Pagination from '../../../Common/Pagination/Pagination';
 import Toast from '../../../Common/Toast/Toast';
-import useAdminCampaign from './useAdminCampaign';
 import AdminCampaignList from './components/AdminCampaignList';
-import {
-    PageHeader,
-    CreateButton,
-} from '../../../Common/DataTable/DataTable.styled';
+import useAdminCampaign from './useAdminCampaign';
 
 const AdminCampaigns = () => {
-
-    const navigate = useNavigate();
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [selectedId, setSelectedId] = useState(null);
-
+    
     // Toast 상태 관리
     const [toastMessage, setToastMessage] = useState('');
     const [showToast, setShowToast] = useState(false);
@@ -23,7 +20,6 @@ const AdminCampaigns = () => {
 
     // 토스트 메시지 표시
     const handleShowToast = (message, variant = 'success') => {
-        console.log('토스트 호출:', message, variant);
         setToastMessage(message);
         setToastVariant(variant);
         setShowToast(true);
@@ -34,6 +30,12 @@ const AdminCampaigns = () => {
         setShowToast(false);
     };
 
+    const navigate = useNavigate();
+    const [showConfirm, setShowConfirm] = useState(false);  // 숨김 모달 상태
+    const [showRestoreConfirm, setShowRestoreConfirm] = useState(false);   // 복구 모달 상태
+    const [selectedId, setSelectedId] = useState(null); // 선택된 캠페인 ID
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // 삭제 모달 상태
+
     // 캠페인 목록 훅 사용
     const {
         campaigns,
@@ -41,6 +43,8 @@ const AdminCampaigns = () => {
         setCurrentPage,
         loading,
         pageInfo,
+        hideCampaign,
+        restoreCampaign,
         deleteCampaign,
     } = useAdminCampaign(handleShowToast);
 
@@ -54,31 +58,72 @@ const AdminCampaigns = () => {
     console.log('캠페인 총 개수(전체):', pageInfo.listCount);
     console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
     
-
+    // 수정 핸들러
     const handleEdit = (campaign) => {
         navigate(`/admin/campaigns/update/${campaign.campaignNo}`, { state: campaign });
     };
 
-    const handleDelete = (id) => {
+    // 숨김 핸들러 (모달 오픈)
+    const handleHide = (id) => {
         setSelectedId(id);
         setShowConfirm(true);
     };
 
+    // 숨김 모달에서 확인 클릭 시
+    const confirmHide = () => {
+        if (!selectedId) return;
+        hideCampaign(selectedId, cancelHide);
+    };
+
+    // 숨김 모달 닫기
+    const cancelHide = () => {
+        setShowConfirm(false);
+        setSelectedId(null);
+    };
+
+    // 복구 핸들러 (모달 오픈)
+    const handleRestore = (id) => {
+        setSelectedId(id);
+        setShowRestoreConfirm(true);
+    };
+
+    // 복구 모달에서 확인 클릭 시
+    const confirmRestore = () => {
+        if (!selectedId) return;
+        restoreCampaign(selectedId, () => {
+            handleShowToast('복구가 완료되었습니다.', 'success');
+            cancelRestore();
+        });
+    };
+
+    // 복구 모달 닫기
+    const cancelRestore = () => {
+        setShowRestoreConfirm(false);
+        setSelectedId(null);
+    };
+
+    // 삭제 핸들러 (모달 오픈)    
+    const handleDelete = (id) => {
+        setSelectedId(id);
+        setShowDeleteConfirm(true);
+    };
+
+    // 삭제 모달에서 확인 클릭 시
     const confirmDelete = () => {
         if (!selectedId) return;
         deleteCampaign(selectedId, cancelDelete);
     };
 
+    // 삭제 모달 닫기
     const cancelDelete = () => {
-        setShowConfirm(false);
+        setShowDeleteConfirm(false);
         setSelectedId(null);
     };
 
-
+    // 로딩 상태
     if (loading) {
-        return <div style={{ padding: '2rem', textAlign: 'center' }}>로딩중...</div>;
+        return <Loading />;
     }
-
     return (
         <div>
             <PageHeader>
@@ -92,7 +137,9 @@ const AdminCampaigns = () => {
             <AdminCampaignList
                 campaigns={campaigns}
                 onEdit={handleEdit}
+                onHide={handleHide}
                 onDelete={handleDelete}
+                onRestore={handleRestore}
                 onShowToast={handleShowToast}
             />
 
@@ -104,16 +151,40 @@ const AdminCampaigns = () => {
 
             <ConfirmDialog
                 show={showConfirm}
+                onClose={cancelHide}
+                onConfirm={confirmHide}
+                title="숨김 확인"
+                message="숨김처리된 캠페인은 사용자에게 노출되지 않습니다."
+                confirmText="숨김"
+                cancelText="취소"
+                variant="danger"
+                showIcon={false}
+            />
+            
+            <ConfirmDialog
+                show={showDeleteConfirm}
                 onClose={cancelDelete}
                 onConfirm={confirmDelete}
                 title="삭제 확인"
-                message="정말로 삭제하시겠습니까?"
+                message="정말로 이 캠페인을 완전히 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
                 confirmText="삭제"
                 cancelText="취소"
                 variant="danger"
                 showIcon={false}
             />
             
+            <ConfirmDialog
+                show={showRestoreConfirm}
+                onClose={cancelRestore}
+                onConfirm={confirmRestore}
+                title="복구 확인"
+                message="복구된 캠페인은 사용자에게 다시 노출됩니다."
+                confirmText="확인"
+                cancelText="취소"
+                variant="info"
+                showIcon={false}
+            />
+
             <Toast
                 message={toastMessage}
                 isVisible={showToast}

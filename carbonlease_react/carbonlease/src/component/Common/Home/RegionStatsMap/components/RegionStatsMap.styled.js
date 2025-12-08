@@ -1,4 +1,5 @@
 import { ComposableMap as BaseComposableMap, Geographies as BaseGeographies, Geography as BaseGeography } from 'react-simple-maps';
+import styled from 'styled-components';
 
 export const StyledComposableMap = styled(BaseComposableMap)`
     width: 100%;
@@ -46,7 +47,6 @@ export const BubbleValueText = styled.text`
     font-weight: bold;
     pointer-events: none;
 `;
-import styled from 'styled-components';
 
 export const MapContainer = styled.div`
     width: 100%;

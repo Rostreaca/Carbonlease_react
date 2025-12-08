@@ -42,10 +42,10 @@ export const AuthProvider = ({ children }) => {
         //console.log(refreshToken);
 
         // 관리자는 자동로그인 불가
-        // if(role === '[ROLE_ADMIN]'){
-        //     logout();
-        //     return;
-        // }
+        if(role === '[ROLE_ADMIN]'){
+            logout();
+            return;
+        }
 
         console.log('토큰 만료 기간 : '+ expiredDate);
 

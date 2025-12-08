@@ -17,7 +17,7 @@ const DataTable = ({
     return (
         <DataTableContainer>
             <TableCard>
-                <TableCardHeader style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                <TableCardHeader>
                     <div>
                       {showIcon && <i className={`${icon} me-1`}></i>}
                       {title}

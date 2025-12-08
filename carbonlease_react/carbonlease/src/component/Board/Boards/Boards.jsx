@@ -6,7 +6,7 @@ import Pagination from '../../Common/Pagination/Pagination';
 import BoardItems from './components/BoardItems';
 import { useNavigate } from 'react-router-dom';
 import OutlineWriterButton from '../../Common/UI/Button/OutlineWriterButton';
-import { ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
+import { ButtonGroup, Dropdown, Form, InputGroup, Button } from 'react-bootstrap';
 import { BoardInsertForm } from '../../../api/board/boardAPI';
 
  const Boards = () => {
@@ -21,22 +21,20 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
         totalPage: 1
     });
 
-    const [ selectedLabel, setSelectLabel ] = useState('제목');
 
-    const handleSelect = (key, event) => {
-        setSelectLabel(event.target.innerText);
-        onSelectFilter(key);
-    }
+    const [searchType, setSearchType] = useState('TITLE'); // 기본 검색 타입 (TITLE, WRITER 등)
+    const [searchQuery, setSearchQuery] = useState(''); // 검색어
+
 
     useEffect (()=>{
-
-        getBoards(currentPage);
+        console.log(`useEffect 실행: Page=${currentPage}, Query=${searchQuery}, Type=${searchType}`);
+        getBoards(currentPage, searchQuery, searchType);
         console.log("로그인 정보 : {}", accessToken);
-    }, [currentPage])
+    }, [currentPage, searchQuery, searchType]);
 
-    const getBoards = (page) => {
+    const getBoards = (page, query = '', type = 'TITLE') => {
         axios
-            .get(`http://localhost/boards?pageNo=${page}`)
+            .get(`http://localhost/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseBoard = result.data.boards;
@@ -53,10 +51,19 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
 
     const goWritePage = () => navigate("/boards/InsertForm");
 
-    const handleRowClick = () => {
+    const handleRowClick = (row) => {
         console.log("hi");
         navigate(`/boards/${row.boardNo}`)
     }
+
+     const handleSearch = (e) => {
+        e.preventDefault(); // 폼 제출 시 페이지 새로고침 방지
+        console.log("handleSearch 실행: setCurrentPage(1) 호출");
+        console.log("handleSearch 실행: API 직접 호출");
+        getBoards(1, searchQuery, searchType);
+        setCurrentPage(1); // 검색 시 첫 페이지로 이동
+        // useEffect가 searchQuery 변경을 감지하고 getBoards를 다시 호출합니다.
+    };
 
     return (
         <>
@@ -71,7 +78,7 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
               
                 {
                     board.map((item) => (
-                        <BoardItems key={item.boardNo} item={item} onRowClick={handleRowClick} />
+                        <BoardItems key={item.boardNo} item={item} onRowClick={() => handleRowClick(item)} />
                 ))} <br />
 
         {/* 버튼 + 검색 */}
@@ -80,18 +87,30 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
                 글쓰기
             </OutlineWriterButton>
 
-            <DropdownButton
-                as={ButtonGroup}
-                id="dropdown-search-filter"
-                variant="success"
-                title={<span style={{ display:"inline-block", width:"47px", textAlign:"center" }}>{selectedLabel}</span>}
-                onSelect={handleSelect}
-            >
-                <Dropdown.Item eventKey="title">제목</Dropdown.Item>
-                <Dropdown.Item eventKey="content">내용</Dropdown.Item>
-                <Dropdown.Item eventKey="nickname">닉네임</Dropdown.Item>
-              </DropdownButton>
+              <Form onSubmit={handleSearch} style={{ display: 'flex', gap: '5px' }}>
+                <Form.Select 
+                    value={searchType} 
+                    onChange={(e) => setSearchType(e.target.value)}
+                    style={{ width: '120px' }}
+                >
+                    <option value="TITLE">제목</option>
+                    <option value="CONTENT">내용</option>
+                    <option value="NICKNAME">닉네임</option>
+                </Form.Select>
+                <InputGroup>
+                    <Form.Control
+                        type="text"
+                        placeholder="검색어를 입력하세요"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <Button variant="outline-secondary" type="submit">
+                        검색
+                    </Button>
+                </InputGroup>
+            </Form>
         </div>
+            
             </PageContent>
 
            <Pagination
