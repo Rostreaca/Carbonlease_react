@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { NoticeSlider, Topbar } from "../Header.styled";
+import axios from 'axios';
 
 const TopbarNotice = () => {
-    const notices = [
-        { id: 1, text: " 신규 회원 가입 이벤트 진행 중입니다!" },
-        { id: 2, text: " 친환경 캠페인 참여로 탄소 절감에 동참하세요" },
-        { id: 3, text: " 2024년 12월 정기 점검 안내 (12/15 02:00~06:00)" },
-        { id: 4, text: " 이달의 우수 실천자 시상식 안내" }
-    ];
+
+    // const notices = [
+    //     { id: 1, text: " 신규 회원 가입 이벤트 진행 중입니다!" },
+    //     { id: 2, text: " 친환경 캠페인 참여로 탄소 절감에 동참하세요" },
+    //     { id: 3, text: " 2024년 12월 정기 점검 안내 (12/15 02:00~06:00)" },
+    //     { id: 4, text: " 이달의 우수 실천자 시상식 안내" }
+    // ];
+    const [notices, setNotices] = useState([]);
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -18,6 +21,22 @@ const TopbarNotice = () => {
 
         return () => clearInterval(interval);
     }, [notices.length]);
+
+    useEffect(()=>{
+        fetchNotices();
+    }, []);
+
+    const fetchNotices = async () => {
+        
+        const { data } = await axios.get(`http://localhost/notices/fix`);
+
+        const converted = data.notices.map(e => ({
+            id: e.noticeNo,
+            text: e.noticeTitle,
+        }))
+
+        setNotices(converted);
+    }
 
     return(
         <>
