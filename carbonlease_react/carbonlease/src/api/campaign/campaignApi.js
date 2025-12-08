@@ -16,9 +16,11 @@ const campaignApi = axios.create({
 campaignApi.interceptors.request.use(
     (config) => {
         const accessToken = localStorage.getItem('accessToken');
+        console.log('accessToken:', accessToken); // 토큰 값 확인
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
+        console.log('요청 헤더:', config.headers); // 헤더에 토큰이 붙었는지 확인
         return config;
     },
     (error) => Promise.reject(error)
@@ -42,8 +44,24 @@ export const toggleLike = (id) => {
 };
 
 
+// 댓글 목록 조회
+export const getReplies = (id, pageNo = 1) => {
+    return campaignApi.get(`/${id}/replies`, {
+        params: { pageNo }
+    });
+};
 
+// 댓글 등록
+export const insertReply = (id, replyContent) => {
+    return campaignApi.post(`/${id}/replies`, { replyContent });
+};
 
+// 댓글 삭제
+export const deleteReply = (replyNo) => {
+    return campaignApi.delete(`/replies/${replyNo}`);
+};
 
-
-
+// 댓글 수정
+export const updateReply = (replyNo, replyContent) => {
+    return campaignApi.put(`/replies/${replyNo}`, { replyContent });
+};
