@@ -49,8 +49,6 @@ const useCampaignList = (onShowToast, auth) => {
                         endPage: pageInfo.endPage,
                         totalPage: pageInfo.maxPage
                     });
-                } else {
-                    onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');
                 }
             })
             .catch((error) => {
@@ -98,8 +96,7 @@ const useCampaignList = (onShowToast, auth) => {
                     // 토스트 메시지 표시
                     if (!currentLikeStatus) {
                         onShowToast('이 캠페인에 공감해주셨어요!');
-                    } else {
-                        onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
+                    } else {onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
                     }
                 }
             })

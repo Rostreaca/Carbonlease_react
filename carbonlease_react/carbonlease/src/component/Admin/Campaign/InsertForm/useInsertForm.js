@@ -113,6 +113,7 @@ const useInsertForm = (onShowToast) => {
 	const handleSubmit = (e) => {
 		
 		e.preventDefault();
+
 		if (!validate()) {
 			return;
 		}
@@ -122,7 +123,7 @@ const useInsertForm = (onShowToast) => {
 			categoryNo: formData.categoryNo,
 			campaignContent: formData.campaignContent,
 			startDate: formData.startDate,
-			endDate: formData.endDate
+			endDate: formData.endDate,
 		};
 
 		// 실제 파일이 있을 때만 등록 api에 넘기고, 폼 유효성 검사에서 파일이 없으면 등록 못하게 막기

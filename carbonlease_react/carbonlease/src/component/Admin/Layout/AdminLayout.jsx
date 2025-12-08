@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthContext';
 import {
@@ -22,13 +22,9 @@ const AdminLayout = () => {
     const [currentPage, setCurrentPage] = useState('');
 
     useEffect(() => {
-
-        // console.log(window.location.pathname);
-        
         {
             auth.role !== '[ROLE_ADMIN]' ? ( setCurrentPage(window.location.pathname) ,navi('/admin/login')) : navi(currentPage);
         }
-
     }, [auth.role])
 
     const toggleSidebar = () => {

@@ -181,8 +181,8 @@ export const Topnav = styled.nav`
 
 export const PageContent = styled.main`
     flex: 1;
-    padding: 1rem 1.5rem 1rem 1.5rem;
-    background-color: #04a04d1f;
+    padding: 2rem 1.5rem 1rem 1.5rem;
+    background-color: #f8f9fa;
 
 `;
 
