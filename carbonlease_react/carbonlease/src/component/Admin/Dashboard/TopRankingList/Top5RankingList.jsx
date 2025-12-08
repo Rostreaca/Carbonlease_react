@@ -45,7 +45,7 @@ const options = {
             max: 400,
             ticks: {
                 // 이 부분에서 Y축 레이블을 커스터마이징합니다.
-                callback: function (value, index, ticks) {
+                callback: function (value) {
                     const originalLabel = this.getLabelForValue(value);
                     // Y축 틱에 표시될 때만 truncate를 적용합니다.
                     return truncate(originalLabel, 20); 
