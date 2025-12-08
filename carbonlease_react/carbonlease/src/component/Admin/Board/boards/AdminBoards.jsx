@@ -70,7 +70,7 @@ const AdminBoards = () => {
             />
           }
         />
-      )};
+      )}
 
       <Pagination 
         currentPage={pageInfo.currentPage}

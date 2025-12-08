@@ -5,7 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:80';
 const adminBoardsAPI = axios.create({
   baseURL: `${API_BASE_URL}/admin`,
   timeout: 10000,
-  //withCredentials: true,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
   }

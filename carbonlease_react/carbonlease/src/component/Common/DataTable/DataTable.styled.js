@@ -129,6 +129,9 @@ export const TableCard = styled.div`
 `;
 
 export const TableCardHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 0.75rem 1.25rem;
     background-color: #f8f9fa;
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
@@ -143,7 +146,7 @@ export const TableCardHeader = styled.div`
 
 export const TableCardBody = styled.div`
 
-    padding: 1.25rem;
+    padding: 3px 20px 20px 20px;
 
     /* 반응형: 테이블이 화면보다 넓어지면 가로 스크롤, 위아래 깨짐 방지 */
     overflow-x: auto;

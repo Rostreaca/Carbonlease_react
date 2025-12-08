@@ -137,6 +137,7 @@ export const Topnav = styled.nav`
     background-color: #212529;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 1.5rem;
     position: sticky;
     top: 0;
@@ -151,6 +152,23 @@ export const Topnav = styled.nav`
         &:hover {
             color: #fff;
         }
+    }
+    
+    .navbar-nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .navbar-nav a {
+        color: #fff !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-nav a i {
+        color: #fff !important;
     }
 
     .sidebar-toggle {
