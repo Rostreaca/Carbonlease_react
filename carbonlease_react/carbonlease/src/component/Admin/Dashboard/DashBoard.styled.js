@@ -22,7 +22,7 @@ export const DashboardWrapper = styled.div`
     overflow: hidden;
 `;
 
-export const DashboardTitle = styled.h5`
+export const DashboardTitle = styled.h3`
     margin: 1rem 0 2rem 1rem;
     display: block;
 `;
@@ -42,7 +42,7 @@ export const DashboardSection = styled.section`
     min-width: 500px;
 `;
 
-export const DashboardSubTitle = styled.h6`
+export const DashboardSubTitle = styled.h4`
     margin-bottom: 12px;
 `;
 

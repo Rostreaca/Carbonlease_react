@@ -1,29 +1,30 @@
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
-import { Wrapper, ActivityInfo, ButtonSection, BackButton } from "./ActivityBoardDetail.styles.js";
+import { ActivityInfo, BackButton, ButtonSection, Wrapper } from "./ActivityBoardDetail.styles.js";
+import ContentSection from "./components/ContentSection.jsx";
 import ImageSection from "./components/ImageSection.jsx";
 import InfoSection from "./components/InfoSection.jsx";
 import MapSection from "./components/MapSection.jsx";
 import ProfilCard from "./components/ProfilCard.jsx";
-import ContentSection from "./components/ContentSection.jsx";
 
-import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { deleteActivityBoard } from "../../../api/activity/activityAPI.js";
-import { AuthContext } from "../../Context/AuthContext.jsx";
 import Toast from "../../Common/Toast/Toast.jsx";
+import { AuthContext } from "../../Context/AuthContext.jsx";
 
-import useToast from "./hooks/useToast.js";
-import useLike from "./hooks/useLike.js";
-import useDetail from "./hooks/useDetail.js";
 import activityStore from "../../../store/activityStore.js";
-import ActivityDetailSkeleton from "./components/Skeleton/ActivityDetailSkeleton.jsx";
 import NotFound from "../../Common/NotFound/NotFound.jsx";
+import ActivityDetailSkeleton from "./components/Skeleton/ActivityDetailSkeleton.jsx";
+import useDetail from "./hooks/useDetail.js";
+import useLike from "./hooks/useLike.js";
+import useToast from "./hooks/useToast.js";
 
-import { fetchRepliesAPI, 
-         insertReplyAPI,
-         updateReplyAPI, 
-         deleteReplyAPI 
+import {
+  deleteReplyAPI,
+  fetchRepliesAPI,
+  insertReplyAPI,
+  updateReplyAPI
 } from "../../../api/activity/activityAPI.js";
 import CommentBox from "../../Common/Comments/CommentBox.jsx";
 

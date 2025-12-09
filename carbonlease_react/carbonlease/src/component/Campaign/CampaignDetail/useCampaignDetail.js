@@ -6,6 +6,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
     const [campaign, setCampaign] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+  
 
     // 캠페인 ID 변경 시 상세 정보 다시 불러오기
     useEffect(() => {
@@ -20,13 +21,11 @@ const useCampaignDetail = (id, onShowToast, auth) => {
 
     // 캠페인 상세 정보 불러오기
     const fetchCampaignDetail = (campaignNo) => {
-
         setLoading(true);
         setError(false);
-
         findDetailByNo(campaignNo)
             .then((result) => {
-                if (result && result.status === 200) {
+                if (result.status === 200) {
                     const campaignData = result.data;
                     const storedLike = campaignStore.getLike(campaignNo);
                     setCampaign({
@@ -59,7 +58,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
 
         toggleLike(campaignNo)
             .then((result) => {
-                if (result && result.status === 200) {
+                if (result.status === 200) {
                     campaignStore.setLike(campaignNo, newLikeStatus);
                     setCampaign(prev =>
                         prev ? { ...prev, isLiked: newLikeStatus } : prev

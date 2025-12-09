@@ -1,0 +1,9 @@
+
+// campaignStore 제거됨. 필요시 서버 연동 로직으로 대체하세요.
+const campaignLikeManager = {
+  onLogin(memberId) {},
+  onLogout(memberId) {},
+  onAutoLogin(memberId) {}
+};
+
+export default campaignLikeManager;

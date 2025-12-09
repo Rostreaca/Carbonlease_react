@@ -14,6 +14,9 @@ import useTop5RankingList from '../TopRankingList/useTop5RankingList';
 import Loading from '../../../Common/Loading/Loading';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
+
+const truncate = (str, n) => (str && str.length > n ? str.slice(0, n) + '...' : str);
+
 const options = {
     indexAxis: 'y',
     responsive: true,
@@ -41,27 +44,40 @@ const options = {
             beginAtZero: true,
             max: 400,
             ticks: {
-                font: { size: 14 },
-                stepSize: 40
+                // 이 부분에서 Y축 레이블을 커스터마이징합니다.
+                callback: function (value) {
+                    const originalLabel = this.getLabelForValue(value);
+                    // Y축 틱에 표시될 때만 truncate를 적용합니다.
+                    return truncate(originalLabel, 20); 
+                },
+                font: { size: 14, weight: 'bold' },
+                color: '#333',
+                stepSize: 40,
+                align: 'left',
+                padding: 0
             }
         },
         x: {
-            ticks: { font: { size: 14 } }
+            ticks: {
+                font: { size: 14, weight: 'bold' },
+                color: '#000'
+            }
         }
     }
 };
 
 
 const Top5RankingList = ({ onShowToast }) => {
-    const { top5List, loading, error } = useTop5RankingList(onShowToast);
+    const { top5List, loading } = useTop5RankingList(onShowToast);
 
     if (loading) return <Loading />;
-    if (error) return null; // 에러는 토스트로만 처리
-    if (!top5List || top5List.length === 0) return <div>인기글 데이터가 없습니다.</div>;
 
-    const truncate = (str, n) => (str && str.length > n ? str.slice(0, n) + '...' : str);
+    
     const chartData = {
-        labels: top5List.map(item => truncate(item.title, 20)),
+        labels: top5List.map(item => {
+            //  원본 전체 텍스트를 그대로 labels에 넣습니다.
+            return `[${item.boardType}] ${item.title}`; 
+        }),
         datasets: [
             {
                 label: 'Views',

@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { deleteReply, getReplies, insertReply, updateReply } from '../../../api/campaign/campaignApi';
+import CommentBox from '../../Common/Comments/CommentBox';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import Loading from '../../Common/Loading/Loading';
 import PageContent from '../../Common/PageContent/PageContent';
@@ -12,7 +14,6 @@ import CampaignHeader from './components/CampaignHeader';
 import CampaignImage from './components/CampaignImage';
 import CampaignMeta from './components/CampaignMeta';
 import useCampaignDetail from './useCampaignDetail';
-
 
 const CampaignDetail = () => {
     const navigate = useNavigate();
@@ -61,6 +62,14 @@ const CampaignDetail = () => {
     // 목록으로 돌아가기 (변경된 캠페인 데이터 함께 전달(좋아요 상태 등))
     const handleBack = () => {
         navigate('/campaigns', { state: { updatedCampaign: campaign } });
+    };
+
+    // 댓글 매핑 및 API 래퍼 함수 정의
+    const campaignCommentMap = {
+        id: "replyNo",
+        writer: "writer",
+        content: "replyContent",
+        date: "enrollDate"
     };
 
     // 로딩 상태
@@ -125,16 +134,22 @@ const CampaignDetail = () => {
                             ? <Component key={idx} campaign={campaign} auth={auth} />
                             : <Component key={idx} campaign={campaign} />
                     )}
+
+                    <CommentBox
+                    boardId={id}
+                    auth={auth}
+                    fetchAPI={getReplies}
+                    insertAPI={insertReply}
+                    updateAPI={updateReply}
+                    deleteAPI={deleteReply}
+                    mapping={campaignCommentMap}
+                    />
                     <CampaignActions
                         campaign={campaign}
                         auth={auth}
                         handleBack={handleBack}
                         handleLikeToggle={handleLikeToggle}
                         onShowToast={handleShowToast}
-                /* ---------------------------------------------
-                |   [D: 20251129]                              |
-                |   좋아요 상태 연동을 위해 추가된 props       |
-                ---------------------------------------------- */
                         isLiked={campaign.isLiked}
                         likeCount={campaign.likeCount}
                     />
