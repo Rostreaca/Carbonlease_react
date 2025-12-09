@@ -1,5 +1,5 @@
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,9 +11,13 @@ import NoticeContent from './components/NoticeContent';
 import NoticeMeta from './components/NoticeMeta';
 import NoticeActions from './components/NoticeActions';
 import NoticeFiles from './components/NoticeFiles';
+import { AuthContext } from '../../Context/AuthContext';
 
 const NoticeDetail = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const { auth } = useContext(AuthContext);
 
     // 게시물 ID 가져오기
     const {id} = useParams();
@@ -45,26 +49,51 @@ const NoticeDetail = () => {
     
     // 게시글 상세조회 요청
     useEffect(()=>{
-        axios
-            .get(`http://www.localhost/notices/detail/${id}`)
-            .then((result) => {
-                const responseNotice = result.data.notice;
-                const responseAttachment = result.data.attachment;
-                console.log(responseAttachment);
-                setNotice({
-                    title: responseNotice.noticeTitle,
-                    content: responseNotice.noticeContent,
-                    viewCount: responseNotice.viewCount,
-                    createDate: responseNotice.createDate,
-                    files: responseAttachment
+        if (location.pathname.startsWith('/admin')) {
+            axios
+                .get(`http://www.localhost/admin/notices/detail/${id}`,{
+                    headers: {
+                        Authorization: `Bearer ${auth.accessToken}`
+                    },
                 })
-            })
+                .then((result) => {
+                    const responseNotice = result.data.notice;
+                    const responseAttachment = result.data.attachment;
+                    console.log(responseAttachment);
+                    setNotice({
+                        title: responseNotice.noticeTitle,
+                        content: responseNotice.noticeContent,
+                        viewCount: responseNotice.viewCount,
+                        createDate: responseNotice.createDate,
+                        files: responseAttachment
+                    })
+                })
+        } else {
+            axios
+                .get(`http://www.localhost/notices/detail/${id}`)
+                .then((result) => {
+                    const responseNotice = result.data.notice;
+                    const responseAttachment = result.data.attachment;
+                    console.log(responseAttachment);
+                    setNotice({
+                        title: responseNotice.noticeTitle,
+                        content: responseNotice.noticeContent,
+                        viewCount: responseNotice.viewCount,
+                        createDate: responseNotice.createDate,
+                        files: responseAttachment
+                    })
+                })
+        }
 
     }, [id])
 
     // 목록으로 돌아가기
     const handleBack = () => {
-        navigate('/notices');
+        if (location.pathname.startsWith('/admin')) {
+            navigate('/admin/notices');
+        } else {
+            navigate('/notices');
+  }
     };
 
     return(

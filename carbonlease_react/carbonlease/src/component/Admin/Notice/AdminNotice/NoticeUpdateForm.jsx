@@ -39,7 +39,7 @@ const NoticeUpdateForm = () => {
     useEffect(() => {
         if (!auth.isAuthenticated) {
         alert("로그인 해주세요");
-        navi("/login");
+        navi("/admin/login");
         }
         console.log(auth.accessToken)
     }, [auth.isAuthenticated]);
@@ -74,14 +74,15 @@ const NoticeUpdateForm = () => {
                         },
                     })
                     .then((result) => {
-                        const response = result.data;
+                        const responseNotice = result.data.notice;
+                        const responseAtt = result.data.attachment;
                         console.log(result);
+                        setFileNames(responseAtt.map(att => att.originName));
                         setFormData({
-                            title: response.noticeTitle,
-                            content: response.noticeContent,
-                            files: [],
-                            fix: '',
-                        })
+                            title: responseNotice.noticeTitle,
+                            content: responseNotice.noticeContent,
+                            files: []
+                        });
 
                     })
             }
@@ -196,6 +197,7 @@ const NoticeUpdateForm = () => {
                             placeholder="공지사항 내용을 입력하세요"
                             rows={8}
                         />
+
 
                         <FormField
                             label="첨부파일"

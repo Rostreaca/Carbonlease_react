@@ -1,5 +1,5 @@
 // CalendarModal.jsx
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ModalOverlay,
   ModalWrapper,
@@ -12,26 +12,45 @@ import {
   Label,
   Button
 } from "./CalendarModal.styled";
+import axios from "axios";
+import { AuthContext } from '../../../Context/AuthContext';
+
 
 const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) => {
+  const { auth } = useContext(AuthContext);
   const [form, setForm] = useState({
     title: "",
     start: "",
-    end: ""
+    end: "",
+    categoryNo: "",
   });
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(()=> {
+    if (!auth?.accessToken) return;
+
+    axios.get("http://localhost/admin/calendar/category", {
+    headers:{ Authorization:`Bearer ${auth.accessToken}` }
+  }).then(res => {
+    setCategories(res.data?.categories ?? []);
+  });
+  }, [auth])
 
   useEffect(() => {
     if (isEdit && event) {
       setForm({
         title: event.title,
         start: event.start,
-        end: event.end
+        end: event.end,
+        categoryNo: event.categoryNo
       });
     } else {
       setForm({
         title: "",
         start: "",
-        end: ""
+        end: "",
+        categoryNo: ""
       });
     }
   }, [isEdit, event]);
@@ -66,6 +85,22 @@ const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) =
               onChange={handleChange}
               placeholder="제목을 입력하세요"
             />
+
+            <Label>카테고리</Label>
+            <select
+              name="categoryNo"
+              value={form.categoryNo}
+              onChange={handleChange}
+              style={{padding:6}}>
+
+                <option value="">카테고리 선택</option>
+                
+                {categories.map(c => (
+                  <option key={c.categoryNo} value={c.categoryNo}>
+                    {c.categoryName}
+                  </option>
+                ))}
+            </select>
 
             <Label>시작일</Label>
             <Input

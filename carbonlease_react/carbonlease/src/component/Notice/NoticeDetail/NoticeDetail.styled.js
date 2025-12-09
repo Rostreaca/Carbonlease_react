@@ -157,7 +157,7 @@ export const FileHeader = styled.div`
     display: flex;
     `;
 
-export const FileItem = styled.div`
+export const FileItem = styled.a`
     justify-content: flex-end;
     display: flex;
     
@@ -167,12 +167,14 @@ export const FileItem = styled.div`
     font-size: 13px;
     color: #555;
     cursor: pointer;
+    text-decoration: none;
 
     &:hover {
         color: #0074d9;
         text-decoration: underline;
     }
 `;
+
 
 export const FileIcon = styled.span`
     font-size: 14px;

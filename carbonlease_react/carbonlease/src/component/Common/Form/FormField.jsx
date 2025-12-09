@@ -26,7 +26,7 @@ const FormField = ({
     options = [],
     rows = 5,
     accept = '',
-    fileName = ''
+    fileName = '',
 }) => {
     const renderInput = () => {
         switch (type) {
@@ -62,26 +62,41 @@ const FormField = ({
             case 'file':
                 return (
                     <FileInputWrapper>
-                        <HiddenFileInput
-                            type="file"
-                            id={name}
-                            name={name}
-                            onChange={onChange}
-                            accept={accept}
-                            multiple={true}
+                    <HiddenFileInput
+                        type="file"
+                        id={name}
+                        name={name}
+                        onChange={onChange}
+                        accept={accept}
+                        multiple={true}
+                    />
+                    <FileInputLabel htmlFor={name} $error={!!error}>
+                        <i className="fas fa-upload"></i>
+                           {(() => {
+                                if (!fileName) return '파일 선택';
+                                if (Array.isArray(fileName)) return fileName.join(', ');
+                                return fileName;
+                            })()}
+                    </FileInputLabel>
+
+                    {/* 이미지 미리보기 */}
+                    {typeof imageUrl === 'string' && imageUrl && (
+                        <div style={{ marginTop: '0.5rem' }}>
+                        <img
+                            src={imageUrl}
+                            alt="미리보기"
+                            style={{
+                            maxWidth: 180,
+                            maxHeight: 120,
+                            borderRadius: 8,
+                            border: '1px solid #eee'
+                            }}
                         />
-                        <FileInputLabel htmlFor={name} $error={!!error}>
-                            <i className="fas fa-upload"></i>
-                            {fileName || '파일 선택'}
-                        </FileInputLabel>
-                        {/* 이미지 미리보기 */}
-                        {typeof imageUrl === 'string' && imageUrl && (
-                            <div style={{ marginTop: '0.5rem' }}>
-                                <img src={imageUrl} alt="미리보기" style={{ maxWidth: 180, maxHeight: 120, borderRadius: 8, border: '1px solid #eee' }} />
-                            </div>
-                        )}
+                        </div>
+                    )}
                     </FileInputWrapper>
                 );
+
             
             case 'date':
                 return (
