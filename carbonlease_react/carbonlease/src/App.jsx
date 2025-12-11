@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
@@ -40,6 +40,7 @@ import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
 import { AuthProvider } from './component/Context/AuthContext';
 import KakaoCallback from './component/Member/Login/KakaoCallback';
 import KakaoEnrollForm from './component/Member/EnrollForm/KaKaoEnrollForm';
+import ProtectedRoute from './component/Context/ProtectedRoute';
 
 
 function App() {
@@ -73,15 +74,16 @@ function App() {
 				<Route path="/campaigns/detail/:id" element={<CampaignDetail />} />
 				<Route path="/login" element={<Login/>} />
 				<Route path="/signUp" element={<EnrollForm/>} />
-				<Route path="/myPage" element = {<MyPage/>} />
-				<Route path="/myPage/update" element={<MemberUpdateForm />} />
+				<Route path="/myPage" element={<ProtectedRoute allow={["[ROLE_USER]"]}> <MyPage /> </ProtectedRoute>}/>
+				<Route path="/myPage/update" element={<ProtectedRoute allow={["[ROLE_USER]"]}> <MemberUpdateForm /> </ProtectedRoute>}/>
 				<Route path="/guide" element={<ComponentGuide />} />
 			</Route>
 			
 			<Route path="/admin/login" element={<AdminLogin />} />
 			
 			{/* Admin Routes - without user Layout */}
-			<Route path="admin/*" element={<AdminLayout />}>
+			<Route path="/admin/*" element={<AdminLayout />}>
+				<Route index element={<Navigate to="home" replace />} />
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />

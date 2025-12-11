@@ -29,13 +29,24 @@ const AuthLinks = ({ onClick }) => {
             </>
             :
             <>            
-            <NavLink
-            to="/myPage"
-            onClick={onClick}
-            style={{padding: 0, flex: 'none', width: 'auto'}}
-            >
-                마이페이지
-            </NavLink>
+            {/* ★ 관리자면 마이페이지 → 관리자 페이지로 변경 */}
+            {auth.role === "[ROLE_ADMIN]" ? (
+                <NavLink
+                    to="/admin/home"
+                    onClick={onClick}
+                    style={{ padding: 0, flex: 'none', width: 'auto' }}
+                >
+                    관리자 페이지
+                </NavLink>
+            ) : (
+                <NavLink
+                    to="/myPage"
+                    onClick={onClick}
+                    style={{ padding: 0, flex: 'none', width: 'auto' }}
+                >
+                    마이페이지
+                </NavLink>
+            )}
             <span style={{margin: '0 8px'}}>|</span>
             <NavLink 
             to="/"
