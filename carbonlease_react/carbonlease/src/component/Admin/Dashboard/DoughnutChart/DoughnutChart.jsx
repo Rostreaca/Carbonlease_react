@@ -50,15 +50,16 @@ const DoughnutChart = ({ onShowToast }) => {
 
     return (
         <ChartWrap>
-            {chartData.map(cfg => (
-                <ChartCard key={cfg.title}>
+            {chartData.map((cfg, i) => (
+                // Region
+                <ChartCard key={cfg.title + '-' + i}>
                     <ChartTitle>{cfg.title}</ChartTitle>
                     <ChartInner>
                         <Doughnut data={cfg.data} options={options} />
                         <LegendRow>
-                            {cfg.data.labels.map((label, i) => (
-                                <LegendItem key={label}>
-                                    <LegendColor style={{ background: cfg.data.datasets[0].backgroundColor[i] }} />
+                            {cfg.data.labels.map((label, j) => (
+                                <LegendItem key={cfg.title + '-' + label + '-' + j}>
+                                    <LegendColor style={{ background: cfg.data.datasets[0].backgroundColor[j] }} />
                                     <LegendLabel>{label}</LegendLabel>
                                 </LegendItem>
                             ))}

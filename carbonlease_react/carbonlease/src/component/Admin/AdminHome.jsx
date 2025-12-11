@@ -3,6 +3,7 @@ import DoughnutChart from './Dashboard/DoughnutChart/DoughnutChart';
 import Toast from '../Common/Toast/Toast';
 import RegionLineChart from './Dashboard/RegionLineChart/RegionLineChart';
 import Top5RankingList from './Dashboard/TopRankingList/Top5RankingList';
+import RegionMapChart from './Dashboard/RegionMapChart/RegionMapChart';
 import {
     DashboardRow,
     DashboardSection,
@@ -10,7 +11,7 @@ import {
     DashboardTitle,
     DashboardWideSection,
     DashboardWrapper
-} from './Dashboard/dashboard.styled.js';
+} from './Dashboard/DashBoard.styled';
 
 const AdminHome = () => {
     const [toastMessage, setToastMessage] = useState('');
@@ -30,18 +31,27 @@ const AdminHome = () => {
     return (
         <DashboardWrapper>
             <DashboardTitle>Dashboard | 각종 이력을 간략히 확인할 수 있습니다.</DashboardTitle>
-            <DoughnutChart onShowToast={handleShowToast} />
+            
             {/* 두 번째 행: 지역, 인기글 TOP5 */}
+            <DashboardSection>
+                <DoughnutChart onShowToast={handleShowToast} />
+            
+            </DashboardSection>
             <DashboardRow>
+                <DashboardWideSection>
+                    <DashboardSubTitle>지역별 총 활동량</DashboardSubTitle>
+                    <RegionMapChart onShowToast={handleShowToast} />
+                </DashboardWideSection>
                 <DashboardWideSection>
                     <DashboardSubTitle>지역별 커뮤니티 활동량</DashboardSubTitle>
                     <RegionLineChart onShowToast={handleShowToast} />
                 </DashboardWideSection>
-                <DashboardSection>
+                <DashboardWideSection>
                     <DashboardSubTitle>인기글 Top 5</DashboardSubTitle>
                     <Top5RankingList data={[]} />
-                </DashboardSection>
+                </DashboardWideSection>
             </DashboardRow>
+            
             <Toast
                 message={toastMessage}
                 isVisible={showToast}

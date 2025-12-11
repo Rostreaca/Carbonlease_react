@@ -68,6 +68,7 @@ const options = {
 
 
 const Top5RankingList = ({ onShowToast }) => {
+
     const { top5List, loading } = useTop5RankingList(onShowToast);
 
     if (loading) return <Loading />;
@@ -91,7 +92,7 @@ const Top5RankingList = ({ onShowToast }) => {
 
     return (
         <ChartContainer>
-            <Bar data={chartData} options={options} plugins={[ChartDataLabels]} height={310} />
+            <Bar data={chartData} options={options} plugins={[ChartDataLabels]} />
         </ChartContainer>
     );
 };

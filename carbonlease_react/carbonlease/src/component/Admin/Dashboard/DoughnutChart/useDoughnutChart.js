@@ -28,7 +28,8 @@ function convertStatsToChartData(stats) {
             backgroundColor.push('#f6e393ff');
         }
 
-        let title = item.BOARD_TYPE;
+        let title = item.boardType;
+        
         if (title) {
             title = title.charAt(0).toUpperCase() + title.slice(1);
         }
