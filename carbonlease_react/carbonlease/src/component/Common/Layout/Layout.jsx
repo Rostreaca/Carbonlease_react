@@ -14,7 +14,7 @@ const Layout = () => {
     useEffect(() => {
 
       {
-        auth.role === null ? <></> : auth.role !== '[ROLE_USER]' ? navi('/NotFound') : <></> 
+        auth.role === null ? <></> : auth.role === '[ROLE_ADMIN]' ? navi('/admin/home') : <></> 
       }
 
     }, [auth.role])
