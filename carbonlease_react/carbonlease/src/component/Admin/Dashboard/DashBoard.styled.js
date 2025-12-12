@@ -27,7 +27,9 @@ export const DashboardTitle = styled.h3`
     display: block;
 `;
 
-export const DashboardRow = styled.div`
+export const DashboardRow = styled.div`]
+    min-height: 700px;
+    overflow:hidden;
     display: flex;
     gap: 20px;
     margin-top: 24px;
@@ -39,7 +41,7 @@ export const DashboardWideSection = styled.section`
 `;
 
 export const DashboardSection = styled.section`
-    min-width: 500px;
+    min-width:500px;
 `;
 
 export const DashboardSubTitle = styled.h4`

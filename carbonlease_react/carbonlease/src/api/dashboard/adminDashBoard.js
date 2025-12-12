@@ -31,7 +31,7 @@ export const getUsersRegionActivityStats = () => {
 };
 
 
-// 지역별 커뮤니티 활동량(합산/일반/인증) 통합 조회
+// 상위 5개 게시글 조회
 export const getAllCountTop5 = () => {
     return adminDashboardApi.get('/boardsTop5');
 };

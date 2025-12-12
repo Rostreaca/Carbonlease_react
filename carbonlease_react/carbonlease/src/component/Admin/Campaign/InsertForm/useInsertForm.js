@@ -22,7 +22,7 @@ const useInsertForm = (onShowToast) => {
 		endDate: ''
 	});
 
-    // 파일 이름 상태 관리
+	// 파일 이름 상태 관리
 	const [fileNames, setFileNames] = useState({
 		thumbnail: '',
 		detailImage: ''

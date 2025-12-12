@@ -7,28 +7,29 @@ function convertStatsToChartData(stats) {
         const data = [];
         const backgroundColor = [];
 
-        if (item.TOTAL_CNT > 0) {
+        if (item.totalCount > 0) {
             labels.push('정상');
-            data.push(item.TOTAL_CNT);
+            data.push(item.totalCount);
             backgroundColor.push('#9ac6a5ff');
         }
-        if (item.HIDDEN_CNT > 0) {
+        if (item.hiddenCount > 0) {
             labels.push('숨김');
-            data.push(item.HIDDEN_CNT);
+            data.push(item.hiddenCount);
             backgroundColor.push('#ff6f61');
         }
-        if (item.COMMENT_CNT !== undefined && item.COMMENT_CNT !== null && item.COMMENT_CNT > 0) {
+        if (item.commentCount !== undefined && item.commentCount !== null && item.commentCount > 0) {
             labels.push('댓글');
-            data.push(item.COMMENT_CNT);
+            data.push(item.commentCount);
             backgroundColor.push('#8bb0e8ff');
         }
-        if (item.LIKE_CNT !== undefined && item.LIKE_CNT !== null && item.LIKE_CNT > 0) {
+        if (item.likeCount !== undefined && item.likeCount !== null && item.likeCount > 0) {
             labels.push('좋아요');
-            data.push(item.LIKE_CNT);
+            data.push(item.likeCount);
             backgroundColor.push('#f6e393ff');
         }
 
-        let title = item.BOARD_TYPE;
+        let title = item.BOARDTYPE;
+        
         if (title) {
             title = title.charAt(0).toUpperCase() + title.slice(1);
         }
@@ -57,6 +58,7 @@ const useDoughnutChart = (onShowToast) => {
         setLoading(true);
         getUsersAllBoardsCount()
             .then((result) => {
+                //alert(JSON.stringify(result.data, null, 2)); // 응답 구조 확인
                 const stats = result.data;
                 setChartData(convertStatsToChartData(stats));
             })

@@ -4,9 +4,9 @@ import { getAllCountTop5 } from '../../../../api/dashboard/adminDashBoard';
 function convertTop5StatsToList(stats) {
     // API 응답이 대문자 키로 올 경우 소문자 별칭으로 변환
     return stats.map(item => ({
-        title: item.title || item.TITLE,
-        views: item.views || item.VIEWS,
-        boardType: item.boardType || item.BOARDTYPE,
+        boardTitle: item.boardTitle,
+        viewCount: item.viewCount,
+        boardType: item.boardType,
     }));
 }
 

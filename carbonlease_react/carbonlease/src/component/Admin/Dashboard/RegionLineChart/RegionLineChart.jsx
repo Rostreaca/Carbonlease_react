@@ -45,13 +45,13 @@ const options = {
         y: {
             beginAtZero: true,
                 ticks: {
-                    font: { size: 14 },
+                    font: { size: 16 },
                     stepSize: 10
                 },
                 max: 40
         },
         x: {
-            ticks: { font: { size: 14 } }
+            ticks: { font: { size: 16 } }
         }
     }
 };
@@ -67,7 +67,7 @@ const RegionLineChart = ({ onShowToast }) => {
 
     return (
         <ChartContainer>
-            <Line data={chartData} options={options} height={255} />
+            <Line data={chartData} options={options} height={245} style={{ width: '100%', height: '100%' }}/>
         </ChartContainer>
     );
 };
