@@ -20,6 +20,8 @@ const ActivityUpdateForm = () => {
   const { id } = useParams();
   const { auth } = useContext(AuthContext);
 
+  if (!id || isNaN(Number(id))) return null;
+
   const {
     toastMessage,
     showToast,
@@ -27,6 +29,43 @@ const ActivityUpdateForm = () => {
     showToastMessage,
     closeToast
   } = useToast();
+
+  const {
+    title, setTitle,
+    content, setContent,
+    address, setAddress,
+    lat, setLat,
+    lng, setLng,
+    regionNo, setRegionNo,
+    category, setCategory,
+    file, setFile,
+    originImage,
+    error
+  } = useUpdateFormState(id);
+
+  const { handleSubmit } = useUpdateSubmit({
+    title,
+    content,
+    address,
+    lat,
+    lng,
+    regionNo,
+    category,
+    file,
+    activityNo: id,
+    navigate,
+    showToastMessage
+  });
+
+  useEffect(() => {
+    if (error) {
+      showToastMessage("존재하지 않는 게시글입니다!", "error");
+
+      setTimeout(() => {
+        navigate("/activityBoards");
+      }, 1500);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!auth.isAuthenticated) {
@@ -46,31 +85,6 @@ const ActivityUpdateForm = () => {
     );
   }
 
-  const {
-    title, setTitle,
-    content, setContent,
-    address, setAddress,
-    lat, setLat,
-    lng, setLng,
-    regionNo, setRegionNo,
-    category, setCategory,
-    file, setFile,
-    originImage
-  } = useUpdateFormState(id);
-
-  const { handleSubmit } = useUpdateSubmit({
-    title,
-    content,
-    address,
-    lat,
-    lng,
-    regionNo,
-    category,
-    file,
-    activityNo: id,
-    navigate,
-    showToastMessage
-  });
 
   return (
     <>

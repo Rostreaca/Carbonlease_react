@@ -27,28 +27,7 @@ const ActivityInsertForm = () => {
     showToastMessage,
     closeToast
   } = useToast();
-
-  useEffect(() => {
-    if(!auth.isAuthenticated) {
-      showToastMessage("로그인이 필요한 서비스입니다!", "error");
-      
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
-    }
-  }, [auth.isAuthenticated]);
-
-  if (!auth.isAuthenticated) {
-    return (
-      <Toast 
-        message={toastMessage}
-        isVisible={showToast}
-        variant={toastVariant}
-        onClose={closeToast}
-      />
-    )
-  }
-
+  
   const {
     title, setTitle,
     content, setContent,
@@ -70,6 +49,28 @@ const ActivityInsertForm = () => {
     navigate,
     showToastMessage
   });
+  
+  useEffect(() => {
+    if(!auth.isAuthenticated) {
+      showToastMessage("로그인이 필요한 서비스입니다!", "error");
+      
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  }, [auth.isAuthenticated]);
+
+  if (!auth.isAuthenticated) {
+    return (
+      <Toast 
+        message={toastMessage}
+        isVisible={showToast}
+        variant={toastVariant}
+        onClose={closeToast}
+      />
+    )
+  }
+
 
   return (
     <>

@@ -15,12 +15,21 @@ export default function useUpdateFormState(id) {
 
     const [file, setFile] = useState(null);
     const [originImage, setOriginImage] = useState(null);
+    const [error, setError] = useState();
 
     useEffect(() => {
+
+        if (!id) return;
+
         fetchActivityDetail(id)
             .then(res => {
                 console.log("activity detail data:", res.data);
                 const d = res.data;
+
+                if (!id) { 
+                    setError(true);
+                    return;
+                }
 
                 setTitle(d.activityTitle);
                 setContent(d.activityContent);
@@ -38,7 +47,10 @@ export default function useUpdateFormState(id) {
                     setOriginImage(null);
                 }
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error(err);
+                setError(true);
+            })
     }, [id]);
 
     return {
@@ -51,6 +63,7 @@ export default function useUpdateFormState(id) {
         regionNo, setRegionNo,
         category, setCategory,
         file, setFile,
-        originImage
+        originImage,
+        error
     };
 }

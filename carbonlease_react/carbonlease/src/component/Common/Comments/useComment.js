@@ -14,7 +14,6 @@ export const useComment = (fetchAPI, boardId, mapping) => {
 
     const list = res.data.replies || [];
 
-    // DTO 통일
     const normalized = list.map(r => ({
       id: r[mapping.id],
       writer: r[mapping.writer],
