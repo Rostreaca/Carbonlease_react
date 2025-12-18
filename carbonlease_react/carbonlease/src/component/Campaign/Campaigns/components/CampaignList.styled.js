@@ -6,7 +6,7 @@ export const CampaignListContainer = styled.div`
 
 export const CampaignGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 30px;
     margin-bottom: 40px;
 

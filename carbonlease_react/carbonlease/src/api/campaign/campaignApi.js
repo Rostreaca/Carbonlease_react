@@ -5,11 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Axios 인스턴스 생성
 const campaignApi = axios.create({
-    baseURL: `${API_BASE_URL}/campaigns`,
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    }
+    baseURL: `${API_BASE_URL}/campaigns`
 });
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입
@@ -65,3 +61,6 @@ export const deleteReply = (replyNo) => {
 export const updateReply = (replyNo, replyContent) => {
     return campaignApi.put(`/replies/${replyNo}`, { replyContent });
 };
+
+
+

@@ -6,7 +6,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // Axios 인스턴스 생성
 const adminCampaignApi = axios.create({
     baseURL: `${API_BASE_URL}/api/main`,
-    timeout: 10000,
 });
 
 // 지역 통계 데이터 조회

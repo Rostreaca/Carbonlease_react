@@ -1,9 +1,12 @@
-import CommentList from "./CommentList";
-import CommentInput from "./CommentInput";
-import CommentPagination from "./CommentPagination";
 import { CommentSection } from "./Comment.styled";
+import CommentInput from "./CommentInput";
+import CommentList from "./CommentList";
+import CommentPagination from "./CommentPagination";
 import { useComment } from "./useComment";
 
+
+import { useState } from 'react';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 import Toast from "../Toast/Toast";
 import useToast from "../Toast/useToast";
 
@@ -58,16 +61,34 @@ const CommentBox = ({
     }
   };
 
-  // 댓글 삭제
-  const handleDelete = async (replyId) => {
-    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+  // 댓글 삭제 - ConfirmDialog로 대체
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
+  const [deleteReason, setDeleteReason] = useState("");
+
+  const handleDelete = (replyId) => {
+    setPendingDeleteId(replyId);
+    setShowConfirm(true);
+  };
+
+  const handleConfirm = async () => {
+    if (!pendingDeleteId) return;
     try {
-      await deleteAPI(replyId, auth?.accessToken);
+      await deleteAPI(pendingDeleteId, auth?.accessToken, deleteReason);
       loadPage(currentPage);
       showToastMessage("댓글 삭제 완료!", "success");
     } catch {
       showToastMessage("댓글 삭제 실패", "error");
     }
+    setShowConfirm(false);
+    setPendingDeleteId(null);
+    setDeleteReason("");
+  };
+
+  const handleClose = () => {
+    setShowConfirm(false);
+    setPendingDeleteId(null);
+    setDeleteReason("");
   };
 
   return (
@@ -99,6 +120,16 @@ const CommentBox = ({
         isVisible={showToast}
         onClose={closeToast}
         variant={toastVariant}
+      />
+      <ConfirmDialog
+        show={showConfirm}
+        onClose={handleClose}
+        onConfirm={handleConfirm}
+        title="댓글 삭제"
+        message="정말로 이 댓글을 삭제하시겠습니까?"
+        confirmText="삭제"
+        cancelText="취소"
+        variant="info"
       />
     </>
   );

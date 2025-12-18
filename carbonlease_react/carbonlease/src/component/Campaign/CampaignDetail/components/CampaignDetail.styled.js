@@ -11,8 +11,13 @@ export const CampaignDetailHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding-bottom:20px;
+    padding:20px 12px;
+    border-radius:10px 10px 0 0;
+    background:#f9f9f9;
     border-bottom: 1px solid #e0e0e0;
+    h1{
+        margin:0;
+    }
 `;
 
 
@@ -47,7 +52,8 @@ export const MetaInfo = styled.div`
     display: flex;
     align-items: center;
     gap: 30px;
-    padding: 20px 0;
+    padding: 20px 12px;
+    background: #f9f9f9;
     border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0;
     margin-bottom: 30px;
@@ -79,7 +85,9 @@ export const ImageWrapper = styled.div`
     margin-bottom: 40px;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    ${'' /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */}
+
+    border: 1px solid #e0e0e0;
 
     img {
         max-width:400px;

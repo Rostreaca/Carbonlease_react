@@ -16,6 +16,9 @@ export const ReplyListBox = styled.div`
 
 export const ReplyInputSection = styled.div`
   display: flex;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 12px;
 `;
 
 export const ReplyInput = styled.textarea`
