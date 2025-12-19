@@ -23,7 +23,7 @@ function NoticesList() {
 
     const getNotices = (page) => {
         axios
-            .get(`http://localhost/notices?pageNo=${page}`)
+            .get(`http://localhost:80/notices?pageNo=${page}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseNotice = result.data.notices;

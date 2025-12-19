@@ -100,7 +100,7 @@ const MemberUpdateForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.put("http://localhost/members", {
+                axios.put("http://localhost:80/members", {
                     memberId: auth.memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {
@@ -126,7 +126,7 @@ const MemberUpdateForm = () => {
     const kakaoUpdateMember = () => {
         {
             checkNickName && checkEmail ?
-                axios.put("http://localhost/members/kakao", {
+                axios.put("http://localhost:80/members/kakao", {
                     memberId: auth.memberId , nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {

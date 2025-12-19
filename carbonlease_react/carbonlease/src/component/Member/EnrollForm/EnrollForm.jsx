@@ -117,7 +117,7 @@ const EnrollForm = () => {
         e.preventDefault();
         {
             checkId && checkNickName && checkEmail ?
-                axios.post("http://localhost/members", {
+                axios.post("http://localhost:80/members", {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
                     setSignUpAlertVariant('info');

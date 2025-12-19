@@ -28,7 +28,7 @@ const CheckNickNameDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post("http://localhost/members/checkNickName",
+        axios.post("http://localhost:80/members/checkNickName",
             {
                 nickName: props.nickName
             }).then(result => {

@@ -38,9 +38,9 @@ const AdminUsers = () => {
 
         // console.log(auth);
 
-        axios.get(`http://localhost/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
+        axios.get(`http://localhost:80/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
             headers : {
-               Authorization :  `Bearer ${auth.accessToken}`
+                Authorization :  `Bearer ${auth.accessToken}`
             }
         }).then(result => {
             //console.log(result);
@@ -56,9 +56,9 @@ const AdminUsers = () => {
 
     const handleRestore = (memberNo) => {
 
-        axios.put(`http://localhost/admin/members/restore?memberNo=${memberNo}`,{},{
+        axios.put(`http://localhost:80/admin/members/restore?memberNo=${memberNo}`,{},{
             headers : {
-               Authorization :  `Bearer ${auth.accessToken}`
+                 Authorization :  `Bearer ${auth.accessToken}`
             }
         }).then(result => {
             showToastMessage('성공적으로 복구되었습니다.', 'success');
@@ -72,7 +72,7 @@ const AdminUsers = () => {
 
     const handleDelete = (memberNo) => {
 
-        axios.delete(`http://localhost/admin/members?memberNo=${memberNo}`,{
+        axios.delete(`http://localhost:80/admin/members?memberNo=${memberNo}`,{
             headers : {
                 Authorization : `Bearer ${auth.accessToken}`
             }

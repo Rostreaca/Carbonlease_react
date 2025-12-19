@@ -33,7 +33,7 @@ const BoardInsertForm = () => {
 
     const fetchReplies = async () => {
     axios
-            .get(`http://localhost/boards/detail/${id}`)
+            .get(`http://localhost:80/boards/detail/${id}`)
             .then((result) => {
                 const response = result.data;
                 console.log("상세보기 데이터:", response);
@@ -85,7 +85,7 @@ const BoardInsertForm = () => {
   const regBoardcall = async (boardVO) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`http://localhost/boards/boardUpdate`, boardVO, {
+            .post(`http://localhost:80/boards/boardUpdate`, boardVO, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",

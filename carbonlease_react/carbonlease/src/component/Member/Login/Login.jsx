@@ -50,7 +50,7 @@ const Login = () => {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost/auth/login", {
+        axios.post("http://localhost:80/auth/login", {
             memberId, memberPwd
         }).then(result => {
             //console.log(result);

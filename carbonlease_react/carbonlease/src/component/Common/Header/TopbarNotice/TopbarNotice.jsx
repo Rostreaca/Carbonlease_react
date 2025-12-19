@@ -28,7 +28,7 @@ const TopbarNotice = () => {
 
     const fetchNotices = async () => {
         
-        const { data } = await axios.get(`http://localhost/notices/fix`);
+        const { data } = await axios.get(`http://localhost:80/notices/fix`);
 
         const converted = data.notices.map(e => ({
             id: e.noticeNo,

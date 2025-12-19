@@ -7,7 +7,7 @@ const ImageSection = ({ images }) => {
     <ImageWrapper>
       <ImageBox>
         {images.map((src, idx) => (
-          <img key={idx} src={`http://localhost:80${src}`} alt="" />
+          <img key={idx} src={`http://localhost:80/${src}`} alt="" />
         ))}
       </ImageBox>
     </ImageWrapper>

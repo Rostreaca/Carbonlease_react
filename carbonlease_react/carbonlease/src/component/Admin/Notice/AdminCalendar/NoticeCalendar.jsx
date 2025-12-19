@@ -27,7 +27,7 @@ const NoticeCalendar = () => {
   // 일정 전체 조회
   const fetchEvents = async () => {
 
-    const { data } = await axios.get("http://localhost/admin/calendar", {
+    const { data } = await axios.get("http://localhost:80/admin/calendar", {
       headers: {
         Authorization: `Bearer ${auth.accessToken}`,
       }
@@ -57,7 +57,7 @@ const NoticeCalendar = () => {
       allDay: true
     };
 
-    axios.post("http://localhost/admin/calendar", newEvent, {
+    axios.post("http://localhost:80/admin/calendar", newEvent, {
       headers: { Authorization: `Bearer ${auth.accessToken}` },
     }).then((res) => {
 
@@ -106,7 +106,7 @@ const handleEventClick = (info) => {
     };
 
     await axios.put(
-      `http://localhost/admin/calendar/${selectedEvent.calendarNo}`,
+      `http://localhost:80/admin/calendar/${selectedEvent.calendarNo}`,
       updated,
       { headers: { Authorization: `Bearer ${auth.accessToken}` } }
     );
@@ -128,7 +128,7 @@ const handleEventClick = (info) => {
   const handleDeleteEvent = async () => {
 
     await axios.delete(
-      `http://localhost/admin/calendar/${selectedEvent.calendarNo}`,
+      `http://localhost:80/admin/calendar/${selectedEvent.calendarNo}`,
       { headers: { Authorization: `Bearer ${auth.accessToken}` } }
     );
 

@@ -51,7 +51,7 @@ const NoticeDetail = () => {
     useEffect(()=>{
         if (location.pathname.startsWith('/admin')) {
             axios
-                .get(`http://www.localhost/admin/notices/detail/${id}`,{
+                .get(`http://www.localhost:80/admin/notices/detail/${id}`,{
                     headers: {
                         Authorization: `Bearer ${auth.accessToken}`
                     },
@@ -70,7 +70,7 @@ const NoticeDetail = () => {
                 })
         } else {
             axios
-                .get(`http://www.localhost/notices/detail/${id}`)
+                .get(`http://www.localhost:80/notices/detail/${id}`)
                 .then((result) => {
                     const responseNotice = result.data.notice;
                     const responseAttachment = result.data.attachment;

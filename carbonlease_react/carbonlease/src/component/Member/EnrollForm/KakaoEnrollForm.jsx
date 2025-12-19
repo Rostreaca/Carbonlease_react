@@ -79,7 +79,7 @@ const KakaoEnrollForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.post("http://localhost/members", {
+                axios.post("http://localhost:80/members", {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
                     setSignUpAlertVariant('info');
@@ -100,7 +100,7 @@ const KakaoEnrollForm = () => {
 
     const successSignUp = () => {
 
-        axios.post("http://localhost/auth/login", {
+        axios.post("http://localhost:80/auth/login", {
             memberId, memberPwd
         }).then(result => {
             const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;

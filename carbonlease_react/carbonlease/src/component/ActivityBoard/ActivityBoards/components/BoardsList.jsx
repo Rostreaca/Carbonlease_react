@@ -18,7 +18,7 @@ const BoardsList = ({ boards, onClickItem }) => {
                 
             <Thumbnail>
               {item.thumbnailPath ? (
-                <img src={`http://localhost:80${item.thumbnailPath}`} alt="thumbnail" />
+                <img src={`http://localhost:80/${item.thumbnailPath}`} alt="thumbnail" />
               ) : (
                 <img src="/images/No_Image.png" alt="no image" />
               )}

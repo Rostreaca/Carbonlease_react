@@ -59,7 +59,7 @@ const BoardInsertForm = () => {
   const regBoardcall = async (board) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`http://localhost/boards/boardInsert`, board, {
+            .post(`http://localhost:80/boards/boardInsert`, board, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",

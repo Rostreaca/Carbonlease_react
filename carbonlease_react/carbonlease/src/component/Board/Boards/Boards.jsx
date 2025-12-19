@@ -34,7 +34,7 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
 
     const getBoards = (page, query = '', type = 'TITLE') => {
         axios
-            .get(`http://localhost/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
+            .get(`http://localhost:80/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseBoard = result.data.boards;
