@@ -7,13 +7,12 @@ export default defineConfig({
   define: {
     global: {},
   },
- server: {
+  server: {
     proxy: {
-      '/ws-event': {
+      '/ws-stomp': {
         target: 'http://localhost:80',
         ws: true,
         changeOrigin: true,
-        secure: false,
       }
     }
   },

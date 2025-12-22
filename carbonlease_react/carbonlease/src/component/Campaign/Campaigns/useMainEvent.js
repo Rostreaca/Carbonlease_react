@@ -15,7 +15,7 @@ const useMainEvent = (onShowToast) => {
     const sendTestMessage = (message = '테스트 메시지') => {
         if (wsClientRef.current && wsClientRef.current.connected) {
             wsClientRef.current.publish({
-                destination: '/app/event/participate', // 서버의 @MessageMapping 경로에 맞게 수정
+                destination: '/pub/event/participate', // 서버의 @MessageMapping 경로에 맞게 수정
                 body: JSON.stringify({ message }),
             });
             console.log('메시지 전송:', message);
@@ -29,12 +29,12 @@ const useMainEvent = (onShowToast) => {
         console.log('이벤트 로드 시작');
         setLoading(true);
         fetchMainEvent()
-            .then(res => {
-                console.log('이벤트 로드 성공:', res.data);
-                setEvent(res.data);
+            .then((result) => {
+                console.log('이벤트 로드 성공:', result.data);
+                setEvent(result.data);
             })
-            .catch(err => {
-                console.error(' 이벤트 로드 실패:', err);
+            .catch((error) => {
+                console.error(' 이벤트 로드 실패:', error);
                 onShowToast?.('이벤트 정보를 불러오지 못했습니다.', 'error');
             })
             .finally(() => setLoading(false));
@@ -42,6 +42,7 @@ const useMainEvent = (onShowToast) => {
 
     // 참여하기
     const handleParticipate = () => {
+
         if (!auth?.isAuthenticated) {
             onShowToast?.('로그인이 필요합니다.', 'error');
             return;
@@ -64,31 +65,32 @@ const useMainEvent = (onShowToast) => {
                     };
                 });
             })
-            .catch(err => {
-                console.error(' 참여 실패:', err);
+            .catch((error) => {
+                console.error(' 참여 실패:', error);
                 onShowToast?.('이미 참여한 이벤트입니다.', 'error');
             });
     };
     
     // WebSocket 연결
     useEffect(() => {
+
         console.log('useEffect 실행');
+
         loadEvent();
 
         // 항상 상대경로로 연결하여 Vite 프록시가 동작하게 함
-        const sock = new SockJS('/ws-event');
+        console.log('SockJS 연결 시도');
+        const sock = new SockJS('/ws-stomp');
         const client = new Client({
             webSocketFactory: () => sock,
             reconnectDelay: 5000,
             debug: (str) => console.log('[STOMP]', str),
             onConnect: () => {
                 console.log(' WebSocket 연결 성공!');
-                
-                client.subscribe('/topic/event/main', (msg) => {
+                client.subscribe('/sub/event/main', (msg) => {
                     try {
                         console.log('메시지 수신:', msg.body);
                         const data = JSON.parse(msg.body);
-                        
                         setEvent(prev => {
                             if (!prev) return prev;
                             if (prev.eventId !== data.eventId) return prev;
@@ -96,12 +98,10 @@ const useMainEvent = (onShowToast) => {
                                 prev.participationRate === data.participationRate) {
                                 return prev;
                             }
-                            
                             console.log(' 이벤트 업데이트:', {
                                 before: prev.currentParticipants,
                                 after: data.currentParticipants
                             });
-                            
                             return {
                                 ...prev,
                                 currentParticipants: data.currentParticipants,
