@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import SearchFilterBox from '../../Util/StatusFilter';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../Common/Loading/Loading';
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
@@ -36,17 +37,27 @@ const AdminCampaigns = () => {
     const [selectedId, setSelectedId] = useState(null); // 선택된 캠페인 ID
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // 삭제 모달 상태
 
+
     // 캠페인 목록 훅 사용
+
     const {
         campaigns,
         currentPage,
         setCurrentPage,
+        status,
+        setStatus,
+        keyword,
+        setKeyword,
         loading,
         pageInfo,
         hideCampaign,
         restoreCampaign,
         deleteCampaign,
     } = useAdminCampaign(handleShowToast);
+
+    // 검색 입력 임시 상태
+    const [tempKeyword, setTempKeyword] = useState("");
+
 
     useEffect(() => {
         setCurrentPage(1); // mount 시 무조건 1페이지로 리셋
@@ -134,6 +145,21 @@ const AdminCampaigns = () => {
                 </CreateButton>
             </PageHeader>
 
+            {/* 검색/필터 박스 추가 */}
+            <SearchFilterBox
+                status={status}
+                keyword={tempKeyword}
+                onStatusChange={(val) => {
+                    setStatus(val);
+                    setCurrentPage(1);
+                }}
+                onKeywordChange={(e) => setTempKeyword(e.target.value)}
+                onSearch={() => {
+                    setKeyword(tempKeyword); // 검색 버튼 눌렀을 때만 실제 검색
+                    setCurrentPage(1);
+                }}
+            />
+
             <AdminCampaignList
                 campaigns={campaigns}
                 onEdit={handleEdit}
@@ -144,7 +170,7 @@ const AdminCampaigns = () => {
             />
 
             <Pagination
-                currentPage={currentPage} 
+                currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 pageInfo={pageInfo}
             />
@@ -160,7 +186,6 @@ const AdminCampaigns = () => {
                 variant="danger"
                 showIcon={false}
             />
-            
             <ConfirmDialog
                 show={showDeleteConfirm}
                 onClose={cancelDelete}
@@ -172,7 +197,6 @@ const AdminCampaigns = () => {
                 variant="danger"
                 showIcon={false}
             />
-            
             <ConfirmDialog
                 show={showRestoreConfirm}
                 onClose={cancelRestore}
@@ -184,7 +208,6 @@ const AdminCampaigns = () => {
                 variant="info"
                 showIcon={false}
             />
-
             <Toast
                 message={toastMessage}
                 isVisible={showToast}

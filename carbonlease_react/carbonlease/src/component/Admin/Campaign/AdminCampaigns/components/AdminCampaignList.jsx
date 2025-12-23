@@ -31,8 +31,8 @@ const AdminCampaignList = ({ campaigns, onEdit, onHide, onDelete, onRestore }) =
         {
             header: '상태',
             field: 'displayStatus',
-            render: (value, row) => (
-                <StatusBadge $status={row.displayStatus}>{row.displayStatus}</StatusBadge>
+            render: (value) => (
+                <StatusBadge $status={value}>{value}</StatusBadge>
             )
         },
         {

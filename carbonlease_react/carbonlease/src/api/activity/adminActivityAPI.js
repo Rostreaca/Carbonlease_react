@@ -35,7 +35,6 @@ export const updateAdminBoard = (id, data) =>
     },
 });
 
-
 export const hideBoard = (id) =>
   adminActivityAPI.patch(`/activityBoards/hide/${id}`);
 

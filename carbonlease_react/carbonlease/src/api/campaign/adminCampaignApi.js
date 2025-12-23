@@ -3,10 +3,12 @@ import axios from 'axios';
 // Spring Boot API Base URL
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+
 // Axios 인스턴스 생성
 const adminCampaignApi = axios.create({
     baseURL: `${API_BASE_URL}/admin/campaigns`,
 });
+
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입
 adminCampaignApi.interceptors.request.use(
@@ -26,10 +28,15 @@ adminCampaignApi.interceptors.request.use(
 
 );
 
-// 캠페인 리스트 조회
-export const findAll = (page) => {
+// 캠페인 리스트 조회 (status, keyword, displayStatus 필터 추가)
+export const findAll = (page, status = "", keyword = "", displayStatus = "") => {
     return adminCampaignApi.get('', {
-        params: { pageNo : page }
+        params: {
+            pageNo: page,
+            status: status,
+            keyword: keyword,
+            displayStatus: displayStatus
+        }
     });
 };
 
