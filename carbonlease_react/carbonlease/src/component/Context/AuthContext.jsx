@@ -2,6 +2,11 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const authAPI = axios.create({
+  baseURL: `${API_BASE_URL}/auth/refresh`
+});
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -48,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         {
             accessToken !== null && (Date.now() > expiredDate) ? 
 
-        axios.post("http://localhost/auth/refresh", {
+        authAPI.post('', {
             refreshToken : refreshToken,
         }).then(result => {
             //console.log(result.data);

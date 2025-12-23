@@ -5,6 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from 'react-bootstrap';
+import { getCategories, getEvents } from '../../../api/notice/noticeCalendarApi';
 
 const NoticeCalendar = () => {
     const [events, setEvents] = useState([]);
@@ -32,29 +33,35 @@ const NoticeCalendar = () => {
 
     // 카테고리 가져오기
     const fetchCategories = async () => {
-      const { data } 
-      = await axios
-      .get("http://localhost/notices/calendar/categories");
-      setCategories(data.categories);
+      try {
+        const data = await getCategories();      
+        setCategories(data.categories ?? []);    
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     // 일정 가져오기
     const fetchEvents = async () => {
-        const { data } 
-        = await axios
-        .get('http://localhost/notices/calendar')
-
-        const converted = data.events.map(e => ({
+      try {
+        const data = await getEvents();
+        const converted = (data.events ?? []).map((e) => ({
           id: e.calendarNo,
           title: e.title,
           start: e.startDate,
           end: e.endDate,
           categoryNo: e.categoryNo,
-          className: eventColorClass(e.categoryNo)
+          className: eventColorClass(e.categoryNo),
         }));
-            setEvents(converted);
-            setOriginalEvents(converted);
-        };
+
+        setEvents(converted);
+        setOriginalEvents(converted);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+
 
     const filterByCategory = (cat) => {
       if (cat === "all") {

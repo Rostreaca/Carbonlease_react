@@ -12,6 +12,8 @@ import NoticeMeta from './components/NoticeMeta';
 import NoticeActions from './components/NoticeActions';
 import NoticeFiles from './components/NoticeFiles';
 import { AuthContext } from '../../Context/AuthContext';
+import { getNoticeDetail } from '../../../api/notice/noticeApi';
+import { getNoticeDetailAdmin } from '../../../api/notice/adminNoticeAPI';
 
 const NoticeDetail = () => {
     const navigate = useNavigate();
@@ -25,15 +27,15 @@ const NoticeDetail = () => {
     // 가져올 게시물 Data목록
     const [notice, setNotice] = useState(
         {
-            title: "제목임",
-            content: "내용임",
-            viewCount: "1",
-            createDate: "2025-01-01",
+            title: "",
+            content: "",
+            viewCount: "",
+            createDate: "",
             files:[
                 {
-                    "originName": "sample.pdf",
-                    "changeName": "20251128_abc123.pdf",
-                    "filePath": "/upload/notice/"
+                    "originName": "",
+                    "changeName": "",
+                    "filePath": ""
                 }
             ]
         }
@@ -46,45 +48,29 @@ const NoticeDetail = () => {
         NoticeFiles,
         NoticeContent
     ];
+
+    // 상세조회
+    const fetchNoticeDetail = async (id) => {
+        let data = null;
+        if (location.pathname.startsWith('/admin')){
+            data = await getNoticeDetailAdmin(id);
+        } else {
+            data = await getNoticeDetail(id);
+        }
+        const notice = data.notice;
+        const attachments = data.attachment ?? [];
+        setNotice({
+            title: notice.noticeTitle,
+            content: notice.noticeContent,
+            viewCount: notice.viewCount,
+            createDate: notice.createDate,
+            files: attachments
+        })
+    }
     
     // 게시글 상세조회 요청
     useEffect(()=>{
-        if (location.pathname.startsWith('/admin')) {
-            axios
-                .get(`http://www.localhost/admin/notices/detail/${id}`,{
-                    headers: {
-                        Authorization: `Bearer ${auth.accessToken}`
-                    },
-                })
-                .then((result) => {
-                    const responseNotice = result.data.notice;
-                    const responseAttachment = result.data.attachment;
-                    console.log(responseAttachment);
-                    setNotice({
-                        title: responseNotice.noticeTitle,
-                        content: responseNotice.noticeContent,
-                        viewCount: responseNotice.viewCount,
-                        createDate: responseNotice.createDate,
-                        files: responseAttachment
-                    })
-                })
-        } else {
-            axios
-                .get(`http://www.localhost/notices/detail/${id}`)
-                .then((result) => {
-                    const responseNotice = result.data.notice;
-                    const responseAttachment = result.data.attachment;
-                    console.log(responseAttachment);
-                    setNotice({
-                        title: responseNotice.noticeTitle,
-                        content: responseNotice.noticeContent,
-                        viewCount: responseNotice.viewCount,
-                        createDate: responseNotice.createDate,
-                        files: responseAttachment
-                    })
-                })
-        }
-
+        fetchNoticeDetail(id);
     }, [id])
 
     // 목록으로 돌아가기
@@ -93,7 +79,7 @@ const NoticeDetail = () => {
             navigate('/admin/notices');
         } else {
             navigate('/notices');
-  }
+        }
     };
 
     return(

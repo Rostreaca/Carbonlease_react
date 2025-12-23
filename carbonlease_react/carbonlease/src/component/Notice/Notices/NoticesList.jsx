@@ -2,8 +2,8 @@ import DataTable from '../../Common/DataTable/DataTable';
 import Pagination from '../../Common/Pagination/Pagination';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getNotices } from '../../../api/notice/noticeApi';
 
 function NoticesList() {
 
@@ -17,27 +17,26 @@ function NoticesList() {
         totalPage: 1
     });
 
+    // 현재 페이지 기준 목록 조회
     useEffect (()=>{
-        getNotices(currentPage);
+        fetchNotice(currentPage);
     }, [currentPage])
 
-    const getNotices = (page) => {
-        axios
-            .get(`http://localhost/notices?pageNo=${page}`)
-            .then((result) => {
-                console.log(result); // OK
-                const responseNotice = result.data.notices;
-                const responsePageInfo = result.data.pageInfo;
-                setNotice([...responseNotice]);
-                setPageInfo({
-                    startPage: responsePageInfo.startPage,
-                    endPage: responsePageInfo.endPage,
-                    totalPage: responsePageInfo.maxPage
-                })
-                
+    const fetchNotice = async (page) => {
+        try {
+            const data = await getNotices(page);
+            setNotice([...data.notices])
+            setPageInfo({
+                startPage: data.pageInfo.startPage,
+                endPage: data.pageInfo.endPage,
+                totalPage: data.pageInfo.totalPage,
             })
+        } catch (err) {
+            console.error(err);
+        }
     }
 
+    // 목록 columns 정의
     const columns = [
         {
             header: '순번',
@@ -62,8 +61,8 @@ function NoticesList() {
        
     ];
 
+    // 상세클릭 Handler
     const handleRowClick = (row) => {
-        //console.log("hi");
         navigate(`/notices/${row.noticeNo}`)
     }
 

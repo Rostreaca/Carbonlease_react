@@ -1,12 +1,18 @@
 import { StyleWrapper } from './NoticeCalendar.styled';
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import axios from 'axios';
+import { useEffect, useState, useRef, useContext } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 
 import CalendarModal from "./CalendarModal";
-import { AuthContext } from '../../../Context/AuthContext';
+
+import { 
+  getCalendarEvents, 
+  createCalendarEvent, 
+  updateCalendarEvent, 
+  deleteCalendarEvent 
+} from "../../../../api/notice/adminNoticeCalendar";
+
 
 const NoticeCalendar = () => {
 
@@ -17,99 +23,86 @@ const NoticeCalendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const calendarRef = useRef();
-  const { auth } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!auth?.accessToken) return;
     fetchEvents();
-  }, [auth]);
+  }, []);
 
   // 일정 전체 조회
   const fetchEvents = async () => {
+    const data = await getCalendarEvents();
 
-    const { data } = await axios.get("http://localhost/admin/calendar", {
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`,
-      }
-    });
-
-    const converted = data.events.map(e => ({
+    const converted = data.events.map((e) => ({
       id: e.calendarNo,
       title: e.title,
       start: e.start,
       end: e.end,
       categoryNo: e.categoryNo,
-      className: eventColorClass(e.categoryNo)
+      className: eventColorClass(e.categoryNo),
     }));
 
     setEvents(converted);
   };
 
 
+
   // 일정 등록
   const handleSubmitEvent = (form) => {
-
     const newEvent = {
       title: form.title,
       start: form.start,
       end: form.end,
       categoryNo: form.categoryNo,
-      allDay: true
+      allDay: true,
     };
 
-    axios.post("http://localhost/admin/calendar", newEvent, {
-      headers: { Authorization: `Bearer ${auth.accessToken}` },
-    }).then((res) => {
+    createCalendarEvent(newEvent)
+      .then((res) => {
+        const createdEvent = {
+          id: res.calendarNo,
+          ...newEvent,
+          className: eventColorClass(newEvent.categoryNo),
+        };
 
-      const createdEvent = {
-        id: res.data.calendarNo,
-        ...newEvent
-      };
-
-      calendarRef.current.getApi().addEvent(createdEvent);
-
-      setOpenModal(false);
-
-    }).catch(() => {
-      alert("등록 실패");
-    });
+        calendarRef.current.getApi().addEvent(createdEvent);
+        setOpenModal(false);
+      })
+      .catch(() => {
+        alert("등록 실패");
+      });
   };
 
 
+
   // 일정 클릭
-const handleEventClick = (info) => {
-  const event = info.event;
+  const handleEventClick = (info) => {
+    const event = info.event;
 
-  setSelectedEvent({
-    calendarNo: event.id,
-    title: event.title,
-    start: event.startStr,
-    end: event.endStr,
-    categoryNo: event.extendedProps.categoryNo,
-  });
+    setSelectedEvent({
+      calendarNo: event.id,
+      title: event.title,
+      start: event.startStr,
+      end: event.endStr,
+      categoryNo: event.extendedProps.categoryNo,
+    });
 
-  setOpenEditModal(true);
-};
+    setOpenEditModal(true);
+  };
 
 
 
   // 일정 수정
   const handleUpdateEvent = async (form) => {
-
     const updated = {
       calendarNo: selectedEvent.calendarNo,
       title: form.title,
       start: form.start,
       end: form.end,
       categoryNo: form.categoryNo,
-      allDay: true
+      allDay: true,
     };
 
-    await axios.put(
-      `http://localhost/admin/calendar/${selectedEvent.calendarNo}`,
-      updated,
-      { headers: { Authorization: `Bearer ${auth.accessToken}` } }
-    );
+    await updateCalendarEvent(selectedEvent.calendarNo, updated);
 
     const calendarApi = calendarRef.current.getApi();
     const cur = calendarApi.getEventById(selectedEvent.calendarNo);
@@ -119,18 +112,14 @@ const handleEventClick = (info) => {
     cur.setExtendedProp("categoryNo", updated.categoryNo);
     cur.setProp("className", eventColorClass(updated.categoryNo));
 
-
     setOpenEditModal(false);
   };
 
 
+
   // 일정 삭제
   const handleDeleteEvent = async () => {
-
-    await axios.delete(
-      `http://localhost/admin/calendar/${selectedEvent.calendarNo}`,
-      { headers: { Authorization: `Bearer ${auth.accessToken}` } }
-    );
+    await deleteCalendarEvent(selectedEvent.calendarNo);
 
     const calendarApi = calendarRef.current.getApi();
     const event = calendarApi.getEventById(selectedEvent.calendarNo);
@@ -138,6 +127,7 @@ const handleEventClick = (info) => {
 
     setOpenEditModal(false);
   };
+
 
   // event색상 지정
   const eventColorClass = (cat) => {
