@@ -59,7 +59,11 @@ const useDoughnutChart = (onShowToast) => {
         getUsersAllBoardsCount()
             .then((result) => {
                 //alert(JSON.stringify(result.data, null, 2)); // 응답 구조 확인
+<<<<<<< HEAD
                 const stats = result.data.data;
+=======
+                const stats = result.data;
+>>>>>>> ed7635d (.)
                 setChartData(convertStatsToChartData(stats));
             })
             .catch((error) => {

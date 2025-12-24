@@ -8,7 +8,11 @@ const CampaignActions = ({
     auth,
     handleBack,
     handleLikeToggle,
+<<<<<<< HEAD
     isLiked,
+=======
+    isLiked,            // [D: 20251129] 좋아요 상태 직접 전달되도록 추가
+>>>>>>> ed7635d (.)
 }) => (
     <ActionButtons>
         <BackButton onClick={handleBack}>
@@ -16,6 +20,7 @@ const CampaignActions = ({
             목록보기
         </BackButton>
 
+<<<<<<< HEAD
         {auth.isAuthenticated && campaign && (
             <LikeButton
                 $liked={!!isLiked}
@@ -28,6 +33,42 @@ const CampaignActions = ({
                 <i className={isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
                 좋아요
             </LikeButton>
+=======
+        {auth.isAuthenticated && (
+            <>
+                {/* ------------------------------------------------------------
+                    [Before] campaign.isLiked 기반으로 직접 접근하던 기존 코드
+                --------------------------------------------------------------
+                <LikeButton
+                    $liked={campaign.isLiked}
+                    onClick={(e) =>
+                        handleLikeToggle(e, campaign.campaignNo, campaign.isLiked)
+                    }
+                    disabled={!auth.isAuthenticated}
+                    className="detail-like-btn"
+                >
+                    <i className={campaign.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
+                    좋아요
+                </LikeButton>
+                -------------------------------------------------------------- */}
+
+                {/* ------------------------------------------------------------
+                    [D: 20251129]
+                    좋아요 상태를 store 기반으로 일관성 있게 관리하기 위한 변경
+                -------------------------------------------------------------- */}
+                <LikeButton
+                    $liked={isLiked}
+                    onClick={(e) =>
+                        handleLikeToggle(e, campaign.campaignNo, isLiked)
+                    }
+                    disabled={!auth.isAuthenticated}
+                    className="detail-like-btn"
+                >
+                    <i className={isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
+                    좋아요
+                </LikeButton>
+            </>
+>>>>>>> ed7635d (.)
         )}
     </ActionButtons>
 );

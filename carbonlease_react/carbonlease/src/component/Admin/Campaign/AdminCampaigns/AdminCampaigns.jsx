@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom';
+=======
+import SearchFilterBox from '../../Util/StatusFilter';
+import { useNavigate } from 'react-router-dom';
+import Loading from '../../../Common/Loading/Loading';
+>>>>>>> ed7635d (.)
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
 import {
     CreateButton,
     PageHeader,
 } from '../../../Common/DataTable/DataTable.styled';
+<<<<<<< HEAD
 import Loading from '../../../Common/Loading/Loading';
 import Pagination from '../../../Common/Pagination/Pagination';
 import Toast from '../../../Common/Toast/Toast';
 import SearchFilterBox from '../../Util/StatusFilter';
+=======
+import Pagination from '../../../Common/Pagination/Pagination';
+import Toast from '../../../Common/Toast/Toast';
+>>>>>>> ed7635d (.)
 import AdminCampaignList from './components/AdminCampaignList';
 import useAdminCampaign from './useAdminCampaign';
 
@@ -113,7 +124,11 @@ const AdminCampaigns = () => {
         setSelectedId(null);
     };
 
+<<<<<<< HEAD
     // 삭제 핸들러 (모달 오픈)
+=======
+    // 삭제 핸들러 (모달 오픈)    
+>>>>>>> ed7635d (.)
     const handleDelete = (id) => {
         setSelectedId(id);
         setShowDeleteConfirm(true);
@@ -137,8 +152,12 @@ const AdminCampaigns = () => {
     }
     return (
         <div>
+<<<<<<< HEAD
             <PageHeader
             style={{marginBottom:"20px"}}>
+=======
+            <PageHeader>
+>>>>>>> ed7635d (.)
                 <h1>캠페인 관리</h1>
                 <CreateButton onClick={() => navigate('/admin/campaigns/insert')}>
                     <i className="fas fa-plus"></i>
@@ -156,7 +175,11 @@ const AdminCampaigns = () => {
                 }}
                 onKeywordChange={(e) => setTempKeyword(e.target.value)}
                 onSearch={() => {
+<<<<<<< HEAD
                     setKeyword(tempKeyword);
+=======
+                    setKeyword(tempKeyword); // 검색 버튼 눌렀을 때만 실제 검색
+>>>>>>> ed7635d (.)
                     setCurrentPage(1);
                 }}
             />

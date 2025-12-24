@@ -33,7 +33,11 @@ const useInsertForm = (onShowToast) => {
 		getCategories()
 			.then((result) => {
 				//console.log('카테고리 API 응답:', result.data);
+<<<<<<< HEAD
 				const options = (result.data.data || []).map(c => ({ value: c.categoryNo, label: c.categoryName }));
+=======
+				const options = result.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+>>>>>>> ed7635d (.)
 				setCategoryOptions(options);
 			})
 			.catch(() => {

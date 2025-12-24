@@ -5,8 +5,13 @@ import {
     CategoryBadge,
     DeleteButton,
     EditButton,
+<<<<<<< HEAD
     RestoreButton,
     StatusBadge
+=======
+    StatusBadge,
+    RestoreButton
+>>>>>>> ed7635d (.)
 } from '../../../../Common/DataTable/DataTable.styled';
 
 const AdminCampaignList = ({ campaigns, onEdit, onHide, onDelete, onRestore }) => {
@@ -69,7 +74,11 @@ const AdminCampaignList = ({ campaigns, onEdit, onHide, onDelete, onRestore }) =
 
     return (
 
+<<<<<<< HEAD
 		<DataTable
+=======
+		<DataTable 
+>>>>>>> ed7635d (.)
 			title="캠페인 목록"
 			columns={columns}
 			data={campaigns}

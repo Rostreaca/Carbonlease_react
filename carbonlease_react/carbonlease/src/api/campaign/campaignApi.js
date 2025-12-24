@@ -1,7 +1,11 @@
 import axios from 'axios';
 
 // Spring Boot API Base URL
+<<<<<<< HEAD
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+=======
+const API_BASE_URL = window.ENV.API_URL;
+>>>>>>> ed7635d (.)
 
 // Axios 인스턴스 생성
 const campaignApi = axios.create({
@@ -23,17 +27,28 @@ campaignApi.interceptors.request.use(
 );
 
 // 캠페인 리스트 조회
+<<<<<<< HEAD
 export const findAll = (page, memberNo) => {
     return campaignApi.get('', {
         params: { pageNo: page, memberNo }
+=======
+export const findAll = (page) => {
+    return campaignApi.get('', {
+        params: { pageNo : page }
+>>>>>>> ed7635d (.)
     });
 };
 
 // 캠페인 상세 조회
+<<<<<<< HEAD
 export const findDetailByNo = (id, memberNo) => {
     return campaignApi.get(`/detail/${id}`, {
         params: { memberNo }
     });
+=======
+export const findDetailByNo = (id) => {
+    return campaignApi.get(`/detail/${id}`);
+>>>>>>> ed7635d (.)
 };
 
 // 캠페인 좋아요 토글
