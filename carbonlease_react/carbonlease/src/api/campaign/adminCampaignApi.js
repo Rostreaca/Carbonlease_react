@@ -109,4 +109,3 @@ export const restoreById = (id) => {
 export const deleteById = (id) => {
     return adminCampaignApi.delete(`/${id}`);
 };
-

@@ -1,11 +1,7 @@
 import axios from 'axios';
 
 // Spring Boot API Base URL
-<<<<<<< HEAD
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-=======
-const API_BASE_URL = window.ENV.API_URL;
->>>>>>> ed7635d (.)
 
 // Axios 인스턴스 생성
 const eventMainApi = axios.create({

@@ -1,15 +1,8 @@
     
 import { useEffect, useState } from 'react';
-<<<<<<< HEAD
 import { deleteById, findAll, hideById, restoreById } from '../../../../api/campaign/adminCampaignApi';
 
 
-=======
-import { hideById, restoreById, deleteById, findAll } from '../../../../api/campaign/adminCampaignApi';
-
-
-// 내부에서 currentPage, status, keyword를 useState로 관리
->>>>>>> ed7635d (.)
 const useAdminCampaign = (onShowToast) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [status, setStatus] = useState("");
@@ -24,10 +17,6 @@ const useAdminCampaign = (onShowToast) => {
 
     useEffect(() => {
         getCampaigns(currentPage, status, keyword);
-<<<<<<< HEAD
-=======
-        // eslint-disable-next-line
->>>>>>> ed7635d (.)
     }, [currentPage, status, keyword]);
 
 
@@ -37,11 +26,7 @@ const useAdminCampaign = (onShowToast) => {
         findAll(page, statusParam, keywordParam)
             .then((result) => {
                 if (result && result.status === 200) {
-<<<<<<< HEAD
                     const { campaigns, pageInfo } = result.data.data;
-=======
-                    const { campaigns, pageInfo } = result.data;
->>>>>>> ed7635d (.)
                     setCampaigns([...campaigns]);
                     setPageInfo({
                         startPage: pageInfo.startPage,
