@@ -14,6 +14,7 @@ import {
 } from "./CalendarModal.styled";
 import axios from "axios";
 import { AuthContext } from '../../../Context/AuthContext';
+import { getCategories } from "../../../../api/notice/adminNoticeCalendar";
 
 
 const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) => {
@@ -28,14 +29,13 @@ const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) =
   const [categories, setCategories] = useState([]);
 
   useEffect(()=> {
-    if (!auth?.accessToken) return;
+    fetchCategory();
+  })
 
-    axios.get("http://localhost:8080/admin/calendar/category", {
-    headers:{ Authorization:`Bearer ${auth.accessToken}` }
-  }).then(res => {
-    setCategories(res.data?.categories ?? []);
-  });
-  }, [auth])
+  const fetchCategory = async () => {
+    const data = await getCategories();
+    setCategories(data?.categories ?? []);
+  }
 
   useEffect(() => {
     if (isEdit && event) {
