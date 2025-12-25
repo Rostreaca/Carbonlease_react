@@ -1,19 +1,19 @@
 // CalendarModal.jsx
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { getCategories } from "../../../../api/notice/adminNoticeCalendar";
+import { AuthContext } from '../../../Context/AuthContext';
 import {
-  ModalOverlay,
-  ModalWrapper,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
+  Button,
   CloseButton,
   Input,
   Label,
-  Button
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  ModalWrapper
 } from "./CalendarModal.styled";
-import axios from "axios";
-import { AuthContext } from '../../../Context/AuthContext';
 
 
 const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) => {
@@ -28,14 +28,13 @@ const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) =
   const [categories, setCategories] = useState([]);
 
   useEffect(()=> {
-    if (!auth?.accessToken) return;
+    fetchCategory();
+  })
 
-    axios.get("http://localhost:80/admin/calendar/category", {
-    headers:{ Authorization:`Bearer ${auth.accessToken}` }
-  }).then(res => {
-    setCategories(res.data?.categories ?? []);
-  });
-  }, [auth])
+  const fetchCategory = async () => {
+    const data = await getCategories();
+    setCategories(data?.categories ?? []);
+  }
 
   useEffect(() => {
     if (isEdit && event) {

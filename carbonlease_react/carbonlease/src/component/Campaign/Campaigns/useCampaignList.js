@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { findAll, toggleLike } from '../../../api/campaign/campaignApi';
-import { useLikeToggle } from '../../../hooks/useLikeToggle';
+import { useLikeToggle } from '../../../hooks/useLikeToggle.js';
 import { useLikeStore } from '../../../store/likeStore.jsx';
 
 const useCampaignList = (onShowToast, auth) => {

@@ -1,14 +1,14 @@
+import axios from 'axios';
 import { useContext, useState } from 'react';
+import { Button, FormLabel } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../../api/api.js';
+import Alert from '../../Common/Alert/Alert';
+import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
+import { FieldGroup, FieldInput } from '../../Common/Form/FormField.styled';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
 import { AuthContext } from '../../Context/AuthContext';
-import { Button, FormLabel } from 'react-bootstrap';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Alert from '../../Common/Alert/Alert';
-import { FieldGroup, FieldInput } from '../../Common/Form/FormField.styled';
-import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
-
 
 const Login = () => {
 
@@ -50,7 +50,7 @@ const Login = () => {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost:80/auth/login", {
+        axios.post(`${API_BASE_URL}/auth/login`, {
             memberId, memberPwd
         }).then(result => {
             //console.log(result);

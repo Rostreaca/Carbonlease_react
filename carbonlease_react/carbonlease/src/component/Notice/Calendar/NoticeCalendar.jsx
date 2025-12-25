@@ -1,10 +1,12 @@
-import { StyleWrapper } from './NoticeCalendar.styled';
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import axios from 'axios';
-import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from '@fullcalendar/react';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { API_BASE_URL } from '../../../api/api.js';
+import { StyleWrapper } from './NoticeCalendar.styled';
+
 
 const NoticeCalendar = () => {
     const [events, setEvents] = useState([]);
@@ -34,7 +36,7 @@ const NoticeCalendar = () => {
     const fetchCategories = async () => {
       const { data } 
       = await axios
-      .get("http://localhost:80/notices/calendar/categories");
+      .get(`${API_BASE_URL}/notices/calendar/categories`);
       setCategories(data.categories);
     };
 
@@ -42,7 +44,7 @@ const NoticeCalendar = () => {
     const fetchEvents = async () => {
         const { data } 
         = await axios
-        .get('http://localhost:80/notices/calendar')
+        .get(`${API_BASE_URL}/notices/calendar`)
 
         const converted = data.events.map(e => ({
           id: e.calendarNo,

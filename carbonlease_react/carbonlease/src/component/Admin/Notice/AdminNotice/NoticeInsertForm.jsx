@@ -1,3 +1,7 @@
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../../../api/api.js';
 import {
     CancelButton,
     FormButtonGroup,
@@ -9,10 +13,7 @@ import {
     SubmitButton
 } from '../../../Common/DataTable/DataTable.styled';
 import FormField from '../../../Common/Form/FormField';
-import { AuthContext } from '../../../Context/AuthContext'
-import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../Context/AuthContext';
 
 const NoticeInsertForm = () => {
 
@@ -102,7 +103,7 @@ const NoticeInsertForm = () => {
 
 
 
-        axios.post("http://localhost:80/admin/notices", notice, {
+        axios.post(`${API_BASE_URL}/admin/notices`, notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",

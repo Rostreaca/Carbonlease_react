@@ -9,11 +9,12 @@ import {
     SubmitButton
 } from '../../../Common/DataTable/DataTable.styled';
 import FormField from '../../../Common/Form/FormField';
-import { AuthContext } from '../../../Context/AuthContext'
+import { AuthContext } from '../../../Context/AuthContext';
 
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_BASE_URL } from '../../../../api/api.js';
 
 const NoticeUpdateForm = () => {
 
@@ -68,7 +69,7 @@ const NoticeUpdateForm = () => {
                 // console.log('너안감?');
                 // console.log(auth.accessToken); 이제 감
                 axios
-                    .get(`http://www.localhost:80/admin/notices/detail/${id}`, {
+                    .get(`${API_BASE_URL}/admin/notices/detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${auth.accessToken}`
                         },
@@ -133,7 +134,7 @@ const NoticeUpdateForm = () => {
 
 
 
-        axios.put(`http://localhost:80/admin/notices/update/${id}`, notice, {
+        axios.put(`${API_BASE_URL}/admin/notices/update/${id}`, notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",

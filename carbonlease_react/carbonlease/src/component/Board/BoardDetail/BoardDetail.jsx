@@ -1,18 +1,16 @@
-import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Form, Modal } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
+import { API_BASE_URL } from '../../../api/api.js';
+import { increaseViewCountAPI } from "../../../api/board/boardAPI.js";
+import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Form, Modal } from 'react-bootstrap';
-import BoardReply from './BoardReply.jsx';
-import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
 import ReplyPagination from '../../Common/UI/ReplyPagination.jsx';
-import { BackButton, FormArea, StyledButton } from './BoardDetailStyles.js';
 import { AuthContext } from "../../Context/AuthContext";
-import { useContext } from "react";
-import { useRef } from "react";
-import { increaseViewCountAPI } from "../../../api/board/boardAPI.js";
+import { BackButton, FormArea, StyledButton } from './BoardDetailStyles.js';
+import BoardReply from './BoardReply.jsx';
 
 const BoardDetail = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -79,7 +77,7 @@ const BoardDetail = () => {
 
   const fetchReplies = async () => {
     axios
-            .get(`http://localhost:80/boards/detail/${id}`)
+            .get(`${API_BASE_URL}/boards/detail/${id}`)
             .then((result) => {
                 const response = result.data;
                 console.log("상세보기 데이터:", response);
@@ -134,7 +132,7 @@ const BoardDetail = () => {
       };
 
       await axios
-            .post(`http://localhost:80/boards/detail/replyInsert`, ReplyInsertVO, {
+            .post(`${API_BASE_URL}/boards/detail/replyInsert`, ReplyInsertVO, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
@@ -169,7 +167,7 @@ const BoardDetail = () => {
             };
 
             await axios
-                  .post(`http://localhost:80/boards/delete`, deleteVo, {
+                  .post(`${API_BASE_URL}/boards/delete`, deleteVo, {
                     headers: {
                       Authorization : `Bearer ${accessToken}`,
                       "Content-Type": "application/json",
@@ -196,7 +194,7 @@ const BoardDetail = () => {
             };
 
             await axios
-                  .post(`http://localhost:80/boards/delete`, deleteVo, {
+                  .post(`${API_BASE_URL}/boards/delete`, deleteVo, {
                     headers: {
                       Authorization : `Bearer ${accessToken}`,
                       "Content-Type": "application/json",
@@ -236,7 +234,7 @@ const BoardDetail = () => {
                 memberId: auth.memberId, // 현재 로그인한 사용자 memberNo 전달 (선택)
             };
             
-            await axios.post(`http://localhost:80/boards/detail/replyUpdate`, updateVo, {
+            await axios.post(`${API_BASE_URL}/boards/detail/replyUpdate`, updateVo, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "application/json",
@@ -262,7 +260,7 @@ const BoardDetail = () => {
           console.log("삭제할 댓글 번호:", replyNo);
             try {
                 // 서버로 삭제 요청 보내기 (POST 요청으로 replyNo 전달)
-                await axios.delete(`http://localhost:80/boards/detail/replyDelete/${replyNo}`,{ // 서버에서 replyNo로 받도록 수정
+                await axios.delete(`${API_BASE_URL}/boards/detail/replyDelete/${replyNo}`,{ // 서버에서 replyNo로 받도록 수정
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         "Content-Type": "application/json",

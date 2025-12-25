@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-// Spring Boot API Base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { API_BASE_URL } from '../api.js';
 
 // Axios 인스턴스 생성
 const campaignApi = axios.create({

@@ -2,12 +2,12 @@ import axios from 'axios';
 import { API_BASE_URL } from '../api.js';
 
 // Axios 인스턴스 생성
-const eventMainApi = axios.create({
-    baseURL: `${API_BASE_URL}/api/events`
+const noticeApi = axios.create({
+    baseURL: `${API_BASE_URL}/notices`,
 });
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입
-eventMainApi.interceptors.request.use(
+noticeApi.interceptors.request.use(
     (config) => {
         const accessToken = localStorage.getItem('accessToken');
         console.log('accessToken:', accessToken); // 토큰 값 확인
@@ -20,12 +20,22 @@ eventMainApi.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// 메인 이벤트 정보 조회 (누구나 가능)
-export const fetchMainEvent = () => {
-    return eventMainApi.get(`/main`);
+// 목록조회
+export const getNotices = async (pageNo) => {
+    const res = await noticeApi.get("",{
+        params: { pageNo },
+    });
+    return res.data;
+}
+
+// 상세조회
+export const getNoticeDetail = async (noticeNo) => {
+  const res = await noticeApi.get(`detail/${noticeNo}`);
+  return res.data;
 };
 
-// 이벤트 참여
-export const participateEvent = (eventId) => {
-    return eventMainApi.post(`/${eventId}/participate`);
-};
+// TopBar
+export const getNoticeTop = async () => {
+    const res = await noticeApi.get("fix");
+    return res.data;
+}

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useContext, useEffect } from "react"
+import { useContext, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { AuthContext } from "../../Context/AuthContext";
-import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
+import { API_BASE_URL } from "../../../api/api.js";
 import PageContent from "../../Common/PageContent/PageContent";
+import { AuthContext } from "../../Context/AuthContext";
 
 const KakaoCallback = () => {
 
@@ -15,9 +15,9 @@ const code = searchParams.get("code");
 const navi = useNavigate();
 
 useEffect(() => {
-    axios.post(`http://localhost:80/auth/kakaoLogin?code=${code}`
+    axios.post(`${API_BASE_URL}/auth/kakaoLogin?code=${code}`
     ).then(result => {
-        if(result.data.accessToken === undefined){       
+        if(result.data.accessToken === undefined){
         setKakaoInfo({
             memberId : result.data.memberId,
             memberPwd : result.data.memberPwd

@@ -1,12 +1,12 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { CategoryBadge, SignOutBadge } from "../../Campaign/CampaignDetail/components/CampaignDetail.styled.js";
+import { Button, Dropdown } from "react-bootstrap";
+import { API_BASE_URL } from "../../../api/api.js";
+import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import DataTable from "../../Common/DataTable/DataTable";
 import { DeleteButton, EditButton, StatusBadge } from "../../Common/DataTable/DataTable.styled";
-import axios from "axios";
-import { AuthContext } from "../../Context/AuthContext";
-import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import Toast from "../../Common/Toast/Toast";
-import { Button, Dropdown } from "react-bootstrap";
+import { AuthContext } from "../../Context/AuthContext";
 
 const AdminUsers = () => {
 
@@ -38,7 +38,7 @@ const AdminUsers = () => {
 
         // console.log(auth);
 
-        axios.get(`http://localhost:80/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
+        axios.get(`${API_BASE_URL}/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
             headers : {
                 Authorization :  `Bearer ${auth.accessToken}`
             }
@@ -56,7 +56,7 @@ const AdminUsers = () => {
 
     const handleRestore = (memberNo) => {
 
-        axios.put(`http://localhost:80/admin/members/restore?memberNo=${memberNo}`,{},{
+        axios.put(`${API_BASE_URL}/admin/members/restore?memberNo=${memberNo}`,{},{
             headers : {
                  Authorization :  `Bearer ${auth.accessToken}`
             }
@@ -72,7 +72,7 @@ const AdminUsers = () => {
 
     const handleDelete = (memberNo) => {
 
-        axios.delete(`http://localhost:80/admin/members?memberNo=${memberNo}`,{
+        axios.delete(`${API_BASE_URL}/admin/members?memberNo=${memberNo}`,{
             headers : {
                 Authorization : `Bearer ${auth.accessToken}`
             }

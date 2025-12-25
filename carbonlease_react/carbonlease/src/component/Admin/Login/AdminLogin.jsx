@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useState } from 'react';
 import { FormLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../../api/api.js';
 import Alert from '../../Common/Alert/Alert';
 import { AuthContext } from '../../Context/AuthContext';
 import {
@@ -47,7 +48,7 @@ const AdminLogin = () => {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost:80/auth/adminLogin", {
+        axios.post(`${API_BASE_URL}/auth/adminLogin`, {
     memberId, memberPwd
 }).then(result => {
             //console.log(result);

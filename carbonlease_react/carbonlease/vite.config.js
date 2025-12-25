@@ -8,10 +8,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/ws-stomp': {
-        target: 'http://localhost:80',
-        ws: true,
-        changeOrigin: true,
+      '/api': 'http://localhost:8080',
+      '/ws': {
+        target: 'ws://localhost:8080',
+        ws: true
       }
     }
   }

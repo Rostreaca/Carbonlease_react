@@ -1,15 +1,16 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { Button, FormLabel } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../../api/api.js";
+import Alert from "../../Common/Alert/Alert";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
 import { FieldGroup, FieldInput, FieldLabel } from "../../Common/Form/FormField.styled";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
 import PageContent from "../../Common/PageContent/PageContent";
+import { AuthContext } from "../../Context/AuthContext";
 import CheckEmailDuplicate from "../CheckDuplicate/CheckEmailDuplicate";
 import CheckNickNameDuplicate from "../CheckDuplicate/CheckNickNameDuplicate";
-import Alert from "../../Common/Alert/Alert";
-import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { AuthContext } from "../../Context/AuthContext";
 
 
 const KakaoEnrollForm = () => {
@@ -79,7 +80,7 @@ const KakaoEnrollForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.post("http://localhost:80/members", {
+                axios.post(`${API_BASE_URL}/members`, {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
                     setSignUpAlertVariant('info');
@@ -100,7 +101,7 @@ const KakaoEnrollForm = () => {
 
     const successSignUp = () => {
 
-        axios.post("http://localhost:80/auth/login", {
+        axios.post(`${API_BASE_URL}/auth/login`, {
             memberId, memberPwd
         }).then(result => {
             const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;

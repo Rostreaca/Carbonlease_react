@@ -1,16 +1,17 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { Button, FormLabel } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../../api/api.js";
+import Alert from "../../Common/Alert/Alert";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
+import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import { FieldGroup, FieldInput, FieldLabel } from "../../Common/Form/FormField.styled";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
 import PageContent from "../../Common/PageContent/PageContent";
-import Alert from "../../Common/Alert/Alert";
-import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
-import axios from "axios";
-import CheckNickNameDuplicate from "../CheckDuplicate/CheckNickNameDuplicate";
 import CheckEmailDuplicate from "../CheckDuplicate/CheckEmailDuplicate";
-import { useNavigate } from "react-router-dom";
-import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
+import CheckNickNameDuplicate from "../CheckDuplicate/CheckNickNameDuplicate";
 
 const MemberUpdateForm = () => {
 
@@ -100,7 +101,7 @@ const MemberUpdateForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.put("http://localhost:80/members", {
+                axios.put(`${API_BASE_URL}/members`, {
                     memberId: auth.memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {
@@ -126,7 +127,7 @@ const MemberUpdateForm = () => {
     const kakaoUpdateMember = () => {
         {
             checkNickName && checkEmail ?
-                axios.put("http://localhost:80/members/kakao", {
+                axios.put(`${API_BASE_URL}/members/kakao`, {
                     memberId: auth.memberId , nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {
