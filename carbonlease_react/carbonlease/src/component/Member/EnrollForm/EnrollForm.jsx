@@ -1,18 +1,16 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Button, FormLabel } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../../api/api.js';
+import Alert from '../../Common/Alert/Alert';
 import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
-import FormField from '../../Common/Form/FormField';
 import { FieldGroup, FieldInput, FieldLabel } from '../../Common/Form/FormField.styled';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import Alert from '../../Common/Alert/Alert';
-import { useNavigate } from 'react-router-dom';
+import CheckEmailDuplicate from '../CheckDuplicate/CheckEmailDuplicate';
 import CheckIdDuplicate from '../CheckDuplicate/CheckIdDuplicate';
 import CheckNickNameDuplicate from '../CheckDuplicate/CheckNickNameDuplicate';
-import CheckEmailDuplicate from '../CheckDuplicate/CheckEmailDuplicate';
-
-
 
 const EnrollForm = () => {
 
@@ -117,7 +115,7 @@ const EnrollForm = () => {
         e.preventDefault();
         {
             checkId && checkNickName && checkEmail ?
-                axios.post("http://localhost:80/members", {
+                axios.post(`${API_BASE_URL}/members`, {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
                     setSignUpAlertVariant('info');

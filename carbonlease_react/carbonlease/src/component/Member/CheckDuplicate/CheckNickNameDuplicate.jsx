@@ -1,7 +1,8 @@
 import axios from "axios";
-import Alert from "../../Common/Alert/Alert";
-import { Button } from "react-bootstrap";
 import { useContext, useState } from "react";
+import { Button } from "react-bootstrap";
+import { API_BASE_URL } from "../../../api/api.js";
+import Alert from "../../Common/Alert/Alert";
 import { AuthContext } from "../../Context/AuthContext";
 
 const CheckNickNameDuplicate = (props) => {
@@ -28,7 +29,7 @@ const CheckNickNameDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post("http://localhost:80/members/checkNickName",
+        axios.post(`${API_BASE_URL}/members/checkNickName`,
             {
                 nickName: props.nickName
             }).then(result => {

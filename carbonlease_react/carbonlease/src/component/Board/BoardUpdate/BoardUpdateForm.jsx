@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
-import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx"
-import PageContent from "../../Common/PageContent/PageContent.jsx"
-import { BoardForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./BoardUpdateForm.styles.js";
-import RegionSelect from '../../ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
-import CategorySelect from "../../ActivityBoard/ActivityInsertForm/components/CategorySelect.jsx";
-import TextInputSection from "../../ActivityBoard/ActivityInsertForm/components/TextInputSection.jsx";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import CategorySelect from "../../ActivityBoard/ActivityInsertForm/components/CategorySelect.jsx";
+import RegionSelect from '../../ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
+import TextInputSection from "../../ActivityBoard/ActivityInsertForm/components/TextInputSection.jsx";
+import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
+import PageContent from "../../Common/PageContent/PageContent.jsx";
+import { BoardForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./BoardUpdateForm.styles.js";
 
 const BoardInsertForm = () => {
   console.log( " 수정페이지  ");
@@ -33,7 +32,7 @@ const BoardInsertForm = () => {
 
     const fetchReplies = async () => {
     axios
-            .get(`http://localhost:80/boards/detail/${id}`)
+            .get(`${API_BASE_URL}/boards/detail/${id}`)
             .then((result) => {
                 const response = result.data;
                 console.log("상세보기 데이터:", response);
@@ -85,7 +84,7 @@ const BoardInsertForm = () => {
   const regBoardcall = async (boardVO) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`http://localhost:80/boards/boardUpdate`, boardVO, {
+            .post(`${API_BASE_URL}/boards/boardUpdate`, boardVO, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",

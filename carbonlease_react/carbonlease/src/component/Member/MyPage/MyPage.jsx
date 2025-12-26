@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../../api/api.js";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
 import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import DataTable from "../../Common/DataTable/DataTable";
@@ -10,6 +11,7 @@ import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
 import PageContent from "../../Common/PageContent/PageContent";
 import Toast from "../../Common/Toast/Toast";
 import { AuthContext } from "../../Context/AuthContext";
+
 
 const MyPage = () => {
 
@@ -35,7 +37,7 @@ const MyPage = () => {
         {
             auth.memberId !== null ?
                 (
-                    axios.get(`http://localhost:80/members/boards`,
+                    axios.get(`${API_BASE_URL}/members/boards`,
                         {
                             headers: {
                                 Authorization: `Bearer ${auth.accessToken}`
@@ -48,7 +50,7 @@ const MyPage = () => {
                         }).catch(err => {
                             console.error(err.response.data['error-message']);
                         }),
-                    axios.get("http://localhost:80/members/activityBoards",
+                    axios.get(`${API_BASE_URL}/members/activityBoards`,
                         {
                             headers: {
                                 Authorization: `Bearer ${auth.accessToken}`
@@ -109,7 +111,7 @@ const MyPage = () => {
 
     const kakaoSignOut = () => {
 
-       axios.delete("http://localhost:80/members/kakao", {
+       axios.delete(`${API_BASE_URL}/members/kakao`, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
             }
@@ -129,7 +131,7 @@ const MyPage = () => {
 
     const signOut = () => {
 
-        axios.delete("http://localhost:80/members", {
+        axios.delete(`${API_BASE_URL}/members`, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
             },

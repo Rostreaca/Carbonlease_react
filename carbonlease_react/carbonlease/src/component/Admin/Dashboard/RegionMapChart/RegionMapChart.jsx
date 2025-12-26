@@ -9,20 +9,23 @@ const RegionMapChart = ({ onShowToast }) => {
     const [regionStats, setRegionStats] = useState([]);
     const [loading, setLoading] = useState(true);
 
+
     useEffect(() => {
-        getUsersRegionActivityStats()
-            .then((result) => {
+        const fetchRegionStats = async () => {
+            setLoading(true);
+            try {
+                const result = await getUsersRegionActivityStats();
                 setRegionStats(result.data.data);
-            })
-            .catch((error) => {
+            } catch (error) {
                 onShowToast(
                     error?.response?.data?.["error-message"] || '지역별 데이터 조회 실패',
                     'error'
                 );
-            })
-            .finally(() => {
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+        fetchRegionStats();
     }, [onShowToast]);
 
     if (loading) return <div>지도 데이터를 불러오는 중...</div>;

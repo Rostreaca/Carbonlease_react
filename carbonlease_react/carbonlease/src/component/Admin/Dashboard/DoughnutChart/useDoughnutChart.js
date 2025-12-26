@@ -54,25 +54,26 @@ const useDoughnutChart = (onShowToast) => {
     const [chartData, setChartData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const getChartData = () => {
+
+    // ===== 도넛 차트 데이터 불러오기 =====
+    const getChartData = async () => {
         setLoading(true);
-        getUsersAllBoardsCount()
-            .then((result) => {
-                //alert(JSON.stringify(result.data, null, 2)); // 응답 구조 확인
-                const stats = result.data.data;
-                setChartData(convertStatsToChartData(stats));
-            })
-            .catch((error) => {
-                onShowToast(
-                    error?.response?.data?.["error-message"] || '도넛 차트 데이터 조회 실패',
-                    'error'
-                );
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        try {
+            const result = await getUsersAllBoardsCount();
+            const stats = result.data.data;
+            setChartData(convertStatsToChartData(stats));
+        } catch (error) {
+            onShowToast(
+                error?.response?.data?.["error-message"] || '도넛 차트 데이터 조회 실패',
+                'error'
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
+
+    // ===== 마운트 시 데이터 로드 =====
     useEffect(() => {
         getChartData();
     }, []);

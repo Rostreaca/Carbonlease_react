@@ -1,5 +1,5 @@
+import { API_BASE_URL } from "../../../../api/api.js";
 import { BoardNo, BoardsRow, Content, ETC, ListWrapper, TextInfo, Thumbnail, Title } from "../ActivityBoards.styles";
-
 const BoardsList = ({ boards, onClickItem }) => {
 
   return (
@@ -18,7 +18,7 @@ const BoardsList = ({ boards, onClickItem }) => {
                 
             <Thumbnail>
               {item.thumbnailPath ? (
-                <img src={`http://localhost:80/${item.thumbnailPath}`} alt="thumbnail" />
+                <img src={`${API_BASE_URL}/${item.thumbnailPath}`} alt="thumbnail" />
               ) : (
                 <img src="/images/No_Image.png" alt="no image" />
               )}

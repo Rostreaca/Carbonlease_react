@@ -10,7 +10,7 @@ import {
     SkeletonTitle
 } from './CampaignSkeleton.styled';
 
-const CampaignSkeleton = ({ viewCount = 6 }) => {
+const CampaignSkeleton = ({ viewCount = 8 }) => {
     return (
         <CampaignGrid>
             {Array.from({ length: viewCount }).map((_, idx) => (

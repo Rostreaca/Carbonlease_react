@@ -2,12 +2,12 @@ import axios from 'axios';
 import { API_BASE_URL } from '../api.js';
 
 // Axios 인스턴스 생성
-const eventMainApi = axios.create({
-    baseURL: `${API_BASE_URL}/api/events`
+const calendarApi = axios.create({
+    baseURL: `${API_BASE_URL}/notices/calendar`,
 });
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입
-eventMainApi.interceptors.request.use(
+calendarApi.interceptors.request.use(
     (config) => {
         const accessToken = localStorage.getItem('accessToken');
         console.log('accessToken:', accessToken); // 토큰 값 확인
@@ -20,12 +20,14 @@ eventMainApi.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// 메인 이벤트 정보 조회 (누구나 가능)
-export const fetchMainEvent = () => {
-    return eventMainApi.get(`/main`);
-};
+// 일정 카테고리 갖고오기
+export const getCategories = async () => {
+    const res = await calendarApi.get("categories");
+    return res.data;
+}
 
-// 이벤트 참여
-export const participateEvent = (eventId) => {
-    return eventMainApi.post(`/${eventId}/participate`);
-};
+// 일정 갖고오기
+export const getEvents = async () => {
+    const res = await calendarApi.get("");
+    return res.data;
+}

@@ -1,22 +1,25 @@
 import { useEffect, useState } from 'react';
 import { findDetailByNo, toggleLike } from '../../../api/campaign/campaignApi';
-import { useLikeToggle } from '../../../hooks/useLikeToggle';
+import { useLikeToggle } from '../../../hooks/useLikeToggle.js';
 import { useLikeStore } from '../../../store/likeStore.jsx';
 
 const useCampaignDetail = (id, onShowToast, auth) => {
+    // ===== 전역 좋아요 상태 =====
     const { likeState, updateLike } = useLikeStore();
+
+    // ===== 로컬 상태 =====
     const [campaign, setCampaign] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    // campaign 값 변경 시 로그
+    // ===== campaign 값 변경 시 로그 =====
     useEffect(() => {
         if (campaign) {
             console.log('상세 campaign:', campaign);
         }
     }, [campaign]);
 
-    // 캠페인 ID 변경 시 상세 정보 다시 불러오기
+    // ===== 캠페인 ID 변경 시 상세 정보 다시 불러오기 =====
     useEffect(() => {
         if (!id) {
             setError(true);
@@ -26,8 +29,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         fetchCampaignDetail(id);
     }, [id]);
     
-
-    // 캠페인 상세 정보 불러오기
+    // ===== 캠페인 상세 정보 불러오기 =====
     const fetchCampaignDetail = async (campaignNo) => {
         setLoading(true);
         setError(false);
@@ -48,8 +50,10 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         }
     };
 
+    // ===== 공통 좋아요 토글 =====
     const handleLikeToggle = useLikeToggle({ onShowToast, auth, updateLike, toggleLikeApi: toggleLike });
 
+    // ===== 반환 객체 =====
     return {
         campaign,
         loading,

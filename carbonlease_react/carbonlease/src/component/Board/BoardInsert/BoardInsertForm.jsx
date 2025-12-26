@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-import PageTitle from "../../Common/Layout/PageTitle/PageTitle"
-import PageContent from "../../Common/PageContent/PageContent"
-import { BoardForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./BoardInsertForm.styles";
-import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
-import CategorySelect from "../../../component/ActivityBoard/ActivityInsertForm/components/CategorySelect";
-import TextInputSection from "../../../component/ActivityBoard/ActivityInsertForm/components/TextInputSection";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../../api/api.js";
+import CategorySelect from "../../../component/ActivityBoard/ActivityInsertForm/components/CategorySelect";
+import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
+import TextInputSection from "../../../component/ActivityBoard/ActivityInsertForm/components/TextInputSection";
+import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
+import PageContent from "../../Common/PageContent/PageContent";
+import { BoardForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./BoardInsertForm.styles";
 
 const BoardInsertForm = () => {
   console.log( " 새글 등록  ");
@@ -59,7 +60,7 @@ const BoardInsertForm = () => {
   const regBoardcall = async (board) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`http://localhost:80/boards/boardInsert`, board, {
+            .post(`${API_BASE_URL}boards/boardInsert`, board, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",

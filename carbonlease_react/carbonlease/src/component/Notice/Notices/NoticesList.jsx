@@ -1,9 +1,10 @@
 import DataTable from '../../Common/DataTable/DataTable';
 import Pagination from '../../Common/Pagination/Pagination';
 
-import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../../api/api.js';
 
 function NoticesList() {
 
@@ -23,7 +24,7 @@ function NoticesList() {
 
     const getNotices = (page) => {
         axios
-            .get(`http://localhost:80/notices?pageNo=${page}`)
+            .get(`${API_BASE_URL}/notices?pageNo=${page}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseNotice = result.data.notices;

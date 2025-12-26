@@ -56,23 +56,25 @@ const useRegionLineChart = (onShowToast) => {
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
     
-    const getChartData = () => {
+
+    // ===== 지역별 커뮤니티 활동량 차트 데이터 불러오기 =====
+    const getChartData = async () => {
         setLoading(true);
-        getUsersRegionActivityStats()
-            .then((result) => {
-                setChartData(convertRegionStatsToChartData(result.data.data));
-            })
-            .catch((error) => {
-                onShowToast(
-                    error?.response?.data?.["error-message"] || '지역별 커뮤니티 활동량 차트 데이터 조회 실패',
-                    'error'
-                );
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        try {
+            const result = await getUsersRegionActivityStats();
+            setChartData(convertRegionStatsToChartData(result.data.data));
+        } catch (error) {
+            onShowToast(
+                error?.response?.data?.["error-message"] || '지역별 커뮤니티 활동량 차트 데이터 조회 실패',
+                'error'
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
+
+    // ===== 마운트 시 데이터 로드 =====
     useEffect(() => {
         getChartData();
     }, []);

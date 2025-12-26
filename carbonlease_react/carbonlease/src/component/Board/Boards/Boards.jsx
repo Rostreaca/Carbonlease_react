@@ -1,13 +1,13 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Button, Form, InputGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../../api/api.js';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import Pagination from '../../Common/Pagination/Pagination';
-import BoardItems from './components/BoardItems';
-import { useNavigate } from 'react-router-dom';
 import OutlineWriterButton from '../../Common/UI/Button/OutlineWriterButton';
-import { ButtonGroup, Dropdown, Form, InputGroup, Button } from 'react-bootstrap';
-import { BoardInsertForm } from '../../../api/board/boardAPI';
+import BoardItems from './components/BoardItems';
 
  const Boards = () => {
 
@@ -34,7 +34,7 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
 
     const getBoards = (page, query = '', type = 'TITLE') => {
         axios
-            .get(`http://localhost:80/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
+            .get(`${API_BASE_URL}/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseBoard = result.data.boards;
@@ -49,7 +49,7 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
     }
 
 
-    const goWritePage = () => navigate("/boards/InsertForm");
+    const goWritePage = () => navigate(`${API_BASE_URL}/boards/InsertForm`);
 
     const handleRowClick = (row) => {
         console.log("hi");

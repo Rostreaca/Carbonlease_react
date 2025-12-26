@@ -14,23 +14,25 @@ const useTop5RankingList = (onShowToast) => {
     const [top5List, setTop5List] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const getTop5List = () => {
+
+    // ===== 상위 5개 목록 불러오기 =====
+    const getTop5List = async () => {
         setLoading(true);
-        getAllCountTop5()
-            .then((result) => {
-                setTop5List(convertTop5StatsToList(result.data.data));
-            })
-            .catch((error) => {
-                onShowToast(
-                    error?.response?.data?.["error-message"] || '상위 5개 목록을 불러오지 못했습니다.',
-                    'error'
-                );
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        try {
+            const result = await getAllCountTop5();
+            setTop5List(convertTop5StatsToList(result.data.data));
+        } catch (error) {
+            onShowToast(
+                error?.response?.data?.["error-message"] || '상위 5개 목록을 불러오지 못했습니다.',
+                'error'
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
+
+    // ===== 마운트 시 데이터 로드 =====
     useEffect(() => {
         getTop5List();
     }, []);

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
+import { getNoticeTop } from '../../../../api/notice/noticeApi';
 import { NoticeSlider, Topbar } from "../Header.styled";
-import axios from 'axios';
-
 const TopbarNotice = () => {
 
     // const notices = [
@@ -28,13 +27,12 @@ const TopbarNotice = () => {
 
     const fetchNotices = async () => {
         
-        const { data } = await axios.get(`http://localhost:80/notices/fix`);
-
-        const converted = data.notices.map(e => ({
+        const data = await getNoticeTop();
+        console.log({ data });
+        const converted = (data?.notices || []).map(e => ({
             id: e.noticeNo,
             text: e.noticeTitle,
-        }))
-
+        }));
         setNotices(converted);
     }
 

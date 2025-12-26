@@ -1,6 +1,11 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../api/api.js";
+
+const authAPI = axios.create({
+  baseURL: `${API_BASE_URL}/auth/refresh`
+});
 
 export const AuthContext = createContext();
 
@@ -48,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         {
             accessToken !== null && (Date.now() > expiredDate) ? 
 
-        axios.post("http://localhost:80/auth/refresh", {
+        authAPI.post('', {
             refreshToken : refreshToken,
         }).then(result => {
             //console.log(result.data);
@@ -163,4 +168,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
     )
 }
-

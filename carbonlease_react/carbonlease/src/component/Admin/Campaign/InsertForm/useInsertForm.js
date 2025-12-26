@@ -3,43 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { getCategories, save } from '../../../../api/campaign/adminCampaignApi';
 
 // 어드민 캠페인 등록 폼 관리 커스텀 훅
+
 const useInsertForm = (onShowToast) => {
+    // ===== 라우터 및 상태 선언 =====
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [categoryOptions, setCategoryOptions] = useState([]);
+    const [formData, setFormData] = useState({
+        campaignTitle: '',
+        categoryNo: '',
+        campaignContent: '',
+        thumbnailFile: null,
+        detailImageFile: null,
+        startDate: '',
+        endDate: ''
+    });
+    const [fileNames, setFileNames] = useState({ thumbnail: '', detailImage: '' });
 
-	const navigate = useNavigate();
-	const [errors, setErrors] = useState({});
-        
-    // category 옵션 불러오기
-	const [categoryOptions, setCategoryOptions] = useState([]);
-
-    // form 데이터 상태 관리
-	const [formData, setFormData] = useState({
-		campaignTitle: '',
-		categoryNo: '',
-		campaignContent: '',
-		thumbnailFile: null,
-		detailImageFile: null,
-		startDate: '',
-		endDate: ''
-	});
-
-	// 파일 이름 상태 관리
-	const [fileNames, setFileNames] = useState({
-		thumbnail: '',
-		detailImage: ''
-	});
-
-	useEffect(() => {
-		// 카테고리 옵션 불러오기
-		getCategories()
-			.then((result) => {
-				//console.log('카테고리 API 응답:', result.data);
-				const options = (result.data.data || []).map(c => ({ value: c.categoryNo, label: c.categoryName }));
-				setCategoryOptions(options);
-			})
-			.catch(() => {
-				setCategoryOptions([]);
-			});
-	}, []);
+    // ===== 카테고리 옵션 불러오기 =====
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const result = await getCategories();
+                const options = (result.data.data || []).map(c => ({ value: c.categoryNo, label: c.categoryName }));
+                setCategoryOptions(options);
+            } catch {
+                setCategoryOptions([]);
+            }
+        };
+        fetchCategories();
+    }, []);
 
     //  폼 필드 변경 처리
 	const handleChange = (e) => {
@@ -109,15 +102,11 @@ const useInsertForm = (onShowToast) => {
 		return Object.keys(newErrors).length === 0;
 	};
 
-    // 폼 제출 처리
-	const handleSubmit = (e) => {
-		
-		e.preventDefault();
 
-		if (!validate()) {
-			return;
-		}
-		// 인증 체크 
+	// ===== 폼 제출 핸들러 =====
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (!validate()) return;
 		const campaign = {
 			campaignTitle: formData.campaignTitle,
 			categoryNo: formData.categoryNo,
@@ -125,32 +114,27 @@ const useInsertForm = (onShowToast) => {
 			startDate: formData.startDate,
 			endDate: formData.endDate,
 		};
-
-		// 실제 파일이 있을 때만 등록 api에 넘기고, 폼 유효성 검사에서 파일이 없으면 등록 못하게 막기
 		const files = [formData.thumbnailFile, formData.detailImageFile].filter(Boolean);
-
-        // 캠페인 등록 API 호출
-		save(campaign, files)
-			.then((result) => {
-				if (result && result.status === 201) {
-					onShowToast('게시글 등록이 완료되었습니다!', 'success');
-					setTimeout(() => {
-						navigate('/admin/campaigns');
-					}, 800);
-				} 
-			})
-			.catch((error) => {
-                if (error?.response?.status === 401) {
-					onShowToast('로그인이 필요합니다.', 'error');
-				} else if (error?.response?.status === 403) {
-					onShowToast('권한이 없습니다.', 'error');
-				} else {
-					onShowToast(
+		try {
+			const result = await save(campaign, files);
+			if (result && result.status === 201) {
+				onShowToast('게시글 등록이 완료되었습니다!', 'success');
+				setTimeout(() => {
+					navigate('/admin/campaigns');
+				}, 800);
+			}
+		} catch (error) {
+			if (error?.response?.status === 401) {
+				onShowToast('로그인이 필요합니다.', 'error');
+			} else if (error?.response?.status === 403) {
+				onShowToast('권한이 없습니다.', 'error');
+			} else {
+				onShowToast(
 					error?.response?.data?.["error-message"] || '등록에 실패했습니다.',
 					'error'
-					);
-				}
-            });
+				);
+			}
+		}
 	};
 
     //  취소 처리

@@ -5,12 +5,7 @@ import { AuthContext } from '../component/Context/AuthContext';
 import { useLikeStore } from '../store/likeStore.jsx';
 
 /**
- * 캠페인 좋아요 토글 공통 함수
- * @param {Object} params
- * @param {Function} params.onShowToast
- * @param {Object} params.auth
  * @param {Function} params.updateLike - Context에서 상태 업데이트 함수 (updateLikeInList 또는 updateLikeInDetail)
- * @returns {Function} handleLikeToggle
  */
 export function useLikeToggle({ onShowToast, auth, updateLike }) {
     const { resetLikeState } = useLikeStore();
