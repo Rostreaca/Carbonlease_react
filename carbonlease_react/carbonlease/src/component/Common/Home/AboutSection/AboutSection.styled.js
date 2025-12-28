@@ -1,10 +1,69 @@
+// NoticeList 스타일
+export const NoticeListWrapper = styled.div`
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 28px 0 12px 0;
+    position: relative;
+    min-height: 320px;
+`;
+
+export const NoticeListButton = styled.button`
+    position: absolute;
+    right: 18px;
+    top: -26px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    z-index: 2;
+    padding: 0;
+`;
+
+export const NoticeListUl = styled.ul`
+    list-style: none;
+    margin: 0;
+    padding: 0 18px;
+`;
+
+export const NoticeListLi = styled.li`
+    display: flex;
+    align-items: center;
+    border-bottom: ${({ $isLast }) => $isLast ? 'none' : '1px solid #e0e0e0'};
+    padding: 22px 0 16px 0;
+    cursor: pointer;
+    gap: 18px;
+`;
+
+export const NoticeListDate = styled.span`
+    color: #888;
+    font-size: 17px;
+    min-width: 100px;
+    text-align: left;
+    margin-right: 0;
+`;
+
+export const NoticeListTitle = styled.span`
+    font-weight: ${({ $highlight }) => $highlight ? 700 : 500};
+    font-size: 20px;
+    color: #222;
+    word-break: keep-all;
+`;
 import styled from 'styled-components';
 
 export const AboutSectionWrapper = styled.section`
     padding: 80px 0;
     background: white;
     border-top: 1px solid #f0f0f0;
-
+    
     @media (max-width: 1199px) {
         padding: 60px 0;
     }
@@ -75,6 +134,12 @@ export const AboutInner = styled.div`
     align-items: center;
     justify-content: center;
     gap: 30px;
+    padding:90px 0;
+    @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 18px;
+        align-items: stretch;
+    }
 `;
 
 export const ImageFallback = styled.div`
@@ -160,7 +225,6 @@ export const AboutContent = styled.div`
     }
 
     img {
-        max-width: 100%;
         height: auto;
         border-radius: 8px;
         border: 2px solid #f0f0f0;
@@ -175,4 +239,29 @@ export const AboutContent = styled.div`
             transform: translateY(-3px);
         }
     }
+`;
+
+export const AboutCol = styled.div`
+    flex: 1;
+    min-width: 320px;
+    @media (max-width: 900px) {
+        min-width: 0;
+        width: 100%;
+    }
+`;
+
+export const AboutColTitle = styled.h2`
+    color: ${props => props.color || '#222'};
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+    @media (max-width: 900px) {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+`;
+
+
+export const WatchVideoButton = styled.button`
+    border: 2px solid #1976d2 !important;
 `;

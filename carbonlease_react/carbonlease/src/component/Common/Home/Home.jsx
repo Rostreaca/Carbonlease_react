@@ -3,7 +3,6 @@ import AboutSection from './AboutSection/AboutSection';
 import CallToActionSection from './CallToActionSection/CallToActionSection';
 import HeroSection from './HeroSection/HeroSection';
 import { GlobalStyles } from './Home.styles';
-import StatsSection from './StatsSection/StatsSection';
 
 const Home = () => {
     useEffect(() => {
@@ -32,8 +31,8 @@ const Home = () => {
     return (
         <GlobalStyles>
             <HeroSection />
-            <AboutSection />
-            <StatsSection />
+                <AboutSection />
+                {/* <StatsSection /> */}
             <CallToActionSection />
         </GlobalStyles>
     );

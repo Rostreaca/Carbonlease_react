@@ -1,0 +1,4 @@
+/* Swiper navigation 버튼의 방향을 올바르게 수정 */
+.swiper-button-prev svg {
+  transform: rotate(180deg) !important;
+}

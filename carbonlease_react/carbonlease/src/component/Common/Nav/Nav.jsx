@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { NavMenu } from "../Header/Header.styled";
 import { NavLink } from "react-router-dom";
 import AuthLinks from "../Header/AuthLinks/AuthLinks";
+import { NavMenu } from "../Header/Header.styled";
 
 const Nav = ({ isMobileNavOpen, onMobileNavToggle, onNavLinkClick }) => {
     const [openDropdown, setOpenDropdown] = useState(false);
@@ -61,7 +61,11 @@ const Nav = ({ isMobileNavOpen, onMobileNavToggle, onNavLinkClick }) => {
                         공지사항
                     </NavLink>
                 </li>
-                <li><a href="#contact" onClick={onNavLinkClick}>Contact</a></li>
+                <li>
+                    <NavLink to="/about" onClick={onNavLinkClick}>
+                        About
+                    </NavLink>
+                </li>
 
                 <li className="d-xl-none" style={{display: 'flex', alignItems: 'center', padding: '10px 20px'}}>
                     <AuthLinks onClick={onNavLinkClick} />

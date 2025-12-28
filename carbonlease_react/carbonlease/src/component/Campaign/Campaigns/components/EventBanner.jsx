@@ -16,7 +16,7 @@ import {
 } from './EventBanner.styled';
 
 const EventBanner = ({ event, onParticipate, submitting }) => {
-    const imageUrl = event?.imageUrl || '/src/assets/images/main/asd.png';
+    const imageUrl = event?.imageUrl || '/src/assets/images/main/link1.png';
 
     const prevCountRef = useRef(0);
     const current = event?.currentParticipants ?? 0;

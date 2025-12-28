@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const HeroSectionWrapper = styled.section`
     position: relative;
     overflow: hidden;
-    margin-top: 120px;
-    padding: 45px 0;
+    margin-top: 80px;
+    padding: 85px 0 45px 0;
 
     /* AOS 애니메이션 강제 비활성화 */
     & * {
@@ -19,10 +19,18 @@ export const HeroSectionWrapper = styled.section`
         right: 0;
         bottom: 0;
         pointer-events: none;
+        z-index: 0;
+        /* SVG 물방울 효과 */
+        background: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="900" cy="150" r="70" fill="%231976d2" fill-opacity="0.16"/><circle cx="700" cy="400" r="60" fill="%23f6e393" fill-opacity="0.15"/><circle cx="400" cy="450" r="50" fill="%2300a34a" fill-opacity="0.13"/><circle cx="1000" cy="500" r="40" fill="%231976d2" fill-opacity="0.10"/><filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="18"/></filter><circle cx="900" cy="150" r="70" fill="%231976d2" fill-opacity="0.16" filter="url(%23blur)"/><circle cx="700" cy="400" r="60" fill="%23f6e393" fill-opacity="0.15" filter="url(%23blur)"/><circle cx="400" cy="450" r="50" fill="%2300a34a" fill-opacity="0.13" filter="url(%23blur)"/><circle cx="1000" cy="500" r="40" fill="%231976d2" fill-opacity="0.10" filter="url(%23blur)"/></svg>');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 
     .hero-content {
         padding: 20px 0;
+        position: relative;
+        z-index: 1;
     }
     
     .container .row {

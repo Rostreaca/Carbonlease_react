@@ -66,7 +66,7 @@ export const CompanyName = styled.div`
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 8px;
-    color: #343a40;
+    color: #fff;
     position: absolute;
     left: 20px;
     top: 20px;

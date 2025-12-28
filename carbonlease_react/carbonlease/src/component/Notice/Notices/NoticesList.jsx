@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../../api/api.js';
 
-function NoticesList() {
+function NoticesList({ limit }) {
 
     const navigate = useNavigate();
 
@@ -73,16 +73,17 @@ function NoticesList() {
         <DataTable
             title="공지사항 목록"
             columns={columns}
-            data={notice}
+            data={limit ? notice.slice(0, limit) : notice}
             icon="fas fa-leaf" 
             onRowClick={handleRowClick}
         />
-
-        <Pagination
-            currentPage={currentPage} 
-            setCurrentPage={setCurrentPage}
-            pageInfo={pageInfo}
-        />
+        {!limit && (
+            <Pagination
+                currentPage={currentPage} 
+                setCurrentPage={setCurrentPage}
+                pageInfo={pageInfo}
+            />
+        )}
         </>
     )
 }

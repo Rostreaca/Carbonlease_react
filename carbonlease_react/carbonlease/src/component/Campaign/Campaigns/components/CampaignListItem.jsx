@@ -11,10 +11,10 @@ const formatDate = (dateString) => {
 
 
 // 캠페인 리스트 아이템 컴포넌트
-const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick }) => {
+const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick, showLikeButton = true }) => {
 
     const { likeState } = useLikeStore();
-    
+
     // 목록에서 썸네일 이미지
     const thumbnail = campaign.attachments?.find(att => att.fileLevel === 0);
 
@@ -25,7 +25,7 @@ const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick }) => {
         <CampaignCard key={campaign.campaignNo} onClick={() => onCardClick(campaign)}>
             <CampaignImage>
                 <img src={thumbnail?.filePath} alt={campaign.campaignTitle} />
-                {auth.isAuthenticated && (
+                {showLikeButton && auth.isAuthenticated ? (
                     <LikeButton
                         key={campaign.campaignNo}
                         $liked={isLiked}
@@ -37,7 +37,7 @@ const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick }) => {
                     >
                         <i className={isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
                     </LikeButton>
-                )}
+                ) : null}
             </CampaignImage>
             <CampaignContent>
                 <CampaignCategory>{campaign.category?.categoryName || '카테고리 없음'}</CampaignCategory>

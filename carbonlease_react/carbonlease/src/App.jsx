@@ -18,6 +18,7 @@ import EnrollForm from './component/Member/EnrollForm/EnrollForm';
 import Login from './component/Member/Login/Login';
 import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
 import Notices from './component/Notice/Notices/Notices';
+import AboutPage from './component/Page/AboutPage';
 import { GlobalCommonStyles, GlobalLayoutStyles } from './styles/global.styled';
 
 // Admin Components
@@ -73,6 +74,7 @@ function App() {
 					<Route path="/myPage" element = {<MyPage/>} />
 					<Route path="/myPage/update" element={<MemberUpdateForm />} />
 					<Route path="/guide" element={<ComponentGuide />} />
+					<Route path="/about" element={<AboutPage />} />
 				</Route>
 				
 				<Route path="/admin/login" element={<AdminLogin />} />
