@@ -23,7 +23,7 @@ adminCalendarApi.interceptors.request.use(
 // 일정 전체 조회
 export const getCalendarEvents = async () => {
   const res = await adminCalendarApi.get("");
-  return res.data; 
+  return res.data.data; 
 };
 
 // 일정 등록
@@ -47,5 +47,5 @@ export const deleteCalendarEvent = async (calendarNo) => {
 // 카테고리 불러오기
 export const getCategories = async () => {
   const res = await adminCalendarApi.get("category");
-  return res.data;
+  return res.data.data;
 }

@@ -25,11 +25,13 @@ calendarApi.interceptors.request.use(
 // 일정 카테고리 갖고오기
 export const getCategories = async () => {
     const res = await calendarApi.get("categories");
-    return res.data;
+    console.log(res)
+    return res.data.data;
 }
 
 // 일정 갖고오기
 export const getEvents = async () => {
     const res = await calendarApi.get("");
-    return res.data;
+    console.log(res);
+    return res.data.data;
 }

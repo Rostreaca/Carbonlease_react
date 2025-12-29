@@ -27,17 +27,17 @@ export const getNotices = async (pageNo) => {
     const res = await noticeApi.get("",{
         params: { pageNo },
     });
-    return res.data;
+    return res.data.data;
 }
 
 // 상세조회
 export const getNoticeDetail = async (noticeNo) => {
   const res = await noticeApi.get(`detail/${noticeNo}`);
-  return res.data;
+  return res.data.data;
 };
 
 // TopBar
 export const getNoticeTop = async () => {
     const res = await noticeApi.get("fix");
-    return res;
+    return res.data;
 }

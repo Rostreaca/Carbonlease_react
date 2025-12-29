@@ -31,20 +31,20 @@ export const getNoticesAdmin = async (pageNo) => {
     const res = await adminNoticeApi.get("",{
         params: { pageNo },
     });
-    return res.data;
+    return res.data.data;
 }
 
 // 상세조회
 export const getNoticeDetailAdmin = async (noticeNo) => {
   const res = await adminNoticeApi.get(`/detail/${noticeNo}`);
-  return res.data;
+  return res.data.data;
 };
 
 
 // 삭제
 export const deleteNotice = async (noticeNo) => {
   const res = await adminNoticeApi.put(`/delete/${noticeNo}`);
-  return res.data;
+  return res.data.data;
 };
 
 
