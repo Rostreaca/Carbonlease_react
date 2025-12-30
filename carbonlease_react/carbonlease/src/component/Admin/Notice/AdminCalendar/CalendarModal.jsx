@@ -1,5 +1,5 @@
 // CalendarModal.jsx
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ModalOverlay,
   ModalWrapper,
@@ -12,13 +12,10 @@ import {
   Label,
   Button
 } from "./CalendarModal.styled";
-import axios from "axios";
-import { AuthContext } from '../../../Context/AuthContext';
 import { getCategories } from "../../../../api/notice/adminNoticeCalendar";
 
 
 const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) => {
-  const { auth } = useContext(AuthContext);
   const [form, setForm] = useState({
     title: "",
     start: "",
@@ -28,9 +25,7 @@ const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) =
 
   const [categories, setCategories] = useState([]);
 
-  useEffect(()=> {
-    fetchCategory();
-  })
+
 
   const fetchCategory = async () => {
     const data = await getCategories();
@@ -38,6 +33,7 @@ const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) =
   }
 
   useEffect(() => {
+    fetchCategory();
     if (isEdit && event) {
       setForm({
         title: event.title,

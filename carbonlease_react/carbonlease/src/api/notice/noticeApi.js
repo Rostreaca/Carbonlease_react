@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Spring Boot API Base URL
-const API_BASE_URL = window.ENV?.API_URL || "http://localhost:8080";
+const API_BASE_URL = window.ENV?.API_URL || "";
 
 // Axios 인스턴스 생성
 const noticeApi = axios.create({

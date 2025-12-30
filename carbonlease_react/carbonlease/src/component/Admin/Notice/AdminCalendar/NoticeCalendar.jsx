@@ -26,7 +26,7 @@ const NoticeCalendar = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [openEditModal]);
 
   // 일정 전체 조회
   const fetchEvents = async () => {

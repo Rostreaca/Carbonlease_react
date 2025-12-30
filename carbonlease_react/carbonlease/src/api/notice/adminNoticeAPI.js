@@ -47,4 +47,10 @@ export const deleteNotice = async (noticeNo) => {
   return res.data.data;
 };
 
+// (삭제된 게시물)복구
+export const restoreNotice = async (noticeNo) => {
+  const res = await adminNoticeApi.put(`/restore/${noticeNo}`);
+  return res.data.data;
+};
+
 
