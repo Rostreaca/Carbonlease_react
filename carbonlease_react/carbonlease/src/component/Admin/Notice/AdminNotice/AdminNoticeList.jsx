@@ -3,8 +3,8 @@ import DataTable from '../../../Common/DataTable/DataTable';
 import Pagination from '../../../Common/Pagination/Pagination';
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
 import Toast from '../../../Common/Toast/Toast';
-import { useState, useEffect, useContext } from 'react';
-import { getNoticesAdmin, deleteNotice } from '../../../../api/notice/adminNoticeAPI';
+import { useState, useEffect } from 'react';
+import { getNoticesAdmin, deleteNotice, restoreNotice } from '../../../../api/notice/adminNoticeAPI';
 import {
     DeleteButton,
     EditButton,
@@ -16,7 +16,8 @@ function AdminNoticeList() {
 
     const navigate = useNavigate();
 
-    const [showConfirm, setShowConfirm] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
+    const [showRestore, setShowRestore] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [toast, setToast] = useState({ show: false, message: '', variant: 'success' });
 
@@ -52,8 +53,13 @@ function AdminNoticeList() {
 
     const handleDelete = (noticeNo) => {
         setSelectedId(noticeNo);
-        setShowConfirm(true);
+        setShowDelete(true);
     };
+
+    const handleRestore = (noticeNo) => {
+        setSelectedId(noticeNo);
+        setShowRestore(true);
+    }
 
     const confirmDelete = async () => {
         try {
@@ -64,13 +70,32 @@ function AdminNoticeList() {
             console.log(err);
             setToast({ show: true, message: '삭제 실패!', variant: 'danger' });
         } finally {
-            setShowConfirm(false);
+            setShowDelete(false);
+            setSelectedId(null);
+        }
+    };
+
+    const confirmRestore = async () => {
+        try {
+            await restoreNotice(selectedId);
+            await fetchNotices(currentPage); // 재조회
+            setToast({ show: true, message: '복구되었습니다!', variant: 'success' });
+        } catch (err) {
+            console.log(err);
+            setToast({ show: true, message: '복구 실패!', variant: 'danger' });
+        } finally {
+            setShowRestore(false);
             setSelectedId(null);
         }
     };
 
     const cancelDelete = () => {
-        setShowConfirm(false);
+        setShowDelete(false);
+        setSelectedId(null);
+    };
+
+    const cancelRestore = () => {
+        setShowRestore(false);
         setSelectedId(null);
     };
 
@@ -99,9 +124,11 @@ function AdminNoticeList() {
             {
                 header: '상태',
                 field: 'status',
-                render: (value) => (
-                    <StatusBadge $status={value}>{value}</StatusBadge>
-                )
+                render: (v) => (
+                <StatusBadge $status={v === "Y" ? "진행중" : "삭제"}>
+                    {v === "Y" ? "정상" : "삭제됨"}
+                </StatusBadge>
+      )
             },
             {
                 header: '상단 고정',
@@ -129,12 +156,22 @@ function AdminNoticeList() {
                             수정
                         </EditButton>
 
-                        <DeleteButton onClick={(e) => {
-                            e.stopPropagation();
-                            handleDelete(row.noticeNo)
-                        }}>
-                            삭제
-                        </DeleteButton>
+                        {row.status === "Y" ? (
+                            <DeleteButton onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete(row.noticeNo)
+                            }}>
+                                삭제
+                            </DeleteButton>
+                        ) : (
+                            <DeleteButton onClick={(e) => {
+                                e.stopPropagation();
+                                handleRestore(row.noticeNo)
+                            }}>
+                                복구
+                            </DeleteButton>
+                        )}
+
                     </ButtonGroup>
                 )
             }
@@ -161,12 +198,24 @@ function AdminNoticeList() {
             />
 
             <ConfirmDialog
-                show={showConfirm}
+                show={showDelete}
                 onClose={cancelDelete}
                 onConfirm={confirmDelete}
                 title="삭제 확인"
                 message="정말로 삭제하시겠습니까?"
                 confirmText="삭제"
+                cancelText="취소"
+                variant="danger"
+                showIcon={false}
+            />
+
+            <ConfirmDialog
+                show={showRestore}
+                onClose={cancelRestore}
+                onConfirm={confirmRestore}
+                title="복구 확인"
+                message="정말로 복구하시겠습니까?"
+                confirmText="복구"
                 cancelText="취소"
                 variant="danger"
                 showIcon={false}

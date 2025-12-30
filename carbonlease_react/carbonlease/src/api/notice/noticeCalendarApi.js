@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Spring Boot API Base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = window.ENV?.API_URL || "http://localhost:8080";
 
 // Axios 인스턴스 생성
 const calendarApi = axios.create({
@@ -25,11 +25,13 @@ calendarApi.interceptors.request.use(
 // 일정 카테고리 갖고오기
 export const getCategories = async () => {
     const res = await calendarApi.get("categories");
-    return res.data;
+    console.log(res)
+    return res.data.data;
 }
 
 // 일정 갖고오기
 export const getEvents = async () => {
     const res = await calendarApi.get("");
-    return res.data;
+    console.log(res);
+    return res.data.data;
 }

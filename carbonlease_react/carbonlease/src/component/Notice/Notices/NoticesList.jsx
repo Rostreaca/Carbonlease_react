@@ -25,6 +25,7 @@ function NoticesList() {
     const fetchNotice = async (page) => {
         try {
             const data = await getNotices(page);
+            console.log(data);
             setNotice([...data.notices])
             setPageInfo({
                 startPage: data.pageInfo.startPage,

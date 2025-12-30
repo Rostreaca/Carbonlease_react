@@ -18,6 +18,7 @@ import {
 const AdminLogin = () => {
 
     const navi = useNavigate();
+    const url = window.ENV?.API_URL;
 
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState('info');
@@ -47,7 +48,7 @@ const AdminLogin = () => {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost:8080/auth/adminLogin", {
+        axios.post(`http://${url}/auth/adminLogin`, {
     memberId, memberPwd
 }).then(result => {
             //console.log(result);

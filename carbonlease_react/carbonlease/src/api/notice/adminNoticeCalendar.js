@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Spring Boot API Base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = window.ENV?.API_URL || "http://localhost:8080";
 
 // Axios 인스턴스 생성
 const adminCalendarApi = axios.create({
@@ -23,7 +23,7 @@ adminCalendarApi.interceptors.request.use(
 // 일정 전체 조회
 export const getCalendarEvents = async () => {
   const res = await adminCalendarApi.get("");
-  return res.data; 
+  return res.data.data; 
 };
 
 // 일정 등록
@@ -43,3 +43,9 @@ export const deleteCalendarEvent = async (calendarNo) => {
   const res = await adminCalendarApi.delete(`/${calendarNo}`);
   return res.data;
 };
+
+// 카테고리 불러오기
+export const getCategories = async () => {
+  const res = await adminCalendarApi.get("category");
+  return res.data.data;
+}

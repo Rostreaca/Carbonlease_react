@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Spring Boot API Base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = window.ENV?.API_URL || "";
 
 // Axios 인스턴스 생성
 const noticeApi = axios.create({
@@ -27,13 +27,17 @@ export const getNotices = async (pageNo) => {
     const res = await noticeApi.get("",{
         params: { pageNo },
     });
-    return res.data;
+    return res.data.data;
 }
 
 // 상세조회
 export const getNoticeDetail = async (noticeNo) => {
   const res = await noticeApi.get(`detail/${noticeNo}`);
-  return res.data;
+  return res.data.data;
 };
 
-
+// TopBar
+export const getNoticeTop = async () => {
+    const res = await noticeApi.get("fix");
+    return res.data;
+}

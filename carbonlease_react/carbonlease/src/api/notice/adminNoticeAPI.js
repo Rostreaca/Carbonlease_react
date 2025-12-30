@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Spring Boot API Base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = window.ENV?.API_URL || "http://localhost:8080";
 
 // Axios 인스턴스 생성
 const adminNoticeApi = axios.create({
@@ -31,20 +31,26 @@ export const getNoticesAdmin = async (pageNo) => {
     const res = await adminNoticeApi.get("",{
         params: { pageNo },
     });
-    return res.data;
+    return res.data.data;
 }
 
 // 상세조회
 export const getNoticeDetailAdmin = async (noticeNo) => {
   const res = await adminNoticeApi.get(`/detail/${noticeNo}`);
-  return res.data;
+  return res.data.data;
 };
 
 
 // 삭제
 export const deleteNotice = async (noticeNo) => {
   const res = await adminNoticeApi.put(`/delete/${noticeNo}`);
-  return res.data;
+  return res.data.data;
+};
+
+// (삭제된 게시물)복구
+export const restoreNotice = async (noticeNo) => {
+  const res = await adminNoticeApi.put(`/restore/${noticeNo}`);
+  return res.data.data;
 };
 
 
