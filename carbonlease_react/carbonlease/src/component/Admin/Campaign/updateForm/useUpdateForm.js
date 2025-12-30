@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getCategories, update } from '../../../../api/campaign/adminCampaignApi';
+import { getCategoriesApi, updateApi } from '../../../../api/campaign/adminCampaignApi';
 
 // 어드민 캠페인 수정 폼 관리 커스텀 훅
 const UpdateForm = (onShowToast, auth) => {
@@ -27,7 +27,7 @@ const UpdateForm = (onShowToast, auth) => {
 
     // ===== 카테고리 옵션 불러오기 =====
     useEffect(() => {
-        getCategories()
+        getCategoriesApi()
             .then((result) => {
                 const options = result.data.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
                 setCategoryOptions(options);
@@ -99,7 +99,7 @@ const UpdateForm = (onShowToast, auth) => {
         const safeThumbnail = formData.thumbnailFile ? formData.thumbnailFile : new Blob([], { type: 'image/*' });
         const safeDetail = formData.detailImageFile ? formData.detailImageFile : new Blob([], { type: 'image/*' });
         try {
-            const result = await update(id, [safeThumbnail, safeDetail], formData);
+            const result = await updateApi(id, [safeThumbnail, safeDetail], formData);
             if (result && result.status === 200) {
                 onShowToast('게시글 수정이 완료되었습니다!', 'success');
                 setTimeout(() => navigate('/admin/campaigns'), 800);

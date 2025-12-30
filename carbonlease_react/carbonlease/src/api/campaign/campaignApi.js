@@ -1,30 +1,14 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../api.js';
+import { API_BASE_URL, createApiInstance } from '../api.js';
 
-// Axios 인스턴스 생성
-const campaignApi = axios.create({
-    baseURL: `${API_BASE_URL}/api/campaigns`
-});
+// 공통 인터셉터가 적용된 Axios 인스턴스 생성
+const campaignApi = createApiInstance(`${API_BASE_URL}/api/campaigns`);
 
-// 인터셉터 설정: 모든 요청에 토큰 자동 주입
-campaignApi.interceptors.request.use(
-    (config) => {
-        const accessToken = localStorage.getItem('accessToken');
-        console.log('accessToken:', accessToken); // 토큰 값 확인
-        if (accessToken) {
-            config.headers['Authorization'] = `Bearer ${accessToken}`;
-        }
-        console.log('요청 헤더:', config.headers); // 헤더에 토큰이 붙었는지 확인
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
-
+/**
+ * 필터 추가 가능성으로 parmas로 변경
+ */
 // 캠페인 리스트 조회
-export const findAll = (page, memberNo) => {
-    return campaignApi.get('', {
-        params: { pageNo: page, memberNo }
-    });
+export const findAll = (params) => {
+    return campaignApi.get('', { params });
 };
 
 // 캠페인 상세 조회

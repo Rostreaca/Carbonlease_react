@@ -1,7 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useContext, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { API_BASE_URL } from "../../../api/api.js";
+import { kakaoLogin } from '../../../api/Login/authApi.js';
 import PageContent from "../../Common/PageContent/PageContent";
 import { AuthContext } from "../../Context/AuthContext";
 
@@ -15,8 +15,7 @@ const code = searchParams.get("code");
 const navi = useNavigate();
 
 useEffect(() => {
-    axios.post(`${API_BASE_URL}/api/auth/kakaoLogin?code=${code}`
-    ).then(result => {
+    kakaoLogin(code).then(result => {
         if(result.data.accessToken === undefined){
         setKakaoInfo({
             memberId : result.data.memberId,

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { fetchAdminBoardDetail } from "../../../../../api/activity/adminActivityAPI";
+import { fetchAdminBoardDetail } from "../../../../../api/activity/adminActivityApi";
 import { API_BASE_URL } from '../../../../../api/api.js';
 
 export const useAdminActivityBoardLoader = ({

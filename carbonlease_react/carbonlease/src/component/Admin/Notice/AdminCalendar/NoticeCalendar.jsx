@@ -7,11 +7,11 @@ import { StyleWrapper } from './NoticeCalendar.styled';
 import CalendarModal from "./CalendarModal";
 
 import {
-  createCalendarEvent,
-  deleteCalendarEvent,
-  getCalendarEvents,
-  updateCalendarEvent
-} from "../../../../api/notice/adminNoticeCalendar";
+    createCalendarEvent,
+    deleteCalendarEvent,
+    getCalendarEvents,
+    updateCalendarEvent
+} from "../../../../api/notice/adminNoticeCalendarApi";
 
 
 const NoticeCalendar = () => {

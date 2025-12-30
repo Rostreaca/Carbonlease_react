@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Form, Modal } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from '../../../api/api.js';
-import { increaseViewCountAPI } from "../../../api/board/boardAPI.js";
+import { deleteReplyApi, getRepliesApi, increaseViewCountApi, insertReplyApi, updateReplyApi } from '../../../api/board/boardApi.js';
 import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
@@ -55,12 +55,12 @@ const BoardDetail = () => {
     // 조회수 증가
    useEffect(() => {
     const viewCount = async () => {
-      if (!id || !board) return;
+      if (!id) return;
 
       const key = `viewed_${id}`;
       if (!localStorage.getItem(key)) {
         try {
-          await increaseViewCountAPI(id); // boardAPI.js에 정의된 함수 사용
+          await increaseViewCountApi(id); // boardApi.js에 정의된 함수 사용
           localStorage.setItem(key, "true");
 
           // 화면 즉시 반영
@@ -72,29 +72,27 @@ const BoardDetail = () => {
     };
 
     viewCount();
-  }, [id, board]);
+  }, [id]);
  
 
   const fetchReplies = async () => {
-    axios
-            .get(`${API_BASE_URL}/api/boards/detail/${id}`)
-            .then((result) => {
-                const response = result.data;
-                console.log("상세보기 데이터:", response);
-                setBoard({
-                    title: response.boardDetail.boardTitle,
-                    content: response.boardDetail.boardContent,
-                    viewCount: response.boardDetail.viewCount,
-                    regionNo: response.boardDetail.regionNo,
-                    regionName: response.boardDetail.regionName,
-                    replyCount: response.replyCount.endPage,
-                    boardNo: response.boardDetail.boardNo,
-                    memberId: response.boardDetail.memberId,
-                });
-                console.log("댓글데이터 : ", response.replyList);
-                setReply([
-                    ...response.replyList]);
-            })
+    try {
+      const result = await getRepliesApi(id);
+      const response = result.data;
+      setBoard({
+        title: response.boardDetail.boardTitle,
+        content: response.boardDetail.boardContent,
+        viewCount: response.boardDetail.viewCount,
+        regionNo: response.boardDetail.regionNo,
+        regionName: response.boardDetail.regionName,
+        replyCount: response.replyCount.endPage,
+        boardNo: response.boardDetail.boardNo,
+        memberId: response.boardDetail.memberId,
+      });
+      setReply([...response.replyList]);
+    } catch (error) {
+      console.error('댓글 목록 조회 실패:', error);
+    }
   }
 
      useEffect(()=>{
@@ -116,35 +114,36 @@ const BoardDetail = () => {
 
     const replyTextarea = useRef(null);
     const insertReplay = async  () =>{
-      console.log( "댓글 내용 : ",  replyTextarea.current.value);
-      
-      if (replyTextarea.current.value == "") {
+      const replyContent = replyTextarea.current.value;
+      if (!replyContent || replyContent.trim() === "") {
         alert("댓글 내용을 입력하세요");
         return;
       }
 
-      const ReplyInsertVO = {
-         memberNo : auth.memberNo,
-         memberId : auth.memberId,
-         nickname : auth.nickname,
-         boardNo : board.boardNo,
-         replyContent : replyTextarea.current.value,
+      // 서버(Spring)에서 인증된 사용자 정보를 사용하므로, boardNo와 replyContent만 전달
+      const replyData = {
+        boardNo: board.boardNo,
+        replyContent: replyContent.trim(),
       };
-
-      await axios
-            .post(`${API_BASE_URL}/api/boards/detail/replyInsert`, ReplyInsertVO, {
-              headers: {
-                Authorization : `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-              }
-            })
-            .then((result) => {
-                const response = result.data;
-                console.log("상세보기 데이터:", response);
-                alert("등록되었습니다.");
-                console.log("게시글 번호 :", {id});
-                fetchReplies();
-            })
+      try {
+        const result = await insertReplyApi(replyData);
+        const response = result.data;
+        if (response.replyInsert > 0) {
+          alert("댓글이 등록되었습니다.");
+          replyTextarea.current.value = "";
+          fetchReplies();
+        } else {
+          alert("댓글 등록에 실패했습니다.");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 403) {
+          alert("로그인이 필요합니다. 다시 로그인 해주세요.");
+          navigate("/login");
+        } else {
+          alert("댓글 등록 중 오류가 발생했습니다.");
+        }
+        console.error("댓글 등록 실패:", error);
+      }
     }
 
     // 게시글 삭제
@@ -155,99 +154,69 @@ const BoardDetail = () => {
         navigate("/login");
         return;
       }
-       console.log("댓글길이 : {}", reply.length);
+      console.log("댓글길이 : {}", reply.length);
 
-       if(reply.length > 0) {
-          const isOk = confirm("댓글이 존재합니다. 삭제 하시겠습니까?");
-          if(isOk){
-            // alert("삭제호출");
-                  const deleteVo = {
-              boardNo:board.boardNo,
-              memberId:board.memberId,  //게시글 작성자ID
-            };
+      // 댓글이 있으면 삭제 확인
+      if (reply.length > 0) {
+        const isOk = window.confirm("댓글이 존재합니다. 삭제 하시겠습니까?");
+        if (!isOk) {
+          alert("삭제취소");
+          return;
+        }
+      }
 
-            await axios
-                  .post(`${API_BASE_URL}/api/boards/delete`, deleteVo, {
-                    headers: {
-                      Authorization : `Bearer ${accessToken}`,
-                      "Content-Type": "application/json",
-                    }
-                  })
-                  .then((result) => {
-                      const response = result.data;
-                      console.log("상세보기 데이터:", response.deleteOK);
-                      if(response.deleteOK > 0) {
-                        alert("삭제되었습니다.");
-                         navigate(`/boards`);
-                      } else {
-                        alert("게시글 삭제 오류");
-                      }
-                      //fetchReplies();
-                  })
-          } else {
-            alert("삭제취소");
-          }
-       } else {
-              const deleteVo = {
-              boardNo:board.boardNo,
-              memberId:board.memberId,  //게시글 작성자ID
-            };
+      // 삭제 요청은 한 번만!
+      const deleteVo = {
+        boardNo: board.boardNo,
+        memberId: board.memberId, //게시글 작성자ID
+      };
 
-            await axios
-                  .post(`${API_BASE_URL}/api/boards/delete`, deleteVo, {
-                    headers: {
-                      Authorization : `Bearer ${accessToken}`,
-                      "Content-Type": "application/json",
-                    }
-                  })
-                  .then((result) => {
-                      const response = result.data;
-                      console.log("상세보기 데이터:", response.deleteOK);
-                      if(response.deleteOK > 0) {
-                        alert("삭제되었습니다.");
-                         navigate(`/boards`);
-                      } else {
-                        alert("삭제 중 오류 발생");
-                      }
-                      //fetchReplies();
-                  })
-       }
-       
+      try {
+        const result = await axios.post(`${API_BASE_URL}/api/boards/delete`, deleteVo, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const response = result.data;
+        console.log("상세보기 데이터:", response.deleteOK);
+        if (response.deleteOK > 0) {
+          alert("삭제되었습니다.");
+          navigate(`/boards`);
+        } else {
+          alert("게시글 삭제 오류");
+        }
+      } catch (error) {
+        alert("삭제 중 오류 발생");
+      }
     }
 
     // 댓글 수정
     const handleUpdateReply = async (replyNo, newContent) => {
-    if (!auth) {
-        alert("로그인이 필요한 서비스입니다!");
-        navigate("/login");
-        return;
-    }
+      if (!auth) {
+          alert("로그인이 필요한 서비스입니다!");
+          navigate("/login");
+          return;
+      }
 
-        if (newContent.trim() === "") {
-            alert("댓글 내용을 입력하세요.");
-            return;
-        }
-        try {
+          if (newContent.trim() === "") {
+              alert("댓글 내용을 입력하세요.");
+              return;
+          }
+          try {
             const updateVo = {
-                replyNo: replyNo,
-                replyContent: newContent,
-                memberId: auth.memberId, // 현재 로그인한 사용자 memberNo 전달 (선택)
+              replyNo: replyNo,
+              replyContent: newContent,
+              memberId: auth.memberId,
             };
-            
-            await axios.post(`${API_BASE_URL}/api/boards/detail/replyUpdate`, updateVo, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                }
-            });
-            
+            await updateReplyApi(updateVo);
             alert("댓글이 수정되었습니다.");
-            fetchReplies(); // 목록 새로고침
-        } catch (error) {
+            fetchReplies();
+          } catch (error) {
             console.error("댓글 수정 실패:", error);
             alert("댓글 수정 중 오류가 발생했습니다.");
-        }
-    };
+          }
+      };
 
     const handleDeleteReply = async (replyNo) => {
         if (!auth) {
@@ -259,19 +228,12 @@ const BoardDetail = () => {
         if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
           console.log("삭제할 댓글 번호:", replyNo);
             try {
-                // 서버로 삭제 요청 보내기 (POST 요청으로 replyNo 전달)
-                await axios.delete(`${API_BASE_URL}/api/boards/detail/replyDelete/${replyNo}`,{ // 서버에서 replyNo로 받도록 수정
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                alert("댓글이 삭제되었습니다.");
-                fetchReplies(); // 목록 새로고침
+              await deleteReplyApi(replyNo);
+              alert("댓글이 삭제되었습니다.");
+              fetchReplies();
             } catch (error) {
-                console.error("댓글 삭제 실패:", error);
-                alert("댓글 삭제 중 오류가 발생했습니다.");
+              console.error("댓글 삭제 실패:", error);
+              alert("댓글 삭제 중 오류가 발생했습니다.");
             }
         }
     };

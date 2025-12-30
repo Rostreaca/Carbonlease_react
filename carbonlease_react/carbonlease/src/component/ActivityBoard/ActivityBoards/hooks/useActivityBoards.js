@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchActivityBoards } from "../../../../api/activity/activityAPI";
+import { fetchActivityBoards } from "../../../../api/activity/activityApi";
 
 
 export const useActivityBoards = () => {

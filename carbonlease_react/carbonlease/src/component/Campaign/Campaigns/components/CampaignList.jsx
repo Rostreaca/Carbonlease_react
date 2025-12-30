@@ -66,7 +66,7 @@ const CampaignList = ({ onShowToast }) => {
                 </CampaignGrid>
                 <Pagination
                     currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
+                    setCurrentPage={setCurrentPage} // 페이지 변경 → useEffect 자동 실행
                     pageInfo={pageInfo}
                 />
             </CampaignListContainer>

@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button, FormLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../../api/api.js";
+import { updateKakaoMemberApi, updateMemberApi } from "../../../api/Member/membersApi";
 import Alert from "../../Common/Alert/Alert";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
 import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
@@ -101,21 +100,17 @@ const MemberUpdateForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.put(`${API_BASE_URL}/api/members`, {
-                    memberId: auth.memberId, memberPwd, nickName, email, addressLine1, addressLine2
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${auth.accessToken}`
-                    }
-                }).then(result => {
-                    setUpdateAlertVariant('info');
-                    setUpdateAlertMsg("정보수정에 성공하였습니다.");
-                    setShowUpdateAlert(true);
-                }).catch(error => {
-                    setUpdateAlertVariant('warning');
-                    setUpdateAlertMsg(error.response.data["error-message"]);
-                    setShowUpdateAlert(true);
-                }) : (
+                updateMemberApi({ memberId: auth.memberId, memberPwd, nickName, email, addressLine1, addressLine2 }, auth.accessToken)
+                    .then(result => {
+                        setUpdateAlertVariant('info');
+                        setUpdateAlertMsg("정보수정에 성공하였습니다.");
+                        setShowUpdateAlert(true);
+                    })
+                    .catch(error => {
+                        setUpdateAlertVariant('warning');
+                        setUpdateAlertMsg(error.response.data["error-message"]);
+                        setShowUpdateAlert(true);
+                    }) : (
                     setUpdateAlertMsg("중복확인을 먼저 진행해 주십시오."),
                     setUpdateAlertVariant('warning'),
                     setShowUpdateAlert(true)
@@ -127,21 +122,17 @@ const MemberUpdateForm = () => {
     const kakaoUpdateMember = () => {
         {
             checkNickName && checkEmail ?
-                axios.put(`${API_BASE_URL}/api/members/kakao`, {
-                    memberId: auth.memberId , nickName, email, addressLine1, addressLine2
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${auth.accessToken}`
-                    }
-                }).then(result => {
-                    setUpdateAlertVariant('info');
-                    setUpdateAlertMsg("정보수정에 성공하였습니다.");
-                    setShowUpdateAlert(true);
-                }).catch(error => {
-                    setUpdateAlertVariant('warning');
-                    setUpdateAlertMsg(error.response.data["error-message"]);
-                    setShowUpdateAlert(true);
-                }) : (
+                updateKakaoMemberApi({ memberId: auth.memberId, nickName, email, addressLine1, addressLine2 }, auth.accessToken)
+                    .then(result => {
+                        setUpdateAlertVariant('info');
+                        setUpdateAlertMsg("정보수정에 성공하였습니다.");
+                        setShowUpdateAlert(true);
+                    })
+                    .catch(error => {
+                        setUpdateAlertVariant('warning');
+                        setUpdateAlertMsg(error.response.data["error-message"]);
+                        setShowUpdateAlert(true);
+                    }) : (
                     setUpdateAlertMsg("중복확인을 먼저 진행해 주십시오."),
                     setUpdateAlertVariant('warning'),
                     setShowUpdateAlert(true)

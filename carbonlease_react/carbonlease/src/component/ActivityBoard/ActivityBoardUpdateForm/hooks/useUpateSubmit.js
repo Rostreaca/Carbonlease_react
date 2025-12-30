@@ -1,4 +1,4 @@
-import { activityUpdateForm } from "../../../../api/activity/activityAPI";
+import { activityUpdateForm } from "../../../../api/activity/activityApi";
 
 
 export default function useUpdateSubmit({

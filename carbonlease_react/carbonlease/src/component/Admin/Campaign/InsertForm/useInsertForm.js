@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCategories, save } from '../../../../api/campaign/adminCampaignApi';
+import { getCategoriesApi, saveApi } from '../../../../api/campaign/adminCampaignApi';
 
 // 어드민 캠페인 등록 폼 관리 커스텀 훅
 
@@ -24,7 +24,7 @@ const useInsertForm = (onShowToast) => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const result = await getCategories();
+				const result = await getCategoriesApi();
                 const options = (result.data.data || []).map(c => ({ value: c.categoryNo, label: c.categoryName }));
                 setCategoryOptions(options);
             } catch {
@@ -116,7 +116,7 @@ const useInsertForm = (onShowToast) => {
 		};
 		const files = [formData.thumbnailFile, formData.detailImageFile].filter(Boolean);
 		try {
-			const result = await save(campaign, files);
+			const result = await saveApi(campaign, files);
 			if (result && result.status === 201) {
 				onShowToast('게시글 등록이 완료되었습니다!', 'success');
 				setTimeout(() => {

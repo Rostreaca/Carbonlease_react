@@ -1,11 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../api/api.js";
-
-const authAPI = axios.create({
-  baseURL: `${API_BASE_URL}/api/auth/refresh`
-});
+import { refreshToken as refreshTokenApi } from "../../api/Login/authApi";
 
 export const AuthContext = createContext();
 
@@ -37,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         const memberId = localStorage.getItem("memberId");
         const nickName = localStorage.getItem("nickName");
         const accessToken = localStorage.getItem("accessToken");
-        const refreshToken = localStorage.getItem("refreshToken");
+        const refreshTokenValue = localStorage.getItem("refreshToken");
         const email = localStorage.getItem("email");
         const addressLine1 = localStorage.getItem("addressLine1");
         const addressLine2 = localStorage.getItem("addressLine2");
@@ -51,56 +47,47 @@ export const AuthProvider = ({ children }) => {
 
 
         {
-            accessToken !== null && (Date.now() > expiredDate) ? 
-
-        authAPI.post('', {
-            refreshToken : refreshToken,
-        }).then(result => {
-            //console.log(result.data);
-            const newAcessToken = result.data["accessToken"];
-            const newRefreshToken = result.data["refreshToken"];
-            const newExpiredDate = result.data["expiredDate"];
-            localStorage.setItem("accessToken",newAcessToken);
-            localStorage.setItem("refreshToken",newRefreshToken);
-            localStorage.setItem("expiredDate", newExpiredDate);
-            setAuth({
-                memberId,
-                nickName,
-                accessToken : newAcessToken,
-                refreshToken : newRefreshToken,
-                email, 
-                addressLine1, 
-                addressLine2,
-                role,
-                isAuthenticated : true,
-                expiredDate : newExpiredDate,
-                isSocialLogin
-            });
-
-        }).catch(error => {
-            console.log(error.response.data["error-message"]);
-            logout();
-        })
-        :
-        accessToken !==null
-        ?        
-        setAuth({
-                memberId,
-                nickName,
-                accessToken,
-                refreshToken,
-                email, 
-                addressLine1, 
-                addressLine2,
-                role,
-                isAuthenticated : true,
-                expiredDate,
-                isSocialLogin
-        })
-        :
-        null
-
-    }
+            accessToken !== null && (Date.now() > expiredDate)
+                ? refreshTokenApi({ refreshToken: refreshTokenValue }).then(result => {
+                    const newAcessToken = result.data["accessToken"];
+                    const newRefreshToken = result.data["refreshToken"];
+                    const newExpiredDate = result.data["expiredDate"];
+                    localStorage.setItem("accessToken", newAcessToken);
+                    localStorage.setItem("refreshToken", newRefreshToken);
+                    localStorage.setItem("expiredDate", newExpiredDate);
+                    setAuth({
+                        memberId,
+                        nickName,
+                        accessToken: newAcessToken,
+                        refreshToken: newRefreshToken,
+                        email,
+                        addressLine1,
+                        addressLine2,
+                        role,
+                        isAuthenticated: true,
+                        expiredDate: newExpiredDate,
+                        isSocialLogin
+                    });
+                }).catch(error => {
+                    console.log(error?.response?.data?.["error-message"]);
+                    logout();
+                })
+                : accessToken !== null
+                    ? setAuth({
+                        memberId,
+                        nickName,
+                        accessToken,
+                        refreshToken: refreshTokenValue,
+                        email,
+                        addressLine1,
+                        addressLine2,
+                        role,
+                        isAuthenticated: true,
+                        expiredDate,
+                        isSocialLogin
+                    })
+                    : null;
+        }
 
 
     },[]);

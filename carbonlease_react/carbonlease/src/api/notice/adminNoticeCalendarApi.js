@@ -1,22 +1,7 @@
-import axios from "axios";
-import { API_BASE_URL } from "../api.js";
+import { API_BASE_URL, createApiInstance } from "../api.js";
 
-// Axios 인스턴스 생성
-const adminCalendarApi = axios.create({
-  baseURL: `${API_BASE_URL}/api/admin/calendar`,
-});
-
-// 인터셉터 설정: 모든 요청에 토큰 자동 주입
-adminCalendarApi.interceptors.request.use(
-  (config) => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// 공통 인터셉터가 적용된 Axios 인스턴스 생성
+const adminCalendarApi = createApiInstance(`${API_BASE_URL}/api/admin/calendar`);
 
 // 일정 전체 조회
 export const getCalendarEvents = async () => {

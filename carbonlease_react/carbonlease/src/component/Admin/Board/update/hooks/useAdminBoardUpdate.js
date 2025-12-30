@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  fetchAdminBoardDetail,
-  updateAdminBoard
-} from "../../../../../api/board/adminBoardsAPI";
+    fetchAdminBoardDetailApi,
+    updateAdminBoardApi
+} from "../../../../../api/board/adminBoardsApi";
 
 export const useAdminBoardUpdate = () => {
   const { id } = useParams();
@@ -38,7 +38,7 @@ export const useAdminBoardUpdate = () => {
   ];
 
   useEffect(() => {
-    fetchAdminBoardDetail(id)
+    fetchAdminBoardDetailApi(id)
       .then((res) => {
         const d = res.data;
         setFormData({
@@ -74,7 +74,7 @@ export const useAdminBoardUpdate = () => {
     e.preventDefault();
     if (!validate()) return;
 
-    updateAdminBoard(id, formData)
+    updateAdminBoardApi(id, formData)
       .then(() => {
         alert("수정 완료!");
         navigate("/admin/boards");

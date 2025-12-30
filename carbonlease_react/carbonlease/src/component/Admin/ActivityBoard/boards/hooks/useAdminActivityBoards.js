@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  fetchAdminBoards,
-  hideBoard,
-  restoreBoard,
-  deleteBoard,
-} from "../../../../../api/activity/adminActivityAPI";
+    deleteBoard,
+    fetchAdminBoards,
+    hideBoard,
+    restoreBoard,
+} from "../../../../../api/activity/adminActivityApi";
 
 export default function useAdminBoards() {
   const [boards, setBoards] = useState([]);

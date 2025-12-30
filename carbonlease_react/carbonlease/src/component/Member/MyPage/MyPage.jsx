@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../../api/api.js";
+import { getMyActivityBoardsApi, getMyBoardsApi, kakaoSignOutApi, signOutApi } from "../../../api/Member/membersApi";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
 import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import DataTable from "../../Common/DataTable/DataTable";
@@ -34,37 +33,19 @@ const MyPage = () => {
 
     useEffect(() => {
 
-        {
-            auth.memberId !== null ?
-                (
-                    axios.get(`${API_BASE_URL}/api/members/boards`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${auth.accessToken}`
-                            }
-                        }
-                    )
-                        .then(result => {
-                            // console.log(result);
-                            setBoardData([...result.data]);
-                        }).catch(err => {
-                            console.error(err.response.data['error-message']);
-                        }),
-                    axios.get(`${API_BASE_URL}/api/members/activityBoards`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${auth.accessToken}`
-                            }
-                        }
-                    ).then(result => {
-                        setActivityData([...result.data]);
-                    }).catch(err => {
-                        console.error(err.response.data["error-message"]);
-                    })
-                )
-                :
-
-                <></>
+        if (auth.memberId !== null) {
+            getMyBoardsApi(auth.accessToken)
+                .then(result => {
+                    setBoardData([...result.data]);
+                }).catch(err => {
+                    console.error(err.response.data['error-message']);
+                });
+            getMyActivityBoardsApi(auth.accessToken)
+                .then(result => {
+                    setActivityData([...result.data]);
+                }).catch(err => {
+                    console.error(err.response.data["error-message"]);
+                });
         }
 
     }, [auth])
@@ -111,43 +92,33 @@ const MyPage = () => {
 
     const kakaoSignOut = () => {
 
-       axios.delete(`${API_BASE_URL}/api/members/kakao`, {
-            headers: {
-                Authorization: `Bearer ${auth.accessToken}`,
-            }
-        }).then(result => {
-            console.log(result);
-            showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
-            setTimeout(() => {
-                logout();
-                navi('/');
-            }, 800);
-        }).catch(err => {
-            showToastMessage(err.response.data["error-message"], 'error');
-        })
+        kakaoSignOutApi(auth.accessToken)
+            .then(result => {
+                console.log(result);
+                showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
+                setTimeout(() => {
+                    logout();
+                    navi('/');
+                }, 800);
+            }).catch(err => {
+                showToastMessage(err.response.data["error-message"], 'error');
+            })
 
 
     }
 
     const signOut = () => {
 
-        axios.delete(`${API_BASE_URL}/api/members`, {
-            headers: {
-                Authorization: `Bearer ${auth.accessToken}`,
-            },
-            data: {
-                memberPwd,
-            },
-        }).then(result => {
-            console.log(result);
-            showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
-            setTimeout(() => {
-                logout();
-                navi('/');
-            }, 800);
-        }).catch(err => {
-            showToastMessage(err.response.data["error-message"], 'error');
-        })
+        signOutApi(memberPwd, auth.accessToken)
+            .then(result => {
+                showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
+                setTimeout(() => {
+                    logout();
+                    navi('/');
+                }, 800);
+            }).catch(err => {
+                showToastMessage(err.response.data["error-message"], 'error');
+            })
 
     }
 

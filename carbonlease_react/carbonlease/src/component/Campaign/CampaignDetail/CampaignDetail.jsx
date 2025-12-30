@@ -71,7 +71,7 @@ const CampaignDetail = () => {
         navigate('/campaigns', { state: { updatedCampaign: campaign } });
     };
 
-    // 댓글 매핑 및 API 래퍼 함수 정의
+    // 댓글 데이터의 필드명을 통일하기 위한 매핑 객체를 전달
     const campaignCommentMap = {
         id: "replyNo",
         writer: "writer",
@@ -143,13 +143,13 @@ const CampaignDetail = () => {
                     )}
 
                     <CommentBox
-                    boardId={id}
-                    auth={auth}
-                    fetchAPI={getReplies}
-                    insertAPI={insertReply}
-                    updateAPI={updateReply}
-                    deleteAPI={deleteReply}
-                    mapping={campaignCommentMap}
+                        boardId={id}
+                        auth={auth}
+                        fetchAPI={getReplies}
+                        insertAPI={insertReply}
+                        updateAPI={updateReply}
+                        deleteAPI={deleteReply}
+                        mapping={campaignCommentMap}
                     />
                     <CampaignActions
                         campaign={campaign}

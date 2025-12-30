@@ -1,24 +1,7 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../api.js';
+import { API_BASE_URL, createApiInstance } from '../api.js';
 
-// Axios 인스턴스 생성
-const eventMainApi = axios.create({
-    baseURL: `${API_BASE_URL}/api/events`
-});
-
-// 인터셉터 설정: 모든 요청에 토큰 자동 주입
-eventMainApi.interceptors.request.use(
-    (config) => {
-        const accessToken = localStorage.getItem('accessToken');
-        console.log('accessToken:', accessToken); // 토큰 값 확인
-        if (accessToken) {
-            config.headers['Authorization'] = `Bearer ${accessToken}`;
-        }
-        console.log('요청 헤더:', config.headers); // 헤더에 토큰이 붙었는지 확인
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
+// 공통 인터셉터가 적용된 Axios 인스턴스 생성
+const eventMainApi = createApiInstance(`${API_BASE_URL}/api/events`);
 
 // 메인 이벤트 정보 조회 (누구나 가능)
 export const fetchMainEvent = () => {

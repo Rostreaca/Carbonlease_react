@@ -1,4 +1,4 @@
-import { activityInsertForm } from "../../../../api/activity/activityAPI";
+import { activityInsertForm } from "../../../../api/activity/activityApi";
 
 export default function useInsertSubmit({
     title,

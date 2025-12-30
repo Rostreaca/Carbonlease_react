@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { toggleLike } from "../../../../api/activity/activityAPI";
+import { useEffect, useState } from "react";
+import { toggleLike } from "../../../../api/activity/activityApi";
 import activityStore from "../../../../store/activityStore";
 
 export default function useLike(initialIsLiked, initialLikeCount, activityNo, toastFunc) {

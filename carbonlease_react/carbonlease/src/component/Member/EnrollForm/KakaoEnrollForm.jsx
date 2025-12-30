@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button, FormLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../../api/api.js";
+import { login as loginApi } from '../../../api/Login/authApi.js';
+import { kakaoEnrollMemberApi } from '../../../api/Member/membersApi';
 import Alert from "../../Common/Alert/Alert";
 import { DemoContainer } from "../../Common/ComponentGuide/ComponentGuide.styled";
 import { FieldGroup, FieldInput, FieldLabel } from "../../Common/Form/FormField.styled";
@@ -80,17 +80,17 @@ const KakaoEnrollForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.post(`${API_BASE_URL}/api/members`, {
-                    memberId, memberPwd, nickName, email, addressLine1, addressLine2
-                }).then(result => {
-                    setSignUpAlertVariant('info');
-                    setSignUpAlertMsg("회원가입에 성공하였습니다.");
-                    setShowsignUpAlert(true);
-                }).catch(error => {
-                    setSignUpAlertVariant('warning');
-                    setSignUpAlertMsg(error.response.data["error-message"]);
-                    setShowsignUpAlert(true);
-                }) : (
+                kakaoEnrollMemberApi({ memberId, memberPwd, nickName, email, addressLine1, addressLine2 })
+                    .then(result => {
+                        setSignUpAlertVariant('info');
+                        setSignUpAlertMsg("회원가입에 성공하였습니다.");
+                        setShowsignUpAlert(true);
+                    })
+                    .catch(error => {
+                        setSignUpAlertVariant('warning');
+                        setSignUpAlertMsg(error.response.data["error-message"]);
+                        setShowsignUpAlert(true);
+                    }) : (
                 setSignUpAlertMsg("중복확인을 먼저 진행해 주십시오."),
                 setSignUpAlertVariant('warning'),
                 setShowsignUpAlert(true)
@@ -101,9 +101,7 @@ const KakaoEnrollForm = () => {
 
     const successSignUp = () => {
 
-        axios.post(`${API_BASE_URL}/api/auth/login`, {
-            memberId, memberPwd
-        }).then(result => {
+        loginApi({ memberId, memberPwd }).then(result => {
             const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin);
         }).catch(err => {

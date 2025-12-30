@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
-  fetchAdminBoards,
-  hideBoard,
-  restoreBoard,
-  deleteBoard,
-} from "../../../../../api/board/adminBoardsAPI";
+    deleteBoardApi,
+    fetchAdminBoardsApi,
+    hideBoardApi,
+    restoreBoardApi,
+} from "../../../../../api/board/adminBoardsApi";
 
 const useAdminBoards = () => {
   const [boards, setBoards] = useState([]);
@@ -21,7 +21,7 @@ const useAdminBoards = () => {
     try {
       setLoading(true);
 
-      const res = await fetchAdminBoards(page, status, keyword);
+      const res = await fetchAdminBoardsApi(page, status, keyword);
 
       const { boards, pageInfo } = res.data;
 
@@ -47,19 +47,19 @@ const useAdminBoards = () => {
 
   // 숨김 처리
   const handleHide = async (id) => {
-    await hideBoard(id);
+    await hideBoardApi(id);
     await loadBoards(pageInfo.currentPage);
   };
 
   // 복구 처리
   const handleRestore = async (id) => {
-    await restoreBoard(id);
+    await restoreBoardApi(id);
     await loadBoards(pageInfo.currentPage);
   };
 
   // 삭제 처리
   const handleDelete = async (id) => {
-    await deleteBoard(id);
+    await deleteBoardApi(id);
     await loadBoards(pageInfo.currentPage);
   };
 

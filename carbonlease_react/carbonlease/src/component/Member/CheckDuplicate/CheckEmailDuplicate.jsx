@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
-import { API_BASE_URL } from "../../../api/api.js";
+import { checkEmailDuplicateApi } from "../../../api/Member/membersApi";
 import Alert from "../../Common/Alert/Alert";
 import { AuthContext } from "../../Context/AuthContext";
 
@@ -31,19 +30,18 @@ const CheckEmailDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post(`${API_BASE_URL}/api/members/checkEmail`,
-            {
-                email: props.email
-            }).then(result => {
+        checkEmailDuplicateApi(props.email)
+            .then(result => {
                 successMsg();
-            }).catch(error => {
+            })
+            .catch(error => {
                 console.error(error);
                 setCheckAlertVariant('warning');
                 setCheckAlertMsg(error.response.data["error-message"]);
                 props.setEmailMsg('사용할 수 없는 이메일입니다.');
                 setShowCheckAlert(true);
                 props.setCheckEmail(false);
-            })
+            });
     }
 
 

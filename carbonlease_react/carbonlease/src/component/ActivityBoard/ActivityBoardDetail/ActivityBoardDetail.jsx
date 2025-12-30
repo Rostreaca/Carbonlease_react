@@ -9,7 +9,7 @@ import ProfilCard from "./components/ProfilCard.jsx";
 
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteActivityBoard } from "../../../api/activity/activityAPI.js";
+import { deleteActivityBoard } from "../../../api/activity/activityApi.js";
 import Toast from "../../Common/Toast/Toast.jsx";
 import { AuthContext } from "../../Context/AuthContext.jsx";
 
@@ -25,7 +25,7 @@ import {
   fetchRepliesAPI,
   insertReplyAPI,
   updateReplyAPI
-} from "../../../api/activity/activityAPI.js";
+} from "../../../api/activity/activityApi.js";
 import CommentBox from "../../Common/Comments/CommentBox.jsx";
 
 const ActivityBoardDetail = () => {

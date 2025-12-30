@@ -1,30 +1,19 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../api.js';
+import { API_BASE_URL, createApiInstance } from '../api.js';
 
-const activityAPI = axios.create({
-  baseURL: `${API_BASE_URL}/api/activityBoards`,
-  timeout: 10000,
-  withCredentials: true,
-  headers: {
-    'Content-Type' : 'application/json'
-  }
-});
+const activityAPI = createApiInstance(`${API_BASE_URL}/api/activityBoards`);
+activityAPI.defaults.timeout = 10000;
+activityAPI.defaults.headers['Content-Type'] = 'application/json';
 
-export const activityInsertForm = (activity, file, accessToken) => {
-
+export const activityInsertForm = (activity, file) => {
   const formData = new FormData();
-
   Object.entries(activity).forEach(([key, value]) => {
     formData.append(key, value);
   });
-
   if(file) {
     formData.append("file", file);
   }
-
   return activityAPI.post('/insert', formData, {
     headers: {
-      Authorization : `Bearer ${accessToken}`,
       "Content-Type": "multipart/form-data"
     }
   });
@@ -40,36 +29,18 @@ export const fetchActivityBoards = (pageNo, filter, keyword) => {
   });
 };
 
-export const fetchActivityDetail = (activityNo, accessToken) => {
-  return activityAPI.get(`/${activityNo}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
+export const fetchActivityDetail = (activityNo) => {
+  return activityAPI.get(`/${activityNo}`);
 };
 
 
 export const toggleLike = (activityNo) => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
-        return Promise.reject(new Error('No token found'));
-    }
-    return activityAPI.post(`/${activityNo}/like`, {}, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
+  return activityAPI.post(`/${activityNo}/like`);
 };
 
 
 export const deleteActivityBoard = (activityNo) => {
-    const accessToken = localStorage.getItem("accessToken");
-
-    return activityAPI.delete(`/${activityNo}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
+    return activityAPI.delete(`/${activityNo}`);
 };
 
 export const fetchRepliesAPI = (activityNo, pageNo) => {
@@ -78,36 +49,22 @@ export const fetchRepliesAPI = (activityNo, pageNo) => {
   });
 };
 
-export const insertReplyAPI = (activityNo, replyContent, accessToken) => {
+export const insertReplyAPI = (activityNo, replyContent) => {
   return activityAPI.post(
     `/${activityNo}/replies`,
-    { replyContent },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
+    { replyContent }
   );
 };
 
-export const deleteReplyAPI = (replyNo, accessToken) => {
-  return activityAPI.delete(`/replies/${replyNo}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
+export const deleteReplyAPI = (replyNo) => {
+  return activityAPI.delete(`/replies/${replyNo}`);
 };
 
 
-export const updateReplyAPI = async (replyNo, replyContent, accessToken) => {
+export const updateReplyAPI = async (replyNo, replyContent) => {
   return activityAPI.put(
     `/replies/${replyNo}`,
-    { replyContent },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
+    { replyContent }
   );
 };
 
@@ -115,21 +72,16 @@ export const increaseViewCountAPI = (activityNo) => {
   return activityAPI.post(`/${activityNo}/view`);
 };
 
-export const activityUpdateForm = (activity, file, accessToken) => {
-
+export const activityUpdateForm = (activity, file) => {
   const formData = new FormData();
-
   Object.entries(activity).forEach(([key, value]) => {
     formData.append(key, value);
   });
-
   if (file) {
     formData.append("file", file);
   }
-
   return activityAPI.put(`/${activity.activityNo}`, formData,{
     headers: {
-      Authorization: `Bearer ${accessToken}`,
       "Content-Type" : "multipart/form-data",
     },
   });

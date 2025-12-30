@@ -1,8 +1,8 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { useContext, useState } from 'react';
 import { Button, FormLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '../../../api/api.js';
+import { login as loginApi } from '../../../api/Login/authApi.js';
 import Alert from '../../Common/Alert/Alert';
 import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
 import { FieldGroup, FieldInput } from '../../Common/Form/FormField.styled';
@@ -50,9 +50,7 @@ const Login = () => {
             setPwdMsg("");
         }
 
-        axios.post(`${API_BASE_URL}/api/auth/login`, {
-            memberId, memberPwd
-        }).then(result => {
+        loginApi({ memberId, memberPwd }).then(result => {
             //console.log(result);
             const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin);

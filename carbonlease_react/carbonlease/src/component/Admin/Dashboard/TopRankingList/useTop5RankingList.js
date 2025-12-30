@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllCountTop5 } from '../../../../api/dashboard/adminDashBoard';
+import { getAllCountTop5 } from '../../../../api/dashboard/adminDashBoardApi';
 
 function convertTop5StatsToList(stats) {
     // API 응답이 대문자 키로 올 경우 소문자 별칭으로 변환

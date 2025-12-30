@@ -1,8 +1,8 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { useContext, useState } from 'react';
 import { FormLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../../api/api.js';
+import { adminLogin } from '../../../api/Login/authApi.js';
 import Alert from '../../Common/Alert/Alert';
 import { AuthContext } from '../../Context/AuthContext';
 import {
@@ -48,9 +48,7 @@ const AdminLogin = () => {
             setPwdMsg("");
         }
 
-        axios.post(`${API_BASE_URL}/api/auth/adminLogin`, {
-    memberId, memberPwd
-}).then(result => {
+        adminLogin({ memberId, memberPwd }).then(result => {
             //console.log(result);
             const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate , isSocialLogin } = result.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role,expiredDate ,isSocialLogin);

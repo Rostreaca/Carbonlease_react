@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchActivityDetail, increaseViewCountAPI } from "../../../../api/activity/activityAPI";
+import { fetchActivityDetail, increaseViewCountAPI } from "../../../../api/activity/activityApi";
 import activityStore from "../../../../store/activityStore";
 
 export default function useDetail(activityNo, memberId) {

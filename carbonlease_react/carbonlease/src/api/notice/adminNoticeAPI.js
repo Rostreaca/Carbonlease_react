@@ -1,28 +1,7 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../api.js';
+import { API_BASE_URL, createApiInstance } from '../api.js';
 
-// Axios 인스턴스 생성
-const adminNoticeApi = axios.create({
-    baseURL: `${API_BASE_URL}/api/admin/notices`,
-});
-
-// 인터셉터 설정: 모든 요청에 토큰 자동 주입
-adminNoticeApi.interceptors.request.use(
-    
-    (config) => {
-        // 저장소에서 토큰을 꺼냅니다 (localStorage 예시)
-        const accessToken = localStorage.getItem('accessToken');
-        
-        if (accessToken) {
-            config.headers['Authorization'] = `Bearer ${accessToken}`;
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-
-);
+// 공통 인터셉터가 적용된 Axios 인스턴스 생성 (baseURL만 지정)
+const adminNoticeApi = createApiInstance(`${API_BASE_URL}/api/admin/notices`);
 
 // 목록조회
 export const getNoticesAdmin = async (pageNo) => {

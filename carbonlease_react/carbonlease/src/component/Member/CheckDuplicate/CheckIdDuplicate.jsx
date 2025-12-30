@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
-import { API_BASE_URL } from "../../../api/api.js";
+import { checkIdDuplicateApi } from "../../../api/Member/membersApi";
 import Alert from "../../Common/Alert/Alert";
 import { AuthContext } from "../../Context/AuthContext";
 
@@ -30,18 +29,18 @@ const CheckIdDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post(`${API_BASE_URL}/api/members/checkId`,
-            {
-                memberId: props.memberId
-            }).then(result => {
-                successMsg();
-            }).catch(error => {
-                console.error(error);
-                setCheckAlertVariant('warning');
-                setCheckAlertMsg(error.response.data["error-message"]);
-                setShowCheckAlert(true);
-                props.setCheckId(false);
-            })
+        checkIdDuplicateApi(props.memberId)
+        .then(result => {
+            successMsg();
+        })
+        .catch(error => {
+            console.error(error);
+            setCheckAlertVariant('warning');
+            setCheckAlertMsg(error.response.data["error-message"]);
+            setShowCheckAlert(true);
+            props.setCheckId(false);
+            props.setIdMsg('사용할 수 없는 아이디입니다.');
+        });
     }
 
 

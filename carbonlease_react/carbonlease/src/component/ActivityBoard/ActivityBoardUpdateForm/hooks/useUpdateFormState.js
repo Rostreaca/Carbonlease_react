@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchActivityDetail } from "../../../../api/activity/activityAPI";
+import { fetchActivityDetail } from "../../../../api/activity/activityApi";
 import { API_BASE_URL } from '../../../../api/api.js';
 
 export default function useUpdateFormState(id) {

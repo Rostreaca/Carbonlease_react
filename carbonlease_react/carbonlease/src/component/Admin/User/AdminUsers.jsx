@@ -1,7 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
-import { API_BASE_URL } from "../../../api/api.js";
+import { deleteAdminMember, fetchAdminMembers, restoreAdminMember } from '../../../api/Member/adminMembersApi.js';
 import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import DataTable from "../../Common/DataTable/DataTable";
 import { DeleteButton, EditButton, StatusBadge } from "../../Common/DataTable/DataTable.styled";
@@ -38,16 +38,13 @@ const AdminUsers = () => {
 
         // console.log(auth);
 
-        axios.get(`${API_BASE_URL}/api/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
-            headers : {
-                Authorization :  `Bearer ${auth.accessToken}`
-            }
-        }).then(result => {
-            //console.log(result);
-            setData([...result.data])
-        }).catch(err => {
-            console.error(err);
-        })
+                fetchAdminMembers({ orderBy, keyword, accessToken: auth.accessToken })
+                    .then(result => {
+                        setData([...result.data]);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
 
         setIsEdited(false);
     },[isEdited, orderBy])
@@ -56,15 +53,13 @@ const AdminUsers = () => {
 
     const handleRestore = (memberNo) => {
 
-        axios.put(`${API_BASE_URL}/api/admin/members/restore?memberNo=${memberNo}`,{},{
-            headers : {
-                 Authorization :  `Bearer ${auth.accessToken}`
-            }
-        }).then(result => {
-            showToastMessage('성공적으로 복구되었습니다.', 'success');
-        }).catch(err => {
-            showToastMessage(err.response.data["error-message"]);
-        })
+                restoreAdminMember({ memberNo, accessToken: auth.accessToken })
+                    .then(result => {
+                        showToastMessage('성공적으로 복구되었습니다.', 'success');
+                    })
+                    .catch(err => {
+                        showToastMessage(err.response.data["error-message"]);
+                    });
 
         setIsEdited(true);
         
@@ -72,11 +67,8 @@ const AdminUsers = () => {
 
     const handleDelete = (memberNo) => {
 
-        axios.delete(`${API_BASE_URL}/api/admin/members?memberNo=${memberNo}`,{
-            headers : {
-                Authorization : `Bearer ${auth.accessToken}`
-            }
-        }).then(result => {
+        deleteAdminMember({ memberNo, accessToken: auth.accessToken })
+          .then(result => {
             showToastMessage('성공적으로 탈퇴되었습니다.', 'success');
         }).catch(err => {
             showToastMessage(err.response.data["error-message"]);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUsersRegionActivityStats } from '../../../../api/dashboard/adminDashBoard';
+import { getUsersRegionActivityStats } from '../../../../api/dashboard/adminDashBoardApi';
 
 function convertRegionStatsToChartData(stats) {
     const labels = stats.map(item => item.regionName);

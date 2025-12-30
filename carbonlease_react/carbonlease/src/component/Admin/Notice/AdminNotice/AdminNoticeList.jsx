@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteNotice, getNoticesAdmin } from '../../../../api/notice/adminNoticeAPI';
+import { deleteNotice, getNoticesAdmin } from '../../../../api/notice/adminNoticeApi.js';
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
 import DataTable from '../../../Common/DataTable/DataTable';
 import {

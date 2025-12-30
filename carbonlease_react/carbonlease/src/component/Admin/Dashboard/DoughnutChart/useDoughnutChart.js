@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUsersAllBoardsCount } from '../../../../api/dashboard/adminDashBoard';
+import { getUsersAllBoardsCount } from '../../../../api/dashboard/adminDashBoardApi';
 
 function convertStatsToChartData(stats) {
     return stats.map(item => {

@@ -1,15 +1,6 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../api.js';
+import { API_BASE_URL, createApiInstance } from '../api.js';
 
-const adminActivityAPI = axios.create({
-  baseURL: `${API_BASE_URL}/api/admin/`,
-});
-
-adminActivityAPI.interceptors.request.use(config => {
-  const token = localStorage.getItem("accessToken");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+const adminActivityAPI = createApiInstance(`${API_BASE_URL}/api/admin/`);
 
 export const fetchAdminBoards = (page, status, keyword) =>
   adminActivityAPI.get(`/activityBoards`, {

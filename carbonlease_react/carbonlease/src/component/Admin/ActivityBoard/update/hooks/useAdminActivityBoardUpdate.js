@@ -1,11 +1,11 @@
 // index.js (useAdminActivityBoardUpdate)
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateAdminBoard } from "../../../../../api/activity/adminActivityAPI";
+import { updateAdminBoard } from "../../../../../api/activity/adminActivityApi";
 
-import { useFileWithPreview } from "./useFileWithPreview";
 import { useAdminActivityBoardLoader } from "./useAdminActivityBoardLoader";
 import { useAdminActivityBoardValidator } from "./useAdminActivityBoardValidator";
+import { useFileWithPreview } from "./useFileWithPreview";
 
 export const useAdminActivityBoardUpdate = () => {
   const { id } = useParams();

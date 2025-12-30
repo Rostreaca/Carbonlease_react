@@ -1,18 +1,18 @@
 // CalendarModal.jsx
 import { useContext, useEffect, useState } from "react";
-import { getCategories } from "../../../../api/notice/adminNoticeCalendar";
+import { getCategories } from "../../../../api/notice/adminNoticeCalendarApi";
 import { AuthContext } from '../../../Context/AuthContext';
 import {
-  Button,
-  CloseButton,
-  Input,
-  Label,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  ModalWrapper
+    Button,
+    CloseButton,
+    Input,
+    Label,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    ModalWrapper
 } from "./CalendarModal.styled";
 
 

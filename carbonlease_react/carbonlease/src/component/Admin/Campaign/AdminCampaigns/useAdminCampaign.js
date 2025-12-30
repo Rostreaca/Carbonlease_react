@@ -1,6 +1,5 @@
-    
 import { useEffect, useState } from 'react';
-import { deleteById, findAll, hideById, restoreById } from '../../../../api/campaign/adminCampaignApi';
+import { deleteByIdApi, findAllApi, hideByIdApi, restoreByIdApi } from '../../../../api/campaign/adminCampaignApi';
 
 
 const useAdminCampaign = (onShowToast) => {
@@ -20,11 +19,11 @@ const useAdminCampaign = (onShowToast) => {
         getCampaigns(currentPage, status, keyword);
     }, [currentPage, status, keyword]);
 
-    // 캠페인 목록 불러오기 (status, keyword만 백엔드 전달)
-    const getCampaigns = async (page, statusParam = "", keywordParam = "") => {
+    // 캠페인 목록 불러오기 
+    const getCampaigns = async (params) => {
         setLoading(true);
         try {
-            const result = await findAll(page, statusParam, keywordParam);
+            const result = await findAllApi(params.pageNo, params.status, params.keyword);
             if (result && result.status === 200) {
                 const { campaigns, pageInfo } = result.data.data;
                 setCampaigns([...campaigns]);
@@ -49,7 +48,7 @@ const useAdminCampaign = (onShowToast) => {
     const hideCampaign = async (id, callback) => {
         setLoading(true);
         try {
-            const result = await hideById(id);
+            const result = await hideByIdApi(id);
             if (result && result.status === 200) {
                 await getCampaigns(currentPage); // 목록 새로고침
                 onShowToast('숨김처리되었습니다!', 'success');
@@ -70,7 +69,7 @@ const useAdminCampaign = (onShowToast) => {
     const restoreCampaign = async (id, callback) => {
         setLoading(true);
         try {
-            const result = await restoreById(id);
+            const result = await restoreByIdApi(id);
             if (result && result.status === 200) {
                 await getCampaigns(currentPage); // 목록 새로고침
                 onShowToast('복구되었습니다!', 'success');
@@ -91,7 +90,7 @@ const useAdminCampaign = (onShowToast) => {
     const deleteCampaign = async (id, callback) => {
         setLoading(true);
         try {
-            const result = await deleteById(id);
+            const result = await deleteByIdApi(id);
             if (result.status === 200 || result.status === 204) {
                 await getCampaigns(currentPage); // 목록 새로고침
                 onShowToast('완전 삭제되었습니다.', 'success');

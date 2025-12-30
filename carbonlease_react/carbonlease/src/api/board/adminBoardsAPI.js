@@ -1,42 +1,29 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../api.js';
+import { API_BASE_URL, createApiInstance } from '../api.js';
 
-const adminBoardsAPI = axios.create({
-  baseURL: `${API_BASE_URL}/api/admin`,
-  timeout: 10000,
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
-
-// 토큰 자동 주입
-adminBoardsAPI.interceptors.request.use(config => {
-  const token = localStorage.getItem("accessToken");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+const adminBoardsAPI = createApiInstance(`${API_BASE_URL}/api/admin`);
+adminBoardsAPI.defaults.timeout = 10000;
+adminBoardsAPI.defaults.headers['Content-Type'] = 'application/json';
 
 // 목록 조회
-export const fetchAdminBoards = (page, status, keyword) =>
+export const fetchAdminBoardsApi = (page, status, keyword) =>
   adminBoardsAPI.get(`/boards`, { params: { page, status, keyword } });
 
 // 상세 조회 
-export const fetchAdminBoardDetail = (id) =>
+export const fetchAdminBoardDetailApi = (id) =>
   adminBoardsAPI.get(`/boards/${id}`);
 
 // 수정
-export const updateAdminBoard = (id, data) =>
+export const updateAdminBoardApi = (id, data) =>
   adminBoardsAPI.patch(`/boards/${id}`, data);
 
 // 숨김
-export const hideBoard = (id) =>
+export const hideBoardApi = (id) =>
   adminBoardsAPI.patch(`/boards/hide/${id}`);
 
 // 복구
-export const restoreBoard = (id) =>
+export const restoreBoardApi = (id) =>
   adminBoardsAPI.patch(`/boards/restore/${id}`);
 
 // 삭제
-export const deleteBoard = (id) =>
+export const deleteBoardApi = (id) =>
   adminBoardsAPI.delete(`/boards/delete/${id}`);

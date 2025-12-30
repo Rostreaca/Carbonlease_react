@@ -1,32 +1,22 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../api.js';
+import { API_BASE_URL, createApiInstance } from '../api.js';
 
-const boardAPI = axios.create({
-  baseURL: `${API_BASE_URL}/api/boards`,
-  timeout: 10000,
-  withCredentials: true,
-  headers: {
-    'Content-Type' : 'application/json'
-  }
-});
+const boardAPI = createApiInstance(`${API_BASE_URL}/api/boards`);
+boardAPI.defaults.timeout = 10000;
+boardAPI.defaults.headers['Content-Type'] = 'application/json';
 
-export const BoardInsertForm = (board, accessToken) => {
-
+export const boardInsertFormApi = (board) => {
   const formData = new FormData();
-
   Object.entries(board).forEach(([key, value]) => {
     formData.append(key, value);
   });
-
   return boardAPI.post('/insert', formData, {
     headers: {
-      Authorization : `Bearer ${accessToken}`,
       "Content-Type": "multipart/form-data"
     }
   });
 };
 
-export const Boards = (pageNo, filter, keyword) => {
+export const boardsApi = (pageNo, filter, keyword) => {
   return boardAPI.get("", {
     params: {
       pageNo,
@@ -36,38 +26,26 @@ export const Boards = (pageNo, filter, keyword) => {
   });
 };
 
-export const increaseViewCountAPI = (boardNo) => {
+export const increaseViewCountApi = (boardNo) => {
   return boardAPI.post(`/${boardNo}/view`);
 };
 
 // 댓글 목록 조회
-export const getReplies = (boardNo, pageNo = 1) => {
+export const getRepliesApi = (boardNo, pageNo = 1) => {
   return boardAPI.get(`/detail/${boardNo}`); 
 };
 
 // 댓글 작성
-export const insertReply = (replyData, accessToken) => {
-  return boardAPI.post(`/detail/replyInsert`, replyData, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    }
-  });
+export const insertReplyApi = (replyData) => {
+  return boardAPI.post(`/detail/replyInsert`, replyData);
 };
 
 // 댓글 수정
-export const updateReply = (replyData, accessToken) => {
-  return boardAPI.post(`/detail/replyUpdate`, replyData, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    }
-  });
+export const updateReplyApi = (replyData) => {
+  return boardAPI.post(`/detail/replyUpdate`, replyData);
 };
 
 // 댓글 삭제
-export const deleteReply = (replyNo, accessToken) => {
-  return boardAPI.delete(`/detail/replyDelete/${replyNo}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    }
-  });
+export const deleteReplyApi = (replyNo) => {
+  return boardAPI.delete(`/detail/replyDelete/${replyNo}`);
 };
