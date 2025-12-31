@@ -9,7 +9,6 @@ import CampaignSkeleton from './CampaignSkeleton';
 
 // 캠페인 리스트 컴포넌트
 const CampaignList = ({ onShowToast }) => {
-
         const navigate = useNavigate();
 
         // 인증 정보 가져오기
@@ -54,9 +53,9 @@ const CampaignList = ({ onShowToast }) => {
         return (
             <CampaignListContainer>
                 <CampaignGrid>
-                    {campaigns.map((campaign) => (
+                    {campaigns.map((campaign, idx) => (
                         <CampaignListItem
-                            key={campaign.campaignNo}
+                            key={campaign.campaignNo ? `${campaign.campaignNo}_${idx}` : idx}
                             campaign={campaign}
                             auth={auth}
                             onLikeToggle={handleLikeToggle}

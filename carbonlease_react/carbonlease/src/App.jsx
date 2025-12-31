@@ -37,7 +37,7 @@ import NoticeInsertForm from './component/Admin/Notice/AdminNotice/NoticeInsertF
 import NoticeUpdateForm from './component/Admin/Notice/AdminNotice/NoticeUpdateForm';
 import AdminNotices from './component/Admin/Notice/AdminNotices';
 import AdminUsers from './component/Admin/User/AdminUsers';
-import KakaoEnrollForm from './component/Member/EnrollForm/KaKaoEnrollForm';
+import KakaoEnrollForm from './component/Member/EnrollForm/KakaoEnrollForm';
 import KakaoCallback from './component/Member/Login/KakaoCallback';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';

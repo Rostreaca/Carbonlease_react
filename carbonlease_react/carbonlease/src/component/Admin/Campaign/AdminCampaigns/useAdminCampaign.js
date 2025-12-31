@@ -20,10 +20,10 @@ const useAdminCampaign = (onShowToast) => {
     }, [currentPage, status, keyword]);
 
     // 캠페인 목록 불러오기 
-    const getCampaigns = async (params) => {
+    const getCampaigns = async (pageNo, status, keyword) => {
         setLoading(true);
         try {
-            const result = await findAllApi(params.pageNo, params.status, params.keyword);
+            const result = await findAllApi(pageNo, status, keyword);
             if (result && result.status === 200) {
                 const { campaigns, pageInfo } = result.data.data;
                 setCampaigns([...campaigns]);
