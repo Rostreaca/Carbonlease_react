@@ -34,12 +34,15 @@ const CheckIdDuplicate = (props) => {
             successMsg();
         })
         .catch(error => {
-            console.error(error);
-            setCheckAlertVariant('warning');
-            setCheckAlertMsg(error.response.data["error-message"]);
-            setShowCheckAlert(true);
-            props.setCheckId(false);
-            props.setIdMsg('사용할 수 없는 아이디입니다.');
+            // console.error(error);
+            if(error.response && error.response.status === 409){
+                console.log(error.response?.data?.message);
+                setCheckAlertVariant('warning');
+                setCheckAlertMsg('이미 사용중인 아이디입니다.');
+                setShowCheckAlert(true);
+                props.setCheckId(false);
+                props.setIdMsg('사용할 수 없는 아이디입니다.');
+            }
         });
     }
 
